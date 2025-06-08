@@ -1,29 +1,23 @@
-### IntelliJ IDEA ###
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+# Ignore compiled output folder
+/out/
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+# Ignore IDE files
+*.iml
+.idea/
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+# Ignore build folders (if you add Maven or Gradle later)
+/target/
+/build/
 
-### VS Code ###
-.vscode/
+# Ignore class files anywhere
+*.class
 
-### Mac OS ###
+# Ignore log files
+*.log
+
+# Ignore OS-specific files
 .DS_Store
+Thumbs.db
+
+# Ignore any generated files or temp files you don’t want to commit
+*.tmp
