@@ -94,7 +94,7 @@ java -cp out com.tradingcards.Main
 
 ## 5. Coding Style
 
-- **Package names:** all lowercase, e.g., `com.tradingcards.card`
+- **Package names:** all lowercase, e.g., `com.tradingcards.elements.card`
 - **Class names:** PascalCase, e.g., `CardController`
 - **Method and variable names:** camelCase, descriptive verbs for methods
 - **Constants:** ALL_CAPS_WITH_UNDERSCORES
@@ -110,7 +110,7 @@ Example command to run tests (if using JUnit):
 
 ```bash
 # assuming junit jar is on classpath
-java -cp "out;path/to/junit.jar" org.junit.runner.JUnitCore com.tradingcards.card.CardControllerTest
+java -cp "out;path/to/junit.jar" org.junit.runner.JUnitCore com.tradingcards.elements.card.CardControllerTest
 ```
 
 ---
