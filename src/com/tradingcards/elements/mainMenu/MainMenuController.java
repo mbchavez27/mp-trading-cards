@@ -3,6 +3,7 @@ package com.tradingcards.elements.mainMenu;
 import com.tradingcards.elements.card.CardController;
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.card.CardView;
+import com.tradingcards.elements.collection.CollectionModel;
 import java.util.Scanner;
 
 public class MainMenuController {
@@ -22,6 +23,7 @@ public class MainMenuController {
             System.out.println("[1] Add Card");
             System.out.println("[2] Display Card");
             System.out.println("[3] Display Collection");
+            System.out.println("[4] Change Card Quantity");
 
             System.out.print("Action: ");
             action = getAction.nextInt();
@@ -42,6 +44,15 @@ public class MainMenuController {
                 case 3 -> {
                     System.out.println("");
                     cardController.displayCollection();
+                    System.out.println("");
+                }
+                case 4 -> {
+                    System.out.println("");
+                    if (!CollectionModel.getCollection().isEmpty()) {
+
+                    } else {
+                        System.err.println("No cards yet...");
+                    }
                     System.out.println("");
                 }
 
