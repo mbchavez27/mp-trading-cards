@@ -21,17 +21,20 @@ public class Main {
             System.out.println("-------------------------------");
             System.out.println("[1] Add Card");
             System.out.println("[2] Display Card");
+            System.out.println("[3] Display Collection");
 
             System.out.print("Action: ");
             action = getAction.nextInt();
 
             switch (action) {
                 case 1 -> {
+                    System.out.println("");
                     cardController.addCard();
                     System.out.println("");
                 }
 
                 case 2 -> {
+                    System.out.println("");
                     cardController.displayCard();
                     System.out.println("");
                 }

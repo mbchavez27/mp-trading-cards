@@ -1,10 +1,10 @@
 package com.tradingcards.elements.card;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CardController {
 
-    private ArrayList<CardModel> cards = new ArrayList<>();
+    private HashMap<String, CardModel> collection = new HashMap<>();
     private CardModel model = new CardModel();
     private CardView view = new CardView();
 
@@ -25,13 +25,12 @@ public class CardController {
         card.setVariant(variant);
         card.setValue(value);
         card.setQuantity(1);
-        cards.add(card);
+        collection.put(name, card);
     }
 
     public void displayCard() {
-        System.out.print("Choose a card:");
-        if (!cards.isEmpty()) {
-            view.displayCard(cards);
+        if (!collection.isEmpty()) {
+            view.displayCard(collection, view.setCardName());
         } else {
             System.err.println("No Cards yet...");
         }
