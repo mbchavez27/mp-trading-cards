@@ -1,55 +1,39 @@
 package com.tradingcards.elements.card;
 
+import java.util.ArrayList;
+
 public class CardController {
+
+    private ArrayList<CardModel> cards = new ArrayList<>();
     private CardModel model;
     private CardView view;
 
-    public CardController(CardModel model, CardView view){
+    public CardController(CardModel model, CardView view) {
         this.model = model;
         this.view = view;
     }
 
-    public void setCardName(String name){
-        model.setName(name);
+    public void addCard() {
+        String name = view.setCardName();
+        String rarity = view.setCardRarity();
+        String variant = view.setCardVariant();
+        double value = view.setCardValue();
+
+        CardModel card = new CardModel();
+        card.setName(name);
+        card.setRarity(rarity);
+        card.setVariant(variant);
+        card.setValue(value);
+        card.setQuantity(1);
+        cards.add(card);
     }
 
-    public String getCardName(){
-        return model.getName();
-    }
-
-    public void setCardRarity(String rarity){
-        model.setRarity(rarity);
-    }
-
-    public String getCardRarity(){
-        return model.getRarity();
-    }
-
-    public void setCardVariant(String variant){
-        model.setVariant(variant);
-    }
-
-    public String getCardVariant(){
-        return model.getVariant();
-    }
-
-    public void setCardValue(double value){
-        model.setValue(value);
-    }
-
-    public double getCardValue(){
-        return model.getValue();
-    }
-
-    public void setCardQuantity(int quantity){
-        model.setQuantity(quantity);
-    }
-
-    public int getCardQuantity(){
-        return model.getQuantity();
-    }
-
-    public void updateView(){
-        //TBD
+    public void displayCard() {
+        System.out.print("Choose a card:");
+        if (!cards.isEmpty()) {
+            view.displayCard();
+        } else {
+            System.err.println("No Cards yet...");
+        }
     }
 }

@@ -1,7 +1,38 @@
 package com.tradingcards.elements.card;
 
+import java.util.Scanner;
+
 public class CardView {
-    public void viewCard(int cardId){
+
+    private Scanner scanner = new Scanner(System.in);
+
+    public String setCardName() {
+        System.out.print("Give Card Name: ");
+        return scanner.nextLine();
+    }
+
+    public String setCardRarity() {
+        System.out.print("Give Card Rarity: ");
+        return scanner.nextLine();
+    }
+
+    public String setCardVariant() {
+        System.out.print("Give Card Variant: ");
+        return scanner.nextLine();
+    }
+
+    public double setCardValue() {
+        System.out.print("Give Card Value: ");
+        return scanner.nextDouble();
+    }
+
+    public int setCardQuantity() {
+        System.out.print("Give Card Value: ");
+        return scanner.nextInt();
+    }
+
+    public void displayCard() {
 
     }
+
 }

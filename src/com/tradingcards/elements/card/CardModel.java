@@ -1,22 +1,23 @@
 package com.tradingcards.elements.card;
 
 public class CardModel {
+
     private String cardName;
     private String cardRarity;
     private String cardVariant;
     private double cardValue;
     private int cardQuantity;
 
-    public void setName(String cardName){
+    public void setName(String cardName) {
         this.cardName = cardName;
     }
 
-    public String getName(){
+    public String getName() {
         return this.cardName;
     }
 
     public void setRarity(String rarity) {
-        this.cardRarity = cardRarity;
+        this.cardRarity = rarity;
     }
 
     public String getRarity() {
@@ -24,7 +25,7 @@ public class CardModel {
     }
 
     public void setVariant(String variant) {
-        this.cardVariant = cardVariant;
+        this.cardVariant = variant;
     }
 
     public String getVariant() {
@@ -46,10 +47,5 @@ public class CardModel {
     public int getQuantity() {
         return cardQuantity;
     }
-
-
-
-
-
 
 }
