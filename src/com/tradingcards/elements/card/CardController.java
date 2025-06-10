@@ -5,8 +5,8 @@ import java.util.HashMap;
 public class CardController {
 
     private HashMap<String, CardModel> collection = new HashMap<>();
-    private CardModel model = new CardModel();
-    private CardView view = new CardView();
+    private CardModel model;
+    private CardView view;
 
     public CardController(CardModel model, CardView view) {
         this.model = model;
