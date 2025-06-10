@@ -5,8 +5,8 @@ import java.util.ArrayList;
 public class CardController {
 
     private ArrayList<CardModel> cards = new ArrayList<>();
-    private CardModel model;
-    private CardView view;
+    private CardModel model = new CardModel();
+    private CardView view = new CardView();
 
     public CardController(CardModel model, CardView view) {
         this.model = model;
@@ -31,7 +31,7 @@ public class CardController {
     public void displayCard() {
         System.out.print("Choose a card:");
         if (!cards.isEmpty()) {
-            view.displayCard();
+            view.displayCard(cards);
         } else {
             System.err.println("No Cards yet...");
         }

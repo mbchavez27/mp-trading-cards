@@ -1,5 +1,6 @@
 package com.tradingcards.elements.card;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CardView {
@@ -31,8 +32,9 @@ public class CardView {
         return scanner.nextInt();
     }
 
-    public void displayCard() {
-
+    public void displayCard(ArrayList<CardModel> cards) {
+        System.out.println("Card Details");
+        System.out.println(cards.get(0).getName());
     }
 
 }
