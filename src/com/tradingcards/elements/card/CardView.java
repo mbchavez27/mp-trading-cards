@@ -15,13 +15,67 @@ public class CardView {
     }
 
     public String setCardRarity() {
-        System.out.print("Give Card Rarity: ");
-        return scanner.nextLine();
+        String rarity = "";
+        int option;
+        do {
+            System.out.println("Give Card Rarity: ");
+            System.out.println("[1]: Common");
+            System.out.println("[2]: Uncommon");
+            System.out.println("[3]: Rare");
+            System.out.println("[4]: Legendary");
+            System.out.print("Rarity: ");
+            option = scanner.nextInt();
+            scanner.nextLine();
+        } while (option > 4 || option < 1);
+
+        switch (option) {
+            case 1 -> {
+                rarity = "Common";
+            }
+            case 2 -> {
+                rarity = "Uncommon";
+            }
+            case 3 -> {
+                rarity = "Rare";
+            }
+            case 4 -> {
+                rarity = "Legendary";
+            }
+        }
+
+        return rarity;
     }
 
     public String setCardVariant() {
-        System.out.print("Give Card Variant: ");
-        return scanner.nextLine();
+        String variant = "";
+        int option;
+        do {
+            System.out.println("Give Card Variant: ");
+            System.out.println("[1]: Normal");
+            System.out.println("[2]: Extended-art");
+            System.out.println("[3]: Full-art");
+            System.out.println("[4]: Alt-art");
+            System.out.print("Variant: ");
+            option = scanner.nextInt();
+            scanner.nextLine();
+        } while (option > 4 || option < 1);
+
+        switch (option) {
+            case 1 -> {
+                variant = "Normal";
+            }
+            case 2 -> {
+                variant = "Extended-art";
+            }
+            case 3 -> {
+                variant = "Full-art";
+            }
+            case 4 -> {
+                variant = "Alt-art";
+            }
+        }
+
+        return variant;
     }
 
     public double setCardValue() {
@@ -45,7 +99,9 @@ public class CardView {
             System.out.println("Card Details:");
             System.out.println("Card Name: " + collection.get(cardName).getName());
             System.out.println("Card Rarty: " + collection.get(cardName).getRarity());
-            System.out.println("Card Variant: " + collection.get(cardName).getVariant());
+            if (collection.get(cardName).getVariant() != null) {
+                System.out.println("Card Variant: " + collection.get(cardName).getVariant());
+            }
             System.out.println("Card Value: " + collection.get(cardName).getValue());
             System.out.println("Card Quantity: " + collection.get(cardName).getQuantity());
             System.out.println("------------------------------------");
