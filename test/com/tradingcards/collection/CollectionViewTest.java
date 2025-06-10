@@ -1,4 +1,4 @@
 package com.tradingcards.elements.collection;
 
-public class CollectionView {
+public class CollectionViewTest {
 }

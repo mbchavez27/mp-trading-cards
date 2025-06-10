@@ -1,4 +1,4 @@
 package com.tradingcards.elements.card;
 
-public class CardModel {
+public class CardModelTest {
 }
