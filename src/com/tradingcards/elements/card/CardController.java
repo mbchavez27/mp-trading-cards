@@ -14,17 +14,28 @@ public class CardController {
     }
 
     public void addCard() {
-        String name = view.setCardName();
-        String rarity = view.setCardRarity();
-        String variant = view.setCardVariant();
-        double value = view.setCardValue();
-
+        //Instantsiate Card Object
         CardModel card = new CardModel();
+
+        //Get from View
+        String name = view.setCardName();
         card.setName(name);
+
+        String rarity = view.setCardRarity();
         card.setRarity(rarity);
-        card.setVariant(variant);
-        card.setValue(value);
+
+        if (card.getRarity().equals("Rare") || card.getRarity().equals("Legendary")) {
+            String variant = view.setCardVariant();
+            card.setVariant(variant);
+            double value = view.setCardValue();
+            card.setValue(calculateValue(value, variant));
+        } else {
+            double value = view.setCardValue();
+            card.setValue(value);
+        }
+
         card.setQuantity(1);
+
         CollectionModel.setCollection(card, name);
     }
 
@@ -46,5 +57,25 @@ public class CardController {
         } else {
             System.err.println("No Cards yet...");
         }
+    }
+
+    private double calculateValue(double value, String variant) {
+        double calculatedValue = value;
+
+        switch (variant) {
+            case "Normal" -> {
+                calculatedValue *= 1;
+            }
+            case "Extended-art" -> {
+                calculatedValue *= 1.5;
+            }
+            case "Full-art" -> {
+                calculatedValue *= 2;
+            }
+            case "Alt-art" -> {
+                calculatedValue *= 3;
+            }
+        }
+        return calculatedValue;
     }
 }
