@@ -35,4 +35,12 @@ public class CardController {
             System.err.println("No Cards yet...");
         }
     }
+
+    public void displayCollection() {
+        if (!collection.isEmpty()) {
+            view.displayCollection(collection);
+        } else {
+            System.err.println("No Cards yet...");
+        }
+    }
 }

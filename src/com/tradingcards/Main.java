@@ -39,9 +39,15 @@ public class Main {
                     System.out.println("");
                 }
 
+                case 3 -> {
+                    System.out.println("");
+                    cardController.displayCollection();
+                    System.out.println("");
+                }
+
             }
 
-        } while (action != 3);
+        } while (action != 10);
         getAction.close();
     }
 }

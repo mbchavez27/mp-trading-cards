@@ -1,6 +1,7 @@
 package com.tradingcards.elements.card;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -52,6 +53,20 @@ public class CardView {
             System.out.println("-------------------------------");
             System.err.println(String.format("Card %s does not exist", cardName));
             System.out.println("-------------------------------");
+        }
+    }
+
+    public void displayCollection(HashMap<String, CardModel> collection) {
+        ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
+        Collections.sort(cardByKey);
+        System.out.println("------------------------------------");
+        System.out.println("Collection:");
+        System.out.println("");
+
+        for (String name : cardByKey) {
+            System.out.println("Card Name: " + collection.get(name).getName());
+            System.out.println("Card Quantity: " + collection.get(name).getQuantity());
+            System.out.println("");
         }
     }
 
