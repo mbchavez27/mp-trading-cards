@@ -1,10 +1,10 @@
 package com.tradingcards.elements.card;
 
+import com.tradingcards.elements.collection.CollectionModel;
 import java.util.HashMap;
 
 public class CardController {
 
-    private HashMap<String, CardModel> collection = new HashMap<>();
     private CardModel model;
     private CardView view;
 
@@ -25,10 +25,12 @@ public class CardController {
         card.setVariant(variant);
         card.setValue(value);
         card.setQuantity(1);
-        collection.put(name, card);
+        CollectionModel.setCollection(card, name);
     }
 
     public void displayCard() {
+        HashMap<String, CardModel> collection = CollectionModel.getCollection();
+
         if (!collection.isEmpty()) {
             view.displayCard(collection, view.setCardName());
         } else {
@@ -37,6 +39,8 @@ public class CardController {
     }
 
     public void displayCollection() {
+        HashMap<String, CardModel> collection = CollectionModel.getCollection();
+
         if (!collection.isEmpty()) {
             view.displayCollection(collection);
         } else {
