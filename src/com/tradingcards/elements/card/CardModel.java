@@ -48,7 +48,7 @@ public class CardModel {
         return cardQuantity;
     }
 
-    public double calculateValue(double value, String variant) {
+    protected double calculateValue(double value, String variant) {
         double calculatedValue = value;
 
         switch (variant) {
