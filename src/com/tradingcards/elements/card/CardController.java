@@ -34,9 +34,26 @@ public class CardController {
             card.setValue(value);
         }
 
+        //To-do: Must check if card is unique in the hashmap before setting quantity
         card.setQuantity(1);
 
         CollectionModel.setCollection(card, name);
+    }
+
+    public void modifyCardQuantity(){
+        HashMap<String, CardModel> collection = CollectionModel.getCollection();
+        displayCollection();
+        String cardKey = view.setCardName();
+        if (collection.containsKey(cardKey)){
+            int newQuantity;
+            do {
+                newQuantity = view.setCardQuantity();
+            } while (collection.get(cardKey).getQuantity() == newQuantity);
+          collection.get(cardKey).setQuantity(newQuantity);
+
+        } else {
+            System.err.println("No Card with given name existing in Collection");
+        }
     }
 
     public void displayCard() {
