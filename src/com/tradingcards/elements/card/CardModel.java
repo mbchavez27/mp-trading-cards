@@ -48,4 +48,19 @@ public class CardModel {
         return cardQuantity;
     }
 
+    public double calculateValue(double value, String variant) {
+        double calculatedValue = value;
+
+        switch (variant) {
+            case "Normal" -> calculatedValue *= 1;
+
+            case "Extended-art" -> calculatedValue *= 1.5;
+
+            case "Full-art" -> calculatedValue *= 2;
+
+            case "Alt-art" -> calculatedValue *= 3;
+
+        }
+        return calculatedValue;
+    }
 }
