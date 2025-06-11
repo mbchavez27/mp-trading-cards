@@ -48,7 +48,7 @@ public class CardController {
             int newQuantity;
             do {
                 newQuantity = view.setCardQuantity();
-            } while (collection.get(cardKey).getQuantity() == newQuantity);
+            } while (collection.get(cardKey).getQuantity() == newQuantity || newQuantity < 0);
           collection.get(cardKey).setQuantity(newQuantity);
 
         } else {
