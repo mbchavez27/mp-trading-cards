@@ -3,7 +3,7 @@ package com.tradingcards.elements.card;
 import com.tradingcards.elements.collection.CollectionModel;
 import java.util.HashMap;
 
-public class CardController {
+public class CardController extends CollectionModel {
 
     private CardModel model;
     private CardView view;
@@ -51,7 +51,7 @@ public class CardController {
         //To-do: Must check if card is unique in the hashmap before setting quantity
         card.setQuantity(1);
 
-        CollectionModel.setCollection(card, name);
+        this.setCardCollection(card, name);
     }
 
     /**
@@ -67,7 +67,7 @@ public class CardController {
      * displayed.
      */
     public void modifyCardQuantity() {
-        HashMap<String, CardModel> collection = CollectionModel.getCollection();
+        HashMap<String, CardModel> collection = getCardCollection();
         displayCollection();
         String cardKey = view.setCardName();
         if (collection.containsKey(cardKey)) {
@@ -94,7 +94,7 @@ public class CardController {
      * message is displayed.
      */
     public void displayCard() {
-        HashMap<String, CardModel> collection = CollectionModel.getCollection();
+        HashMap<String, CardModel> collection = getCardCollection();
 
         if (!collection.isEmpty()) {
             view.displayCard(collection, view.setCardName());
@@ -113,7 +113,7 @@ public class CardController {
      * indicate that there are no cards.
      */
     public void displayCollection() {
-        HashMap<String, CardModel> collection = CollectionModel.getCollection();
+        HashMap<String, CardModel> collection = getCardCollection();
 
         if (!collection.isEmpty()) {
             view.displayCollection(collection);

@@ -5,13 +5,13 @@ import java.util.HashMap;
 
 public class CollectionModel {
 
-    private static HashMap<String, CardModel> collection = new HashMap<>();
+    private HashMap<String, CardModel> cardCollection = new HashMap<>();
 
-    public static void setCollection(CardModel card, String name) {
-        collection.put(name, card);
+    public void setCardCollection(CardModel card, String name) {
+        cardCollection.put(name, card);
     }
 
-    public static HashMap<String, CardModel> getCollection() {
-        return collection;
+    public HashMap<String, CardModel> getCardCollection() {
+        return cardCollection;
     }
 }
