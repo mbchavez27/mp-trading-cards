@@ -5,6 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Provides methods for user interaction related to trading cards, such as
+ * creating and viewing card details and collections.
+ */
 public class CardView {
 
     private Scanner scanner = new Scanner(System.in);
@@ -41,18 +45,14 @@ public class CardView {
         } while (option > 4 || option < 1);
 
         switch (option) {
-            case 1 -> {
+            case 1 ->
                 rarity = "Common";
-            }
-            case 2 -> {
+            case 2 ->
                 rarity = "Uncommon";
-            }
-            case 3 -> {
+            case 3 ->
                 rarity = "Rare";
-            }
-            case 4 -> {
+            case 4 ->
                 rarity = "Legendary";
-            }
         }
 
         return rarity;
@@ -80,18 +80,14 @@ public class CardView {
         } while (option > 4 || option < 1);
 
         switch (option) {
-            case 1 -> {
+            case 1 ->
                 variant = "Normal";
-            }
-            case 2 -> {
+            case 2 ->
                 variant = "Extended-art";
-            }
-            case 3 -> {
+            case 3 ->
                 variant = "Full-art";
-            }
-            case 4 -> {
+            case 4 ->
                 variant = "Alt-art";
-            }
         }
 
         return variant;
@@ -123,7 +119,6 @@ public class CardView {
 
     /**
      * Displays detailed information about a specific card from the collection.
-     * <p>
      * If the card with the specified name exists in the collection, this method
      * prints its name, rarity, variant (if available), value, and quantity to
      * the standard output. If the card is not found, an error message is
@@ -155,13 +150,11 @@ public class CardView {
 
     /**
      * Displays the contents of a card collection in alphabetical order by card
-     * name.
-     * <p>
-     * This method takes a {@code HashMap<String, CardModel>} where the key is
-     * the card name and the value is a {@code CardModel} object containing
-     * details such as the name and quantity. It sorts the keys (card names)
-     * alphabetically and prints each card's name and quantity to the standard
-     * output.
+     * name. This method takes a {@code HashMap<String, CardModel>} where the
+     * key is the card name and the value is a {@code CardModel} object
+     * containing details such as the name and quantity. It sorts the keys (card
+     * names) alphabetically and prints each card's name and quantity to the
+     * standard output.
      *
      * @param collection the HashMap containing card names as keys and their
      * corresponding {@code CardModel} objects as values

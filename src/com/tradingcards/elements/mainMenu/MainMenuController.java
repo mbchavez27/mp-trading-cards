@@ -12,10 +12,20 @@ import com.tradingcards.elements.deck.DeckModel;
 import com.tradingcards.elements.deck.DeckView;
 import java.util.Scanner;
 
+/**
+ * Controller class for handling the main menu of the Trading Card Inventory
+ * System. Initializes and coordinates all component controllers and handles
+ * user input to navigate the system.
+ */
 public class MainMenuController {
 
     private CollectionModel sharedCollection = new CollectionModel();
 
+    /**
+     * Starts and runs the main menu loop. Handles user input to navigate
+     * through different functionalities such as managing cards, binders, and
+     * decks.
+     */
     public void runMenu() {
         CardModel cardModel = new CardModel();
         CardView cardView = new CardView();
@@ -90,6 +100,10 @@ public class MainMenuController {
         getAction.close();
     }
 
+    /**
+     * Displays the base menu options to the user based on current collection
+     * state.
+     */
     private void baseMenu() {
         System.out.println("[1] Add Card");
         System.out.println("[2] Create new Binder");
@@ -106,6 +120,9 @@ public class MainMenuController {
         System.out.println("[17] Exit");
     }
 
+    /**
+     * Displays the card management submenu options.
+     */
     private void ManageCards() {
         System.out.println("-------------------------------");
         System.out.println("Manage Cards:");
@@ -115,6 +132,9 @@ public class MainMenuController {
         System.out.println("[9] Increase/decrease card counts");
     }
 
+    /**
+     * Displays the binder management submenu options.
+     */
     private void ManageBinders() {
         System.out.println("-------------------------------");
         System.out.println("Manage Binders:");
@@ -125,6 +145,9 @@ public class MainMenuController {
         System.out.println("[13] View Binder");
     }
 
+    /**
+     * Displays the deck management submenu options.
+     */
     private void ManageDecks() {
         System.out.println("-------------------------------");
         System.out.println("Manage Decks:");

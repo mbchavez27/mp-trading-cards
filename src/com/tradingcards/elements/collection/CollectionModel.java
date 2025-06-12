@@ -55,8 +55,22 @@ public class CollectionModel {
         binderCollection.put(name, binder);
     }
 
+    /**
+     * Removes a binder from the binder collection by its name.
+     *
+     * @param name the name of the binder to be removed
+     *
+     * If the binder is found and successfully removed, a confirmation message
+     * is printed. Otherwise, a message indicating the binder was not found is
+     * displayed.
+     */
     public void removeBinderCollection(String name) {
-        binderCollection.remove(name);
+        BinderModel removed = binderCollection.remove(name);
+        if (removed != null) {
+            System.out.println(name + " removed successfully...");
+        } else {
+            System.out.println(name + " not found. Removal unsuccessful...");
+        }
     }
 
     /**
@@ -78,8 +92,21 @@ public class CollectionModel {
         deckCollection.put(name, deck);
     }
 
+    /**
+     * Removes a deck from the deck collection by its name.
+     *
+     * @param name the name (key) of the deck to be removed
+     *
+     * Prints a message indicating whether the deck was successfully removed or
+     * if no deck with the given name exists in the collection.
+     */
     public void removeDeckCollection(String name) {
-        deckCollection.remove(name);
+        DeckModel removed = deckCollection.remove(name);
+        if (removed != null) {
+            System.out.println(name + " removed successfully...");
+        } else {
+            System.out.println(name + " not found. Removal unsuccessful...");
+        }
     }
 
     /**
