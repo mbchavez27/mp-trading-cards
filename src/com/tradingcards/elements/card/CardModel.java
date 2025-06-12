@@ -1,11 +1,36 @@
 package com.tradingcards.elements.card;
 
+/**
+ * Represents a model for a trading card, encapsulating properties such as name,
+ * rarity, variant, value, and quantity. This class provides methods to get and
+ * set these properties and to calculate the final value of a card based on its
+ * variant.
+ */
 public class CardModel {
 
+    /**
+     * The name of the card.
+     */
     private String cardName;
+
+    /**
+     * The rarity of the card (e.g., Common, Rare, Legendary).
+     */
     private String cardRarity;
+
+    /**
+     * The variant of the card (e.g., Normal, Full-art, Alt-art).
+     */
     private String cardVariant;
+
+    /**
+     * The base value of the card.
+     */
     private double cardValue;
+
+    /**
+     * The quantity of this card in the collection.
+     */
     private int cardQuantity;
 
     /**
@@ -104,10 +129,10 @@ public class CardModel {
      * <p>
      * The variant affects the final value as follows:
      * <ul>
-     * <li>Normal: ×1</li>
-     * <li>Extended-art: ×1.5</li>
-     * <li>Full-art: ×2</li>
-     * <li>Alt-art: ×3</li>
+     * <li>Normal: ×1 (base value)</li>
+     * <li>Extended-art: ×1.5 (50% increase)</li>
+     * <li>Full-art: ×2.0 (100% increase)</li>
+     * <li>Alt-art: ×3.0 (200% increase)</li>
      * </ul>
      *
      * @param value the base value of the card

@@ -3,12 +3,44 @@ package com.tradingcards.elements.card;
 import com.tradingcards.elements.collection.CollectionModel;
 import java.util.HashMap;
 
+/**
+ * The {@code CardController} class handles logic for managing cards in the
+ * user's collection. It communicates with the {@code CardModel} to manipulate
+ * data and interacts with the user through the {@code CardView}.
+ * <p>
+ * Responsibilities include:
+ * <ul>
+ * <li>Adding cards to the collection based on user input</li>
+ * <li>Modifying the quantity of existing cards</li>
+ * <li>Displaying individual card details</li>
+ * <li>Displaying the full collection</li>
+ * </ul>
+ */
 public class CardController {
 
+    /**
+     * Shared collection of cards, binders, and decks.
+     */
     private CollectionModel sharedCollection;
+
+    /**
+     * Card model representing individual card data.
+     */
     private CardModel model;
+
+    /**
+     * View class used for interacting with the user (e.g., input/output).
+     */
     private CardView view;
 
+    /**
+     * Constructs a {@code CardController} with the specified collection, model,
+     * and view.
+     *
+     * @param sharedCollection the central collection shared across the app
+     * @param model the card model used for storing and managing card data
+     * @param view the view class that handles user input/output for cards
+     */
     public CardController(CollectionModel sharedCollection, CardModel model, CardView view) {
         this.sharedCollection = sharedCollection;
         this.model = model;
@@ -24,7 +56,7 @@ public class CardController {
      * "Legendary", a variant is also required and the card's value is
      * calculated using the variant. Otherwise, the value is set directly. The
      * card is then given a default quantity of 1 and added to the collection
-     * via {@code CollectionModel.setCollection()}.
+     * via {@code CollectionModel.setCardCollection()}.
      * <p>
      * <b>Note:</b> Currently, the method does not check for duplicate cards in
      * the collection before setting the quantity.
@@ -89,8 +121,8 @@ public class CardController {
      * specified card.
      * <p>
      * This method retrieves the current card collection from
-     * {@code CollectionModel.getCollection()}. If the collection is not empty,
-     * it prompts the user to input a card name using
+     * {@code CollectionModel.getCardCollection()}. If the collection is not
+     * empty, it prompts the user to input a card name using
      * {@code view.setCardName()}, then displays the corresponding card details
      * using {@code view.displayCard()}. If the collection is empty, an error
      * message is displayed.
@@ -109,10 +141,10 @@ public class CardController {
      * Retrieves and displays the user's entire card collection.
      * <p>
      * This method obtains the current card collection from
-     * {@code CollectionModel.getCollection()}. If the collection is not empty,
-     * it delegates the display task to the {@code view.displayCollection()}
-     * method. If the collection is empty, an error message is printed to
-     * indicate that there are no cards.
+     * {@code CollectionModel.getCardCollection()}. If the collection is not
+     * empty, it delegates the display task to the
+     * {@code view.displayCollection()} method. If the collection is empty, an
+     * error message is printed to indicate that there are no cards.
      */
     public void displayCollection() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
@@ -123,5 +155,4 @@ public class CardController {
             System.err.println("No Cards yet...");
         }
     }
-
 }
