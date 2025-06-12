@@ -6,8 +6,7 @@ import java.util.HashMap;
 public class BinderModel {
 
     private String binderName;
-    private int cardsInBinderQuantity = 0; //have a get set for this variable
-    private HashMap<String, CardModel> cardsInBinder = new HashMap<>();
+    private HashMap<String, CardModel> cardsInBinder = new HashMap<>(); //removed int varable since hashmap has .size() method
 
     public void setName(String binderName) {
         this.binderName = binderName;

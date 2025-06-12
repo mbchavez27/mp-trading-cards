@@ -18,8 +18,8 @@ public class CollectionModel {
         return cardCollection;
     }
 
-    public void setBinderCollection(CardModel card, String name) {
-        cardCollection.put(name, card);
+    public void setBinderCollection(BinderModel binder, String name) {
+        binderCollection.put(name, binder);
     }
 
     public HashMap<String, BinderModel> getBinderCollection() {
