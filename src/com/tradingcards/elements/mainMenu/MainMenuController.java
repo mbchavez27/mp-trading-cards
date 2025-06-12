@@ -7,6 +7,9 @@ import com.tradingcards.elements.card.CardController;
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
+import com.tradingcards.elements.deck.DeckController;
+import com.tradingcards.elements.deck.DeckModel;
+import com.tradingcards.elements.deck.DeckView;
 import java.util.Scanner;
 
 public class MainMenuController {
@@ -22,34 +25,19 @@ public class MainMenuController {
         BinderView binderView = new BinderView();
         BinderController binderController = new BinderController(sharedCollection, binderModel, binderView);
 
+        DeckModel deckModel = new DeckModel();
+        DeckView deckView = new DeckView();
+        DeckController deckController = new DeckController(sharedCollection, deckModel, deckView);
+
         int action = 0;
-        boolean createdDeck = false;
         Scanner getAction = new Scanner(System.in);
 
         do {
             System.out.println("-------------------------------");
             System.out.println("Trading Card Inventory System:");
             System.out.println("-------------------------------");
-            System.out.println("[1] Add Card");
 
-            if (sharedCollection.getBinderCollection().isEmpty()) {
-                System.out.println("[2] Create a new Binder");
-            } else {
-                System.out.println("[2] Manage Binders");
-            }
-
-            if (!createdDeck) {
-                System.out.println("[3] Create a new Deck");
-            } else {
-                System.out.println("[3] Manage Decks");
-            }
-
-            System.out.println("[4] Display Card");
-            System.out.println("[5] Display Collection");
-
-            if (!sharedCollection.getCardCollection().isEmpty()) {
-                System.out.println("[6] Increase/decrease card counts");
-            }
+            baseMenu();
 
             System.out.print("Action: ");
             action = getAction.nextInt();
@@ -66,23 +54,23 @@ public class MainMenuController {
                 }
 
                 case 3 -> {
-                    createdDeck = true;
+                    deckController.addDeck();
                 }
 
                 case 4 -> {
                     System.out.println("");
-                    cardController.displayCard();
+                    ManageCards();
                     System.out.println("");
                 }
 
                 case 5 -> {
                     System.out.println("");
-                    cardController.displayCollection();
+                    ManageBinders();
                     System.out.println("");
                 }
                 case 6 -> {
                     System.out.println("");
-                    cardController.modifyCardQuantity();
+                    ManageDecks();
                     System.out.println("");
                 }
 
@@ -90,5 +78,49 @@ public class MainMenuController {
 
         } while (action != 10);
         getAction.close();
+    }
+
+    private void baseMenu() {
+        System.out.println("[1] Add Card");
+        System.out.println("[2] Create new Binder");
+        System.out.println("[3] Create a new Deck");
+        if (!sharedCollection.getCardCollection().isEmpty()) {
+            System.out.println("[4] Manage Cards");
+        }
+        if (!sharedCollection.getBinderCollection().isEmpty()) {
+            System.out.println("[5] Manage Binders");
+        }
+        if (!sharedCollection.getDeckCollection().isEmpty()) {
+            System.out.println("[6] Manage Decks");
+        }
+    }
+
+    private void ManageCards() {
+        System.out.println("-------------------------------");
+        System.out.println("Manage Cards:");
+        System.out.println("-------------------------------");
+        System.out.println("[7] Display Card");
+        System.out.println("[8] Display Collection");
+        System.out.println("[9] Increase/decrease card counts");
+    }
+
+    private void ManageBinders() {
+        System.out.println("-------------------------------");
+        System.out.println("Manage Binders:");
+        System.out.println("-------------------------------");
+        System.out.println("[10] Delete Binder");
+        System.out.println("[11] Add/Remove Card to/from Binder");
+        System.out.println("[12] Trade Card");
+        System.out.println("[13] View Binder");
+    }
+
+    private void ManageDecks() {
+        System.out.println("-------------------------------");
+        System.out.println("Manage Decks:");
+        System.out.println("-------------------------------");
+        System.out.println("[14] Delete Deck");
+        System.out.println("[15] Add/Remove Card to/from Deck");
+        System.out.println("[16] View");
+
     }
 }
