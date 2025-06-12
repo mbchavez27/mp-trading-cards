@@ -73,10 +73,20 @@ public class MainMenuController {
                     ManageDecks();
                     System.out.println("");
                 }
+                case 10 -> {
+                    System.out.println("");
+                    binderController.removeBinder();
+                    System.out.println("");
+                }
+                case 14 -> {
+                    System.out.println("");
+                    deckController.removeDeck();
+                    System.out.println("");
+                }
 
             }
 
-        } while (action != 10);
+        } while (action != 17);
         getAction.close();
     }
 
@@ -93,6 +103,7 @@ public class MainMenuController {
         if (!sharedCollection.getDeckCollection().isEmpty()) {
             System.out.println("[6] Manage Decks");
         }
+        System.out.println("[17] Exit");
     }
 
     private void ManageCards() {

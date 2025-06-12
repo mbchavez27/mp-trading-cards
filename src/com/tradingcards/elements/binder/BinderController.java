@@ -21,4 +21,10 @@ public class BinderController {
 
         sharedCollection.setBinderCollection(binder, name);
     }
+
+    public void removeBinder() {
+        String name = view.setBinderName();
+
+        sharedCollection.removeBinderCollection(name);
+    }
 }

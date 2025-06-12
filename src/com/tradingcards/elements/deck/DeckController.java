@@ -21,4 +21,10 @@ public class DeckController {
 
         sharedCollection.setDeckCollection(deck, name);
     }
+
+    public void removeDeck() {
+        String name = view.setDeckName();
+
+        sharedCollection.removeDeckCollection(name);
+    }
 }
