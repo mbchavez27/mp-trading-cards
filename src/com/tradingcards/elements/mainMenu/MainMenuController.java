@@ -1,20 +1,28 @@
 package com.tradingcards.elements.mainMenu;
 
+import com.tradingcards.elements.binder.BinderController;
+import com.tradingcards.elements.binder.BinderModel;
+import com.tradingcards.elements.binder.BinderView;
 import com.tradingcards.elements.card.CardController;
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.card.CardView;
+import com.tradingcards.elements.collection.CollectionModel;
 import java.util.Scanner;
 
 public class MainMenuController {
 
-    public static void runMenu() {
+    private CollectionModel sharedCollection = new CollectionModel();
+
+    public void runMenu() {
         CardModel cardModel = new CardModel();
         CardView cardView = new CardView();
-        CardController cardController = new CardController(cardModel, cardView);
+        CardController cardController = new CardController(sharedCollection, cardModel, cardView);
+
+        BinderModel binderModel = new BinderModel();
+        BinderView binderView = new BinderView();
+        BinderController binderController = new BinderController(sharedCollection, binderModel, binderView);
 
         int action = 0;
-        boolean collectionPopulated = false;
-        boolean createdBinder = false;
         boolean createdDeck = false;
         Scanner getAction = new Scanner(System.in);
 
@@ -24,7 +32,7 @@ public class MainMenuController {
             System.out.println("-------------------------------");
             System.out.println("[1] Add Card");
 
-            if (!createdBinder) {
+            if (sharedCollection.getBinderCollection().isEmpty()) {
                 System.out.println("[2] Create a new Binder");
             } else {
                 System.out.println("[2] Manage Binders");
@@ -39,7 +47,7 @@ public class MainMenuController {
             System.out.println("[4] Display Card");
             System.out.println("[5] Display Collection");
 
-            if (collectionPopulated) {
+            if (!sharedCollection.getCardCollection().isEmpty()) {
                 System.out.println("[6] Increase/decrease card counts");
             }
 
@@ -48,14 +56,13 @@ public class MainMenuController {
 
             switch (action) {
                 case 1 -> {
-                    collectionPopulated = true;
                     System.out.println("");
                     cardController.addCard();
                     System.out.println("");
                 }
 
                 case 2 -> {
-                    createdBinder = true;
+                    binderController.addBinder();
                 }
 
                 case 3 -> {
@@ -78,7 +85,6 @@ public class MainMenuController {
                     cardController.modifyCardQuantity();
                     System.out.println("");
                 }
-
 
             }
 

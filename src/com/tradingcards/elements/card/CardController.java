@@ -3,12 +3,14 @@ package com.tradingcards.elements.card;
 import com.tradingcards.elements.collection.CollectionModel;
 import java.util.HashMap;
 
-public class CardController extends CollectionModel {
+public class CardController {
 
+    private CollectionModel sharedCollection;
     private CardModel model;
     private CardView view;
 
-    public CardController(CardModel model, CardView view) {
+    public CardController(CollectionModel sharedCollection, CardModel model, CardView view) {
+        this.sharedCollection = sharedCollection;
         this.model = model;
         this.view = view;
     }
@@ -51,7 +53,7 @@ public class CardController extends CollectionModel {
         //To-do: Must check if card is unique in the hashmap before setting quantity
         card.setQuantity(1);
 
-        this.setCardCollection(card, name);
+        sharedCollection.setCardCollection(card, name);
     }
 
     /**
@@ -67,7 +69,7 @@ public class CardController extends CollectionModel {
      * displayed.
      */
     public void modifyCardQuantity() {
-        HashMap<String, CardModel> collection = getCardCollection();
+        HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         displayCollection();
         String cardKey = view.setCardName();
         if (collection.containsKey(cardKey)) {
@@ -94,7 +96,7 @@ public class CardController extends CollectionModel {
      * message is displayed.
      */
     public void displayCard() {
-        HashMap<String, CardModel> collection = getCardCollection();
+        HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
             view.displayCard(collection, view.setCardName());
@@ -113,7 +115,7 @@ public class CardController extends CollectionModel {
      * indicate that there are no cards.
      */
     public void displayCollection() {
-        HashMap<String, CardModel> collection = getCardCollection();
+        HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
             view.displayCollection(collection);
