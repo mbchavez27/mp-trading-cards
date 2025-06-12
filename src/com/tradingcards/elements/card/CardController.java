@@ -28,7 +28,7 @@ public class CardController {
             String variant = view.setCardVariant();
             card.setVariant(variant);
             double value = view.setCardValue();
-            card.setValue(calculateValue(value, variant));
+            card.setValue(card.calculateValue(value, variant));
         } else {
             double value = view.setCardValue();
             card.setValue(value);
@@ -59,23 +59,4 @@ public class CardController {
         }
     }
 
-    private double calculateValue(double value, String variant) {
-        double calculatedValue = value;
-
-        switch (variant) {
-            case "Normal" -> {
-                calculatedValue *= 1;
-            }
-            case "Extended-art" -> {
-                calculatedValue *= 1.5;
-            }
-            case "Full-art" -> {
-                calculatedValue *= 2;
-            }
-            case "Alt-art" -> {
-                calculatedValue *= 3;
-            }
-        }
-        return calculatedValue;
-    }
 }
