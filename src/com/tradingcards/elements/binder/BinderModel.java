@@ -38,6 +38,18 @@ public class BinderModel {
         return this.binderName;
     }
 
+    public boolean setBinderCollection(CardModel card, String name){
+        if (cardsInBinder.size() < 20){
+            cardsInBinder.put(name, card);
+            return true;
+        } else {
+            System.err.println("Binder is already full");
+            return false;
+        }
+
+    }
+
+
     // first of all these should be in the controller
     // public void deleteBinder(HashMap<String, CardModel> collection) {
     //     for (int i = 0; i < cardsInBinder; i++) {

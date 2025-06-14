@@ -1,6 +1,9 @@
 package com.tradingcards.elements.binder;
 
+import com.tradingcards.elements.card.*;
 import com.tradingcards.elements.collection.CollectionModel;
+
+import java.util.HashMap;
 
 /**
  * Controller class for managing binder-related actions within the trading card
@@ -55,6 +58,58 @@ public class BinderController {
         } while (sharedCollection.getBinderCollection().containsKey(name));
 
         sharedCollection.setBinderCollection(binder, name);
+    }
+
+    public void addCardToBinder(){
+        HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
+        HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
+        CardView cardView = new CardView();
+        CardModel cardModel = new CardModel();
+
+        String cardToRemove;
+        boolean taskDone = false;
+
+        displayBinders();
+
+        String binderName = view.setBinderName();
+
+        if (binderCollection.containsKey(binderName)){
+            cardView.displayCollection(collection);
+
+            do {
+                cardToRemove = cardView.setCardName();
+                if (collection.containsKey(cardToRemove)){
+                    if(binderCollection.get(binderName).setBinderCollection(collection.get(cardToRemove), cardToRemove)){
+                        collection.remove(cardToRemove);
+                        System.out.println("Successfully transferred card into binder");
+                        taskDone = true;
+                    };
+
+                }
+            } while (!collection.containsKey(cardToRemove) && !taskDone);
+        } else {
+            System.err.println("No Card with given name existing in Collection");
+        }
+
+
+    }
+
+    public void displayBinders(){
+        HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
+
+        if (!binderCollection.isEmpty()){
+            view.displayBinders(binderCollection);
+        } else {
+            System.err.println("No Binders made yet");
+        }
+    }
+
+    public void removeCard(){
+
+    }
+
+    public void tradeCard(){
+
     }
 
     /**

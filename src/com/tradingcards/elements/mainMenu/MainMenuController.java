@@ -83,11 +83,33 @@ public class MainMenuController {
                     ManageDecks();
                     System.out.println("");
                 }
+                case 7 -> {
+                    System.out.println("");
+                    cardController.displayCard();
+                    System.out.println("");
+                }
+                case 8 -> {
+                    System.out.println("");
+                    cardController.displayCollection();
+                    System.out.println("");
+                }
+                case 9 -> {
+                    System.out.println("");
+                    cardController.modifyCardQuantity();
+                    System.out.println("");
+                }
                 case 10 -> {
                     System.out.println("");
                     binderController.removeBinder();
                     System.out.println("");
                 }
+
+                case 11 -> {
+                    System.out.println("");
+                    binderController.addCardToBinder();
+                    System.out.println("");
+                }
+
                 case 14 -> {
                     System.out.println("");
                     deckController.removeDeck();
