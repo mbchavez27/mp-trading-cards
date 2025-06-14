@@ -106,11 +106,22 @@ public class MainMenuController {
 
                 case 11 -> {
                     System.out.println("");
-                    binderController.addCardToBinder();
+                    binderController.addCard();
+                    System.out.println("");
+                }
+                case 12 -> {
+                    System.out.println("");
+                    binderController.removeCard();
                     System.out.println("");
                 }
 
                 case 14 -> {
+                    System.out.println("");
+                    binderController.displaySingleBinder();
+                    System.out.println("");
+                }
+
+                case 15 -> {
                     System.out.println("");
                     deckController.removeDeck();
                     System.out.println("");
@@ -118,7 +129,7 @@ public class MainMenuController {
 
             }
 
-        } while (action != 17);
+        } while (action != 18);
         getAction.close();
     }
 
@@ -139,7 +150,7 @@ public class MainMenuController {
         if (!sharedCollection.getDeckCollection().isEmpty()) {
             System.out.println("[6] Manage Decks");
         }
-        System.out.println("[17] Exit");
+        System.out.println("[18] Exit");
     }
 
     /**
@@ -162,9 +173,10 @@ public class MainMenuController {
         System.out.println("Manage Binders:");
         System.out.println("-------------------------------");
         System.out.println("[10] Delete Binder");
-        System.out.println("[11] Add/Remove Card to/from Binder");
-        System.out.println("[12] Trade Card");
-        System.out.println("[13] View Binder");
+        System.out.println("[11] Add Card to Binder");
+        System.out.println("[12] Remove Card from Binder");
+        System.out.println("[13] Trade Card");
+        System.out.println("[14] View Binder");
     }
 
     /**
@@ -174,9 +186,9 @@ public class MainMenuController {
         System.out.println("-------------------------------");
         System.out.println("Manage Decks:");
         System.out.println("-------------------------------");
-        System.out.println("[14] Delete Deck");
-        System.out.println("[15] Add/Remove Card to/from Deck");
-        System.out.println("[16] View");
+        System.out.println("[15] Delete Deck");
+        System.out.println("[16] Add/Remove Card to/from Deck");
+        System.out.println("[17] View");
 
     }
 }

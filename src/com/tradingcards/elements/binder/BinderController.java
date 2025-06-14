@@ -2,7 +2,6 @@ package com.tradingcards.elements.binder;
 
 import com.tradingcards.elements.card.*;
 import com.tradingcards.elements.collection.CollectionModel;
-
 import java.util.HashMap;
 
 /**
@@ -60,11 +59,50 @@ public class BinderController {
         sharedCollection.setBinderCollection(binder, name);
     }
 
-    public void addCardToBinder(){
+    public void removeCard(){
+        HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
+        HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
+        HashMap<String, CardModel> binder;
+        String cardToRemove;
+        boolean taskDone = false;
+
+        CardView cardView = new CardView();
+        displayBinders();
+
+        String binderName = view.setBinderName();
+        if (binderCollection.containsKey(binderName)){
+            binder = binderCollection.get(binderName).getBinder();
+
+            if (binder.isEmpty()){
+                System.out.println("Binder is currently empty");
+                System.out.println("Add cards to the Binder first");
+            } else {
+                displayBinderContent(binder);
+                do {
+                    System.out.println("Indicate card to be deleted");
+                    cardToRemove = cardView.setCardName();
+                    if (binder.containsKey(cardToRemove)){
+                        collection.put(cardToRemove, binder.get(cardToRemove));
+                        binder.remove(cardToRemove);
+                        System.out.println("Sucessfully transferred Card into Collection");
+                        taskDone = true;
+                    } else {
+                        System.err.println("No Card with given name exists in Binder");
+                        System.err.println("Please re-input Card name");
+                    }
+
+                } while (!binder.containsKey(cardToRemove) && !taskDone);
+            }
+        } else {
+            System.err.println("No Binder with given name exists");
+        }
+    }
+
+    public void addCard(){
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         CardView cardView = new CardView();
-        CardModel cardModel = new CardModel();
+        BinderModel binder;
 
         String cardToRemove;
         boolean taskDone = false;
@@ -73,24 +111,32 @@ public class BinderController {
 
         String binderName = view.setBinderName();
 
-        if (binderCollection.containsKey(binderName)){
-            cardView.displayCollection(collection);
-
-            do {
-                cardToRemove = cardView.setCardName();
-                if (collection.containsKey(cardToRemove)){
-                    if(binderCollection.get(binderName).setBinderCollection(collection.get(cardToRemove), cardToRemove)){
-                        collection.remove(cardToRemove);
-                        System.out.println("Successfully transferred card into binder");
-                        taskDone = true;
-                    };
-
-                }
-            } while (!collection.containsKey(cardToRemove) && !taskDone);
+        if (binderCollection.isEmpty()){
+            System.out.println("No cards in collection yet");
+            System.out.println("Input cards in collection first");
         } else {
-            System.err.println("No Card with given name existing in Collection");
-        }
+            if (binderCollection.containsKey(binderName)){
+                binder = binderCollection.get(binderName);
+                cardView.displayCollection(collection);
 
+                do {
+                    cardToRemove = cardView.setCardName();
+                    if (collection.containsKey(cardToRemove)){
+                        if(binder.setBinderCollection(collection.get(cardToRemove), cardToRemove)){
+                            collection.remove(cardToRemove);
+                            System.out.println("Successfully transferred card into binder");
+                            taskDone = true;
+                        };
+
+                    } else {
+                        System.err.println("No Card with given name exists in Collection");
+                        System.err.println("Please re-input Card name");
+                    }
+                } while (!collection.containsKey(cardToRemove) && !taskDone);
+            } else {
+                System.err.println("No Binder with given name exists");
+            }
+        }
 
     }
 
@@ -104,9 +150,28 @@ public class BinderController {
         }
     }
 
-    public void removeCard(){
+    public void displaySingleBinder(){
+        HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
+        displayBinders();
+        System.out.println("Indicate binder to view");
+        String binderName = view.setBinderName();
 
+        if (binderCollection.containsKey(binderName)){
+            displayBinderContent(binderCollection.get(binderName).getBinder());
+        } else {
+            System.err.println("No Binder with given name exists");
+        }
     }
+
+    public void displayBinderContent(HashMap<String, CardModel> binder){
+
+        if (!binder.isEmpty()){
+            view.displayBinderContent(binder);
+        } else {
+            System.err.println("No Cards in Binder");
+        }
+    }
+
 
     public void tradeCard(){
 

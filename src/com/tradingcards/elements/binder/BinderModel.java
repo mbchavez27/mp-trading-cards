@@ -38,6 +38,10 @@ public class BinderModel {
         return this.binderName;
     }
 
+    public HashMap<String, CardModel> getBinder(){
+        return this.cardsInBinder;
+    }
+
     public boolean setBinderCollection(CardModel card, String name){
         if (cardsInBinder.size() < 20){
             cardsInBinder.put(name, card);
