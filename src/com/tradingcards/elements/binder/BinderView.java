@@ -1,5 +1,7 @@
 package com.tradingcards.elements.binder;
 
+import com.tradingcards.elements.card.CardModel;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,5 +40,25 @@ public class BinderView {
             System.out.println(binderNames);
         }
 
+    }
+
+    public void displayBinderContent(HashMap<String, CardModel> binder){
+        ArrayList<String> cardByKey = new ArrayList<>(binder.keySet());
+        Collections.sort(cardByKey);
+
+        System.out.println("------------------------------------");
+        System.out.println("Binder Contents:");
+        System.out.println("");
+
+        for (String name : cardByKey){
+            if (binder.get(name).getQuantity() > 1){
+                for (int i = 1; i <= binder.get(name).getQuantity(); i++){
+                    System.out.println("Card Name: " + binder.get(name).getName());
+                }
+            } else {
+                System.out.println("Card Name: " + binder.get(name).getName());
+            }
+
+        }
     }
 }
