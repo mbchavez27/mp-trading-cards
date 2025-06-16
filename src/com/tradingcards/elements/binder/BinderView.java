@@ -25,7 +25,6 @@ public class BinderView {
      */
     public String setBinderName() {
         System.out.print("Give Binder Name: ");
-        scanner.close();
         return scanner.nextLine();
     }
 
