@@ -25,6 +25,7 @@ public class BinderView {
      */
     public String setBinderName() {
         System.out.print("Give Binder Name: ");
+        scanner.close();
         return scanner.nextLine();
     }
 
@@ -39,7 +40,6 @@ public class BinderView {
         for (String binderNames : binderKeys) {
             System.out.println(binderNames);
         }
-
     }
 
     public void displayBinderContent(HashMap<String, CardModel> binder){

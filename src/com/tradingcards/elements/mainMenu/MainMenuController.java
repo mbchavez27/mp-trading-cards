@@ -127,9 +127,27 @@ public class MainMenuController {
                     System.out.println("");
                 }
 
+                case 16 -> {
+                    System.out.println("");
+                    deckController.addCard();
+                    System.out.println("");
+                }
+
+                case 17 -> {
+                    System.out.println("");
+                    deckController.removeCard();
+                    System.out.println("");
+                }
+
+                case 18 -> {
+                    System.out.println("");
+                    deckController.displaySingleDeck();
+                    System.out.println("");
+                }
+
             }
 
-        } while (action != 18);
+        } while (action != 19);
         getAction.close();
     }
 
@@ -150,7 +168,7 @@ public class MainMenuController {
         if (!sharedCollection.getDeckCollection().isEmpty()) {
             System.out.println("[6] Manage Decks");
         }
-        System.out.println("[18] Exit");
+        System.out.println("[19] Exit");
     }
 
     /**
@@ -187,8 +205,9 @@ public class MainMenuController {
         System.out.println("Manage Decks:");
         System.out.println("-------------------------------");
         System.out.println("[15] Delete Deck");
-        System.out.println("[16] Add/Remove Card to/from Deck");
-        System.out.println("[17] View");
+        System.out.println("[16] Add Card to Deck");
+        System.out.println("[17] Remove Card from Deck");
+        System.out.println("[18] View Deck");
 
     }
 }
