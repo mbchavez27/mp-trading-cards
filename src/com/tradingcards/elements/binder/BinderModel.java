@@ -47,11 +47,11 @@ public class BinderModel {
             cardsInBinder.put(name, card);
             return true;
         } else {
-            System.err.println("Binder is already full");
             return false;
         }
-
     }
+
+
 
 
     // first of all these should be in the controller

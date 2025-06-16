@@ -82,6 +82,7 @@ public class BinderController {
                     System.out.println("Indicate card to be deleted");
                     cardToRemove = cardView.setCardName();
                     if (binder.containsKey(cardToRemove)){
+                        //TODO: Current code does not handle identical cards being added
                         collection.put(cardToRemove, binder.get(cardToRemove));
                         binder.remove(cardToRemove);
                         System.out.println("Sucessfully transferred Card into Collection");
@@ -126,7 +127,9 @@ public class BinderController {
                             collection.remove(cardToRemove);
                             System.out.println("Successfully transferred card into binder");
                             taskDone = true;
-                        };
+                        } else {
+                            System.err.println("Binder is already full");
+                        }
 
                     } else {
                         System.err.println("No Card with given name exists in Collection");
@@ -137,7 +140,6 @@ public class BinderController {
                 System.err.println("No Binder with given name exists");
             }
         }
-
     }
 
     public void displayBinders(){
