@@ -1,6 +1,6 @@
 package com.tradingcards;
 
-import com.tradingcards.elements.mainMenu.MainMenuController;
+import com.tradingcards.elements.menus.MainMenuController;
 
 public class Main {
 
