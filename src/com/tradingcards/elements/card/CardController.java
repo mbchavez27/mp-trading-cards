@@ -112,7 +112,7 @@ public class CardController {
             collection.get(cardKey).setQuantity(newQuantity);
 
         } else {
-            System.err.println("No Card with given name existing in Collection");
+            view.displayErrorNewLine("No Card with given name existing in Collection");
         }
     }
 
@@ -133,7 +133,7 @@ public class CardController {
         if (!collection.isEmpty()) {
             view.displayCard(collection, view.setCardName());
         } else {
-            System.err.println("No Cards yet...");
+            view.displayErrorNewLine("No Cards yet...");
         }
     }
 
@@ -152,7 +152,7 @@ public class CardController {
         if (!collection.isEmpty()) {
             view.displayCollection(collection);
         } else {
-            System.err.println("No Cards yet...");
+            view.displayErrorNewLine("No Cards yet...");
         }
     }
 }

@@ -173,4 +173,8 @@ public class CardView {
         }
     }
 
+    public void displayErrorNewLine(String message){
+        System.err.println(message);
+    }
+
 }
