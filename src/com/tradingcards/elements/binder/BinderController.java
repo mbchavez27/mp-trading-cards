@@ -30,12 +30,10 @@ public class BinderController {
      * and view.
      *
      * @param sharedCollection the central collection of trading card elements
-     * @param model the model representing the binder's data and logic
      * @param view the view handling user interaction for binders
      */
-    public BinderController(CollectionModel sharedCollection, BinderModel model, BinderView view) {
+    public BinderController(CollectionModel sharedCollection, BinderView view) {
         this.sharedCollection = sharedCollection;
-        this.model = model;
         this.view = view;
     }
 

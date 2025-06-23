@@ -27,17 +27,14 @@ public class MainMenuController {
      * decks.
      */
     public void runMenu() {
-        CardModel cardModel = new CardModel();
         CardView cardView = new CardView();
-        CardController cardController = new CardController(sharedCollection, cardModel, cardView);
+        CardController cardController = new CardController(sharedCollection, cardView);
 
-        BinderModel binderModel = new BinderModel();
         BinderView binderView = new BinderView();
-        BinderController binderController = new BinderController(sharedCollection, binderModel, binderView);
+        BinderController binderController = new BinderController(sharedCollection, binderView);
 
-        DeckModel deckModel = new DeckModel();
         DeckView deckView = new DeckView();
-        DeckController deckController = new DeckController(sharedCollection, deckModel, deckView);
+        DeckController deckController = new DeckController(sharedCollection, deckView);
 
         int action;
         Scanner getAction = new Scanner(System.in);

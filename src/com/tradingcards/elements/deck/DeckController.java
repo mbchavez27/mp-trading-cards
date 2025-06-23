@@ -15,7 +15,6 @@ import java.util.HashMap;
 public class DeckController {
 
     private CollectionModel sharedCollection;
-    private DeckModel model;
     private DeckView view;
 
     /**
@@ -24,12 +23,10 @@ public class DeckController {
      *
      * @param sharedCollection the shared CollectionModel containing the deck
      * data
-     * @param model the DeckModel representing a deck
      * @param view the DeckView responsible for user interaction
      */
-    public DeckController(CollectionModel sharedCollection, DeckModel model, DeckView view) {
+    public DeckController(CollectionModel sharedCollection, DeckView view) {
         this.sharedCollection = sharedCollection;
-        this.model = model;
         this.view = view;
     }
 
