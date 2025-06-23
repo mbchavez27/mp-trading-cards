@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class BinderMenuController {
 
     private BinderController binderController;
-    public static final Scanner getAction = new Scanner(System.in);
+    public static final Scanner GETACTION = new Scanner(System.in);
     public BinderMenuController(BinderController controller){
         this.binderController = controller;
     }
@@ -16,10 +16,10 @@ public class BinderMenuController {
         int action;
 
         do{
-            ManageBinders();
+            manageBinders();
             System.out.print("Action: ");
-            action = getAction.nextInt();
-            getAction.nextLine(); // Clears input buffer
+            action = GETACTION.nextInt();
+            GETACTION.nextLine(); // Clears input buffer
             switch(action){
                 case 1:
                     binderController.removeBinder();
@@ -44,7 +44,7 @@ public class BinderMenuController {
     /**
      * Displays the binder management submenu options.
      */
-    private void ManageBinders() {
+    private void manageBinders() {
         System.out.println("-------------------------------");
         System.out.println("Manage Binders:");
         System.out.println("-------------------------------");
