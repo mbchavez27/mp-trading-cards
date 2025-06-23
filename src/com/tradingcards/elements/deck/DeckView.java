@@ -69,8 +69,8 @@ public class DeckView {
 
         for (String name : cardByKey){
             counter += 1;
-            System.out.println("Card Number: " + counter);
             System.out.println("Card Name: " + deck.get(name).getName() +"\n");
+            System.out.println("Card Number: " + counter);
         }
     }
 

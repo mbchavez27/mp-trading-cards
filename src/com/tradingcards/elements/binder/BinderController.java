@@ -88,7 +88,7 @@ public class BinderController {
                         } else {
                             binder.remove(cardName);
                         }
-                        System.out.println("Sucessfully transferred Card into Collection");
+                        System.out.println("Successfully transferred Card into Collection");
                         taskDone = true;
                     } else {
                         System.err.println("No Card with given name exists in Binder");
@@ -145,7 +145,7 @@ public class BinderController {
                                     cardCopy = createCardCopy(cardInCollection);
                                     binder.insertInBinder(cardCopy, cardName);
                                 }
-                                cardInCollection.setQuantity(cardInCollection.getQuantity()-1);;
+                                cardInCollection.setQuantity(cardInCollection.getQuantity()-1);
                                 System.out.println("Successfully transferred card into binder");
 
                                 taskDone = true;
@@ -154,7 +154,7 @@ public class BinderController {
                                 System.err.println("Binder is already full");
                             }
                         } else {
-                            System.err.println("Collection currenty has zero copies of specified card");
+                            System.err.println("Collection currently has zero copies of specified card");
                         }
                     } else {
                         System.err.println("No Card with given name exists in Collection");
