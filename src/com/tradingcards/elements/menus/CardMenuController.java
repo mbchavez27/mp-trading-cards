@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class CardMenuController {
 
     private CardController cardController;
-    public static final Scanner getAction = new Scanner(System.in);
+    public static final Scanner GETACTION = new Scanner(System.in);
     public CardMenuController(CardController controller){
         this.cardController = controller;
     }
@@ -16,10 +16,10 @@ public class CardMenuController {
         int action;
 
         do{
-            ManageCards();
+            manageCards();
             System.out.print("Action: ");
-            action = getAction.nextInt();
-            getAction.nextLine(); // Clears input buffer
+            action = GETACTION.nextInt();
+            GETACTION.nextLine(); // Clears input buffer
             switch(action){
                 case 1:
                     cardController.displayCard();
@@ -37,7 +37,7 @@ public class CardMenuController {
     /**
      * Displays the card management submenu options.
      */
-    private void ManageCards() {
+    private void manageCards() {
         System.out.println("-------------------------------");
         System.out.println("Manage Cards:");
         System.out.println("-------------------------------");

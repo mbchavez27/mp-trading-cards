@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class DeckMenuController {
 
     private DeckController deckController;
-    public static final Scanner getAction = new Scanner(System.in);
+    public static final Scanner GETACTION = new Scanner(System.in);
     public DeckMenuController(DeckController controller){
         this.deckController = controller;
     }
@@ -17,10 +17,10 @@ public class DeckMenuController {
         int action;
 
         do{
-            ManageDecks();
+            manageDecks();
             System.out.print("Action: ");
-            action = getAction.nextInt();
-            getAction.nextLine(); // Clears input buffer
+            action = GETACTION.nextInt();
+            GETACTION.nextLine(); // Clears input buffer
             switch(action){
                 case 1:
                     deckController.removeDeck();
@@ -41,8 +41,7 @@ public class DeckMenuController {
     /**
      * Displays the deck management submenu options.
      */
-
-    private void ManageDecks() {
+    private void manageDecks() {
         System.out.println("-------------------------------");
         System.out.println("Manage Decks:");
         System.out.println("-------------------------------");
