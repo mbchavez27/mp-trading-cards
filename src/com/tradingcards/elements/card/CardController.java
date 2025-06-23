@@ -24,11 +24,6 @@ public class CardController {
     private CollectionModel sharedCollection;
 
     /**
-     * Card model representing individual card data.
-     */
-    private CardModel model;
-
-    /**
      * View class used for interacting with the user (e.g., input/output).
      */
     private CardView view;
@@ -38,12 +33,10 @@ public class CardController {
      * and view.
      *
      * @param sharedCollection the central collection shared across the app
-     * @param model the card model used for storing and managing card data
      * @param view the view class that handles user input/output for cards
      */
-    public CardController(CollectionModel sharedCollection, CardModel model, CardView view) {
+    public CardController(CollectionModel sharedCollection, CardView view) {
         this.sharedCollection = sharedCollection;
-        this.model = model;
         this.view = view;
     }
 
@@ -62,7 +55,7 @@ public class CardController {
      * the collection before setting the quantity.
      */
     public void addCard() {
-        //Instantsiate Card Object
+        //Instantiate Card Object
         CardModel card = new CardModel();
 
         //Get from View
