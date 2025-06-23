@@ -28,6 +28,14 @@ public class BinderView {
         return scanner.nextLine();
     }
 
+    public void displayMessageNewLine(String message){
+        System.out.println(message);
+    }
+
+    public void displayErrorNewLine(String message){
+        System.err.println(message);
+    }
+
     public void displayBinders(HashMap<String, BinderModel> binderCollection){
         ArrayList<String> binderKeys = new ArrayList<>(binderCollection.keySet());
         Collections.sort(binderKeys);

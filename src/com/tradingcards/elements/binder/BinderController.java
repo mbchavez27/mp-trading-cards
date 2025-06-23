@@ -51,7 +51,7 @@ public class BinderController {
             name = view.setBinderName();
 
             if (sharedCollection.getBinderCollection().containsKey(name)) {
-                System.err.println("Binder already exists choose a new name...");
+                view.displayErrorNewLine("Binder already exists choose a new name...");
             }
 
         } while (sharedCollection.getBinderCollection().containsKey(name));
@@ -74,12 +74,12 @@ public class BinderController {
             binder = binderCollection.get(binderName).getBinder();
 
             if (binder.isEmpty()){
-                System.out.println("Binder is currently empty");
-                System.out.println("Add cards to the Binder first");
+                view.displayMessageNewLine("Binder is currently empty");
+                view.displayMessageNewLine("Add cards to the Binder first");
             } else {
                 displayBinderContent(binder);
                 do {
-                    System.out.println("Indicate card to be deleted");
+                    view.displayMessageNewLine("Indicate card to be deleted");
                     cardName = cardView.setCardName();
                     if (binder.containsKey(cardName)){
                         collection.get(cardName).setQuantity(collection.get(cardName).getQuantity()+1);
@@ -88,16 +88,17 @@ public class BinderController {
                         } else {
                             binder.remove(cardName);
                         }
-                        System.out.println("Successfully transferred Card into Collection");
+                        view.displayMessageNewLine("Successfully transferred Card into Collection");
+                        System.out.println();
                         taskDone = true;
                     } else {
-                        System.err.println("No Card with given name exists in Binder");
-                        System.err.println("Please re-input Card name");
+                        view.displayErrorNewLine("No Card with given name exists in Binder");
+                        view.displayErrorNewLine("Please re-input Card name");
                     }
                 } while (!binder.containsKey(cardName) && !taskDone);
             }
         } else {
-            System.err.println("No Binder with given name exists");
+            view.displayErrorNewLine("No Binder with given name exists");
         }
     }
 
@@ -118,8 +119,8 @@ public class BinderController {
         String binderName = view.setBinderName();
 
         if (binderCollection.isEmpty()){
-            System.out.println("No cards in collection yet");
-            System.out.println("Input cards in collection first");
+            view.displayMessageNewLine("No cards in collection yet");
+            view.displayMessageNewLine("Input cards in collection first");
         } else {
             if (binderCollection.containsKey(binderName)){
                 binder = binderCollection.get(binderName);
@@ -146,24 +147,23 @@ public class BinderController {
                                     binder.insertInBinder(cardCopy, cardName);
                                 }
                                 cardInCollection.setQuantity(cardInCollection.getQuantity()-1);
-                                System.out.println("Successfully transferred card into binder");
-
+                                view.displayMessageNewLine("Successfully transferred card into binder");
                                 taskDone = true;
 
                             } else {
-                                System.err.println("Binder is already full");
+                                view.displayErrorNewLine("Binder is already full");
                             }
                         } else {
-                            System.err.println("Collection currently has zero copies of specified card");
+                            view.displayErrorNewLine("Collection currently has zero copies of specified card");
                         }
                     } else {
-                        System.err.println("No Card with given name exists in Collection");
-                        System.err.println("Please re-input Card name");
+                        view.displayErrorNewLine("No Card with given name exists in Collection");
+                        view.displayErrorNewLine("Please re-input Card name");
                     }
 
                 } while (!collection.containsKey(cardName) && !taskDone);
             } else {
-                System.err.println("No Binder with given name exists");
+                view.displayErrorNewLine("No Binder with given name exists");
             }
         }
 
@@ -175,20 +175,20 @@ public class BinderController {
         if (!binderCollection.isEmpty()){
             view.displayBinders(binderCollection);
         } else {
-            System.err.println("No Binders made yet");
+            view.displayErrorNewLine("No Binders made yet");
         }
     }
 
     public void displaySingleBinder(){
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         displayBinders();
-        System.out.println("Indicate binder to view");
+        view.displayMessageNewLine("Indicate binder to view");
         String binderName = view.setBinderName();
 
         if (binderCollection.containsKey(binderName)){
             displayBinderContent(binderCollection.get(binderName).getBinder());
         } else {
-            System.err.println("No Binder with given name exists");
+            view.displayErrorNewLine("No Binder with given name exists");
         }
     }
 
@@ -197,7 +197,7 @@ public class BinderController {
         if (!binder.isEmpty()){
             view.displayBinderContent(binder);
         } else {
-            System.err.println("No Cards in Binder");
+            view.displayErrorNewLine("No Cards in Binder");
         }
     }
 
