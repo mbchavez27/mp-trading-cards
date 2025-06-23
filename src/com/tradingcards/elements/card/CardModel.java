@@ -1,5 +1,9 @@
 package com.tradingcards.elements.card;
 
+import java.util.HashMap;
+
+import com.tradingcards.elements.collection.CollectionModel;
+
 /**
  * Represents a model for a trading card, encapsulating properties such as name,
  * rarity, variant, value, and quantity. This class provides methods to get and
@@ -114,6 +118,10 @@ public class CardModel {
         this.cardQuantity = quantity;
     }
 
+    public void increaseQuantity(int quantity) {
+        this.cardQuantity += quantity;
+    }
+
     /**
      * Returns the quantity of this card in the collection.
      *
@@ -135,7 +143,7 @@ public class CardModel {
      * <li>Alt-art: ×3.0 (200% increase)</li>
      * </ul>
      *
-     * @param value the base value of the card
+     * @param value   the base value of the card
      * @param variant the variant type of the card
      * @return the calculated value after applying the variant multiplier
      */
@@ -157,5 +165,20 @@ public class CardModel {
 
         }
         return calculatedValue;
+    }
+
+    protected Boolean isUnique(CollectionModel sharedCollection, String name, CardModel newCard) {
+        HashMap<String, CardModel> cards = sharedCollection.getCardCollection();
+
+        if (cards.containsKey(name)) {
+            CardModel existingCard = cards.get(name);
+            if (!existingCard.cardRarity.equals(newCard.cardRarity)) {
+                return false;
+            }
+            if (!existingCard.cardVariant.equals(newCard.cardVariant)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
