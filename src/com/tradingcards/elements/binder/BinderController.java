@@ -63,7 +63,7 @@ public class BinderController {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         HashMap<String, CardModel> binder;
-        String cardToRemove;
+        String cardName;
         boolean taskDone = false;
 
         CardView cardView = new CardView();
@@ -80,19 +80,21 @@ public class BinderController {
                 displayBinderContent(binder);
                 do {
                     System.out.println("Indicate card to be deleted");
-                    cardToRemove = cardView.setCardName();
-                    if (binder.containsKey(cardToRemove)){
-                        //TODO: Current code does not handle identical cards being added
-                        collection.put(cardToRemove, binder.get(cardToRemove));
-                        binder.remove(cardToRemove);
+                    cardName = cardView.setCardName();
+                    if (binder.containsKey(cardName)){
+                        collection.get(cardName).setQuantity(collection.get(cardName).getQuantity()+1);
+                        if (binder.get(cardName).getQuantity() > 1) {
+                            binder.get(cardName).setQuantity(binder.get(cardName).getQuantity()-1);
+                        } else {
+                            binder.remove(cardName);
+                        }
                         System.out.println("Sucessfully transferred Card into Collection");
                         taskDone = true;
                     } else {
                         System.err.println("No Card with given name exists in Binder");
                         System.err.println("Please re-input Card name");
                     }
-
-                } while (!binder.containsKey(cardToRemove) && !taskDone);
+                } while (!binder.containsKey(cardName) && !taskDone);
             }
         } else {
             System.err.println("No Binder with given name exists");
@@ -105,8 +107,11 @@ public class BinderController {
         CardView cardView = new CardView();
         BinderModel binder;
 
-        String cardToRemove;
+        String cardName;
         boolean taskDone = false;
+        CardModel cardInCollection;
+        CardModel cardInBinder;
+        CardModel cardCopy;
 
         displayBinders();
 
@@ -121,25 +126,47 @@ public class BinderController {
                 cardView.displayCollection(collection);
 
                 do {
-                    cardToRemove = cardView.setCardName();
-                    if (collection.containsKey(cardToRemove)){
-                        if(binder.setBinderCollection(collection.get(cardToRemove), cardToRemove)){
-                            collection.remove(cardToRemove);
-                            System.out.println("Successfully transferred card into binder");
-                            taskDone = true;
-                        } else {
-                            System.err.println("Binder is already full");
-                        }
+                    cardName = cardView.setCardName();
+                    //checks if the collection has the card
+                    if (collection.containsKey(cardName)){
+                        //checks if the collection has a positive number of card copies
+                        cardInCollection = collection.get(cardName);
+                        if (cardInCollection.getQuantity() > 0){
 
+                            //checks if binder can accommodate new card;
+                            if (binder.getBinder().size() < 20){
+
+                                //checks if binder already contains the specified card
+                                if(binder.getBinder().containsKey(cardName)){
+                                    cardInBinder = binder.getBinder().get(cardName);
+                                    cardInBinder.setQuantity(cardInBinder.getQuantity()+1);
+                                } else {
+                                    //create a new card object to store details
+                                    cardCopy = createCardCopy(cardInCollection);
+                                    binder.insertInBinder(cardCopy, cardName);
+                                }
+                                cardInCollection.setQuantity(cardInCollection.getQuantity()-1);;
+                                System.out.println("Successfully transferred card into binder");
+
+                                taskDone = true;
+
+                            } else {
+                                System.err.println("Binder is already full");
+                            }
+                        } else {
+                            System.err.println("Collection currenty has zero copies of specified card");
+                        }
                     } else {
                         System.err.println("No Card with given name exists in Collection");
                         System.err.println("Please re-input Card name");
                     }
-                } while (!collection.containsKey(cardToRemove) && !taskDone);
+
+                } while (!collection.containsKey(cardName) && !taskDone);
             } else {
                 System.err.println("No Binder with given name exists");
             }
         }
+
     }
 
     public void displayBinders(){
@@ -186,5 +213,16 @@ public class BinderController {
         String name = view.setBinderName();
 
         sharedCollection.removeBinderCollection(name);
+    }
+
+    public static CardModel createCardCopy(CardModel originalCard){
+        CardModel copy = new CardModel();
+        copy.setName(originalCard.getName());
+        copy.setRarity(originalCard.getRarity());
+        copy.setVariant(originalCard.getVariant());
+        copy.setQuantity(1);
+        copy.setValue(originalCard.getValue());
+
+        return copy;
     }
 }

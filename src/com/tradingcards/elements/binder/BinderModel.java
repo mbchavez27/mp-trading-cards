@@ -42,13 +42,8 @@ public class BinderModel {
         return this.cardsInBinder;
     }
 
-    public boolean setBinderCollection(CardModel card, String name){
-        if (cardsInBinder.size() < 20){
-            cardsInBinder.put(name, card);
-            return true;
-        } else {
-            return false;
-        }
+    public void insertInBinder(CardModel card, String name){
+        cardsInBinder.put(name, card);
     }
 
 

@@ -42,7 +42,7 @@ public class CollectionModel {
      * @return a {@code HashMap} containing all cards
      */
     public HashMap<String, CardModel> getCardCollection() {
-        return cardCollection;
+        return this.cardCollection;
     }
 
     /**
@@ -79,7 +79,7 @@ public class CollectionModel {
      * @return a {@code HashMap} containing all binders
      */
     public HashMap<String, BinderModel> getBinderCollection() {
-        return binderCollection;
+        return this.binderCollection;
     }
 
     /**
@@ -115,7 +115,7 @@ public class CollectionModel {
      * @return a {@code HashMap} containing all decks
      */
     public HashMap<String, DeckModel> getDeckCollection() {
-        return deckCollection;
+        return this.deckCollection;
     }
 
 }
