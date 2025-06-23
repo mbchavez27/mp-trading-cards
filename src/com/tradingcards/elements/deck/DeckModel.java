@@ -21,19 +21,13 @@ public class DeckModel {
         return this.cardsInDeck;
     }
 
-    public boolean setDeckCollection(CardModel card, String name){
-        if (cardsInDeck.size() < 10){
-
-            if (!cardsInDeck.containsKey(name)){
-                cardsInDeck.put(name, card);
-                return true;
-            } else {
-                System.err.println("Deck already contains specified card");
-                return false;
-            }
+    public boolean addCardtoDeck(CardModel card, String name){
+        if (!cardsInDeck.containsKey(name)){
+            cardsInDeck.put(name, card);
+            return true;
         } else {
-            System.err.println("Deck is already full");
             return false;
         }
+
     }
 }
