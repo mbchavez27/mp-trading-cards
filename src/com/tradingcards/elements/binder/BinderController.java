@@ -30,7 +30,7 @@ public class BinderController {
      * and view.
      *
      * @param sharedCollection the central collection of trading card elements
-     * @param view the view handling user interaction for binders
+     * @param view             the view handling user interaction for binders
      */
     public BinderController(CollectionModel sharedCollection, BinderView view) {
         this.sharedCollection = sharedCollection;
@@ -57,7 +57,7 @@ public class BinderController {
         sharedCollection.setBinderCollection(binder, name);
     }
 
-    public void removeCard(){
+    public void removeCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         HashMap<String, CardModel> binder;
@@ -68,10 +68,10 @@ public class BinderController {
         displayBinders();
 
         String binderName = view.setBinderName();
-        if (binderCollection.containsKey(binderName)){
+        if (binderCollection.containsKey(binderName)) {
             binder = binderCollection.get(binderName).getBinder();
 
-            if (binder.isEmpty()){
+            if (binder.isEmpty()) {
                 view.displayMessageNewLine("Binder is currently empty");
                 view.displayMessageNewLine("Add cards to the Binder first");
             } else {
@@ -79,10 +79,10 @@ public class BinderController {
                 do {
                     view.displayMessageNewLine("Indicate card to be deleted");
                     cardName = cardView.setCardName();
-                    if (binder.containsKey(cardName)){
-                        collection.get(cardName).setQuantity(collection.get(cardName).getQuantity()+1);
+                    if (binder.containsKey(cardName)) {
+                        collection.get(cardName).setQuantity(collection.get(cardName).getQuantity() + 1);
                         if (binder.get(cardName).getQuantity() > 1) {
-                            binder.get(cardName).setQuantity(binder.get(cardName).getQuantity()-1);
+                            binder.get(cardName).setQuantity(binder.get(cardName).getQuantity() - 1);
                         } else {
                             binder.remove(cardName);
                         }
@@ -100,7 +100,7 @@ public class BinderController {
         }
     }
 
-    public void addCard(){
+    public void addCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         CardView cardView = new CardView();
@@ -116,35 +116,35 @@ public class BinderController {
 
         String binderName = view.setBinderName();
 
-        if (binderCollection.isEmpty()){
+        if (binderCollection.isEmpty()) {
             view.displayMessageNewLine("No cards in collection yet");
             view.displayMessageNewLine("Input cards in collection first");
         } else {
-            if (binderCollection.containsKey(binderName)){
+            if (binderCollection.containsKey(binderName)) {
                 binder = binderCollection.get(binderName);
                 cardView.displayCollection(collection);
 
                 do {
                     cardName = cardView.setCardName();
-                    //checks if the collection has the card
-                    if (collection.containsKey(cardName)){
-                        //checks if the collection has a positive number of card copies
+                    // checks if the collection has the card
+                    if (collection.containsKey(cardName)) {
+                        // checks if the collection has a positive number of card copies
                         cardInCollection = collection.get(cardName);
-                        if (cardInCollection.getQuantity() > 0){
+                        if (cardInCollection.getQuantity() > 0) {
 
-                            //checks if binder can accommodate new card;
-                            if (binder.getBinder().size() < 20){
+                            // checks if binder can accommodate new card;
+                            if (binder.getBinder().size() < 20) {
 
-                                //checks if binder already contains the specified card
-                                if(binder.getBinder().containsKey(cardName)){
+                                // checks if binder already contains the specified card
+                                if (binder.getBinder().containsKey(cardName)) {
                                     cardInBinder = binder.getBinder().get(cardName);
-                                    cardInBinder.setQuantity(cardInBinder.getQuantity()+1);
+                                    cardInBinder.setQuantity(cardInBinder.getQuantity() + 1);
                                 } else {
-                                    //create a new card object to store details
+                                    // create a new card object to store details
                                     cardCopy = createCardCopy(cardInCollection);
                                     binder.insertInBinder(cardCopy, cardName);
                                 }
-                                cardInCollection.setQuantity(cardInCollection.getQuantity()-1);
+                                cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
                                 view.displayMessageNewLine("Successfully transferred card into binder");
                                 taskDone = true;
 
@@ -167,40 +167,39 @@ public class BinderController {
 
     }
 
-    public void displayBinders(){
+    public void displayBinders() {
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
 
-        if (!binderCollection.isEmpty()){
+        if (!binderCollection.isEmpty()) {
             view.displayBinders(binderCollection);
         } else {
             view.displayErrorNewLine("No Binders made yet");
         }
     }
 
-    public void displaySingleBinder(){
+    public void displaySingleBinder() {
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         displayBinders();
         view.displayMessageNewLine("Indicate binder to view");
         String binderName = view.setBinderName();
 
-        if (binderCollection.containsKey(binderName)){
+        if (binderCollection.containsKey(binderName)) {
             displayBinderContent(binderCollection.get(binderName).getBinder());
         } else {
             view.displayErrorNewLine("No Binder with given name exists");
         }
     }
 
-    public void displayBinderContent(HashMap<String, CardModel> binder){
+    public void displayBinderContent(HashMap<String, CardModel> binder) {
 
-        if (!binder.isEmpty()){
+        if (!binder.isEmpty()) {
             view.displayBinderContent(binder);
         } else {
             view.displayErrorNewLine("No Cards in Binder");
         }
     }
 
-
-    public void tradeCard(){
+    public void tradeCard() {
 
     }
 
@@ -209,11 +208,13 @@ public class BinderController {
      */
     public void removeBinder() {
         String name = view.setBinderName();
-
-        sharedCollection.removeBinderCollection(name);
+        HashMap<String, BinderModel> binders = sharedCollection.getBinderCollection();
+        if (binders.containsKey(name)) {
+            // sharedCollection.removeBinderCollection(name);
+        }
     }
 
-    public static CardModel createCardCopy(CardModel originalCard){
+    public static CardModel createCardCopy(CardModel originalCard) {
         CardModel copy = new CardModel();
         copy.setName(originalCard.getName());
         copy.setRarity(originalCard.getRarity());
