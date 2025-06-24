@@ -76,7 +76,6 @@ public class CardController {
             card.setValue(value);
         }
 
-        // To-do: Must check if card is unique in the hashmap before setting quantity
         if (sharedCollection.getCardCollection().containsKey(name)) {
             if (card.isUnique(sharedCollection, name, card)) {
                 sharedCollection.getCardCollection().get(name).increaseQuantity(1);
