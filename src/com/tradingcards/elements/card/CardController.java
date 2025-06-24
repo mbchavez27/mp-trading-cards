@@ -78,9 +78,10 @@ public class CardController {
 
         if (sharedCollection.getCardCollection().containsKey(name)) {
             if (card.isUnique(sharedCollection, name, card)) {
-                sharedCollection.getCardCollection().get(name).increaseQuantity(1);
+                if (view.allowIncreaseCardCount(name))
+                    sharedCollection.getCardCollection().get(name).increaseQuantity(1);
             } else {
-                view.displayErrorNewLine("\n Card is not unique");
+                view.displayErrorNewLine("\nCard is not unique");
             }
         } else {
             card.setQuantity(1);
