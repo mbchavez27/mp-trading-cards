@@ -33,7 +33,8 @@ public class CardController {
      * and view.
      *
      * @param sharedCollection the central collection shared across the app
-     * @param view the view class that handles user input/output for cards
+     * @param view             the view class that handles user input/output for
+     *                         cards
      */
     public CardController(CollectionModel sharedCollection, CardView view) {
         this.sharedCollection = sharedCollection;
@@ -55,10 +56,10 @@ public class CardController {
      * the collection before setting the quantity.
      */
     public void addCard() {
-        //Instantiate Card Object
+        // Instantiate Card Object
         CardModel card = new CardModel();
 
-        //Get from View
+        // Get from View
         String name = view.setCardName();
         card.setName(name);
 
@@ -75,10 +76,17 @@ public class CardController {
             card.setValue(value);
         }
 
-        //To-do: Must check if card is unique in the hashmap before setting quantity
-        card.setQuantity(1);
-
-        sharedCollection.setCardCollection(card, name);
+        if (sharedCollection.getCardCollection().containsKey(name)) {
+            if (card.isUnique(sharedCollection, name, card)) {
+                if (view.allowIncreaseCardCount(name))
+                    sharedCollection.getCardCollection().get(name).increaseQuantity(1);
+            } else {
+                view.displayErrorNewLine("\nCard is not unique");
+            }
+        } else {
+            card.setQuantity(1);
+            sharedCollection.setCardCollection(card, name);
+        }
     }
 
     /**

@@ -28,7 +28,7 @@ public class CardView {
      * Loops until the user enters a valid option (1-4).
      *
      * @return the selected rarity as a string (e.g., "Common", "Uncommon",
-     * "Rare", "Legendary")
+     *         "Rare", "Legendary")
      */
     public String setCardRarity() {
         String rarity = "";
@@ -63,7 +63,7 @@ public class CardView {
      * options. Loops until the user enters a valid option (1-4).
      *
      * @return the selected variant as a string (e.g., "Normal", "Extended-art",
-     * "Full-art", "Alt-art")
+     *         "Full-art", "Alt-art")
      */
     public String setCardVariant() {
         String variant = "";
@@ -125,8 +125,8 @@ public class CardView {
      * printed instead.
      *
      * @param collection the HashMap containing card names as keys and their
-     * corresponding {@code CardModel} objects as values
-     * @param cardName the name of the card to be displayed
+     *                   corresponding {@code CardModel} objects as values
+     * @param cardName   the name of the card to be displayed
      */
     public void displayCard(HashMap<String, CardModel> collection, String cardName) {
         System.out.println("");
@@ -157,7 +157,7 @@ public class CardView {
      * standard output.
      *
      * @param collection the HashMap containing card names as keys and their
-     * corresponding {@code CardModel} objects as values
+     *                   corresponding {@code CardModel} objects as values
      */
     public void displayCollection(HashMap<String, CardModel> collection) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
@@ -173,7 +173,19 @@ public class CardView {
         }
     }
 
-    public void displayErrorNewLine(String message){
+    public boolean allowIncreaseCardCount(String name) {
+        System.out.print("Do you want to add another copy for Card: " + name + "? (Y/N): ");
+        String action = scanner.nextLine().trim();
+
+        while (!action.equalsIgnoreCase("Y") && !action.equalsIgnoreCase("N")) {
+            System.out.print("Please enter Y or N only: ");
+            action = scanner.nextLine().trim();
+        }
+
+        return action.equalsIgnoreCase("Y");
+    }
+
+    public void displayErrorNewLine(String message) {
         System.err.println(message);
     }
 
