@@ -16,11 +16,6 @@ public class BinderController {
     private CollectionModel sharedCollection;
 
     /**
-     * Model representing the current binder logic or data.
-     */
-    private BinderModel model;
-
-    /**
      * View responsible for user interaction related to binders.
      */
     private BinderView view;
