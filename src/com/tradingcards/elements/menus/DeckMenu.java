@@ -5,11 +5,11 @@ import com.tradingcards.elements.deck.DeckController;
 
 import java.util.Scanner;
 
-public class DeckMenuController {
+public class DeckMenu {
 
     private DeckController deckController;
     public static final Scanner GETACTION = new Scanner(System.in);
-    public DeckMenuController(DeckController controller){
+    public DeckMenu(DeckController controller){
         this.deckController = controller;
     }
 

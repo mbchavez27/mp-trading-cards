@@ -1,14 +1,11 @@
 package com.tradingcards.elements.menus;
 
 import com.tradingcards.elements.binder.BinderController;
-import com.tradingcards.elements.binder.BinderModel;
 import com.tradingcards.elements.binder.BinderView;
 import com.tradingcards.elements.card.CardController;
-import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.deck.DeckController;
-import com.tradingcards.elements.deck.DeckModel;
 import com.tradingcards.elements.deck.DeckView;
 import java.util.Scanner;
 
@@ -39,9 +36,9 @@ public class MainMenuController {
         int action;
         Scanner getAction = new Scanner(System.in);
 
-        CardMenuController cardMenu;
-        BinderMenuController binderMenu;
-        DeckMenuController deckMenu;
+        CardMenu cardMenu;
+        BinderMenu binderMenu;
+        DeckMenu deckMenu;
 
         do {
             System.out.println("-------------------------------");
@@ -70,20 +67,20 @@ public class MainMenuController {
 
                 case 4 -> {
                     System.out.println("");
-                    cardMenu = new CardMenuController(cardController);
+                    cardMenu = new CardMenu(cardController);
                     cardMenu.runMenu();
                     System.out.println("");
                 }
 
                 case 5 -> {
                     System.out.println("");
-                    binderMenu = new BinderMenuController(binderController);
+                    binderMenu = new BinderMenu(binderController);
                     binderMenu.runMenu();
                     System.out.println("");
                 }
                 case 6 -> {
                     System.out.println("");
-                    deckMenu = new DeckMenuController(deckController);
+                    deckMenu = new DeckMenu(deckController);
                     deckMenu.runMenu();
                     System.out.println("");
                 }
