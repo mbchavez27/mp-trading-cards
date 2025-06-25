@@ -4,11 +4,11 @@ import com.tradingcards.elements.card.CardController;
 
 import java.util.Scanner;
 
-public class CardMenuController {
+public class CardMenu {
 
     private CardController cardController;
     public static final Scanner GETACTION = new Scanner(System.in);
-    public CardMenuController(CardController controller){
+    public CardMenu(CardController controller){
         this.cardController = controller;
     }
 
