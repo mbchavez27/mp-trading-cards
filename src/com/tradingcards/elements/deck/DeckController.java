@@ -126,7 +126,6 @@ public class DeckController {
                 do {
                     cardToRemove = cardView.setCardName();
                     if (collection.containsKey(cardToRemove)){
-
                         cardInCollection = collection.get(cardToRemove);
                         if (cardInCollection.getQuantity() > 0){
                             if (deck.getDeck().size() < 10){
