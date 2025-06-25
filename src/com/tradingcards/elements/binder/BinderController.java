@@ -48,7 +48,7 @@ public class BinderController {
             }
 
         } while (sharedCollection.getBinderCollection().containsKey(name));
-
+        view.displayMessageNewLine("Binder successfully added to collection");
         sharedCollection.setBinderCollection(binder, name);
     }
 
