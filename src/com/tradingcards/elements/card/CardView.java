@@ -39,10 +39,11 @@ public class CardView {
             System.out.println("[2]: Uncommon");
             System.out.println("[3]: Rare");
             System.out.println("[4]: Legendary");
+            System.out.println("[-999]: Cancel");
             System.out.print("Rarity: ");
             option = scanner.nextInt();
             scanner.nextLine();
-        } while (option > 4 || option < 1);
+        } while (option != -999 && (option > 4 || option < 1));
 
         switch (option) {
             case 1 ->
@@ -53,6 +54,8 @@ public class CardView {
                 rarity = "Rare";
             case 4 ->
                 rarity = "Legendary";
+            case -999 ->
+                rarity = "-999";
         }
 
         return rarity;
@@ -74,10 +77,11 @@ public class CardView {
             System.out.println("[2]: Extended-art");
             System.out.println("[3]: Full-art");
             System.out.println("[4]: Alt-art");
+            System.out.println("[-999]: Cancel");
             System.out.print("Variant: ");
             option = scanner.nextInt();
             scanner.nextLine();
-        } while (option > 4 || option < 1);
+        } while (option != -999 && (option > 4 || option < 1));
 
         switch (option) {
             case 1 ->
@@ -88,6 +92,8 @@ public class CardView {
                 variant = "Full-art";
             case 4 ->
                 variant = "Alt-art";
+            case -999 ->
+                variant = "-999";
         }
 
         return variant;
@@ -111,7 +117,7 @@ public class CardView {
      * @return the quantity entered by the user as an {@code int}
      */
     public int setCardQuantity() {
-        System.out.print("Give Card Quantity: ");
+        System.out.print("Give NEW Card Quantity: ");
         int quantity = scanner.nextInt();
         scanner.nextLine();
         return quantity;
@@ -187,6 +193,9 @@ public class CardView {
 
     public void displayErrorNewLine(String message) {
         System.err.println(message);
+    }
+    public void displayMessageNewLine(String message){
+        System.out.println(message);
     }
 
 }
