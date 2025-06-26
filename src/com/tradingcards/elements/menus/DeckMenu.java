@@ -1,27 +1,26 @@
 package com.tradingcards.elements.menus;
 
-
 import com.tradingcards.elements.deck.DeckController;
-
 import java.util.Scanner;
 
 public class DeckMenu {
 
     private DeckController deckController;
     public static final Scanner GETACTION = new Scanner(System.in);
-    public DeckMenu(DeckController controller){
+
+    public DeckMenu(DeckController controller) {
         this.deckController = controller;
     }
 
-    public void runMenu(){
+    public void runMenu() {
         int action;
 
-        do{
+        do {
             manageDecks();
             System.out.print("Action: ");
             action = GETACTION.nextInt();
             GETACTION.nextLine(); // Clears input buffer
-            switch(action){
+            switch (action) {
                 case 1:
                     deckController.removeDeck();
                     break;
@@ -52,6 +51,4 @@ public class DeckMenu {
         System.out.println("[0] Exit Menu");
     }
 
-
 }
-
