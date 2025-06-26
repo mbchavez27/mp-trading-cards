@@ -1,8 +1,8 @@
 package com.tradingcards.elements.deck;
+
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -22,8 +22,8 @@ public class DeckController {
      * view.
      *
      * @param sharedCollection the shared CollectionModel containing the deck
-     * data
-     * @param view the DeckView responsible for user interaction
+     *                         data
+     * @param view             the DeckView responsible for user interaction
      */
     public DeckController(CollectionModel sharedCollection, DeckView view) {
         this.sharedCollection = sharedCollection;
@@ -62,7 +62,7 @@ public class DeckController {
         sharedCollection.removeDeckCollection(name);
     }
 
-    public void removeCard(){
+    public void removeCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         HashMap<String, CardModel> deck;
@@ -73,10 +73,10 @@ public class DeckController {
         displayDecks();
 
         String deckName = view.setDeckName();
-        if (deckCollection.containsKey(deckName)){
+        if (deckCollection.containsKey(deckName)) {
             deck = deckCollection.get(deckName).getDeck();
 
-            if (deck.isEmpty()){
+            if (deck.isEmpty()) {
                 view.displayMessageNewLine("Deck is currently empty");
                 view.displayMessageNewLine("Add cards to the Deck first");
             } else {
@@ -84,8 +84,8 @@ public class DeckController {
                 do {
                     view.displayMessageNewLine("Indicate card to be deleted");
                     cardToRemove = cardView.setCardName();
-                    if (deck.containsKey(cardToRemove)){
-                        collection.get(cardToRemove).setQuantity(collection.get(cardToRemove).getQuantity()+1);
+                    if (deck.containsKey(cardToRemove)) {
+                        collection.get(cardToRemove).setQuantity(collection.get(cardToRemove).getQuantity() + 1);
                         deck.remove(cardToRemove);
                         view.displayMessageNewLine("Sucessfully transferred Card into Collection");
                         taskDone = true;
@@ -101,7 +101,7 @@ public class DeckController {
         }
     }
 
-    public void addCard(){
+    public void addCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         CardView cardView = new CardView();
@@ -111,58 +111,62 @@ public class DeckController {
         String cardToRemove;
         boolean taskDone = false;
 
-        displayDecks();
+        if (!collection.isEmpty()) {
 
-        String deckName = view.setDeckName();
+            displayDecks();
 
-        if (deckCollection.isEmpty()){
-            view.displayMessageNewLine("No cards in collection yet");
-            view.displayMessageNewLine("Input cards in collection first");
-        } else {
-            if (deckCollection.containsKey(deckName)){
-                deck = deckCollection.get(deckName);
-                cardView.displayCollection(collection);
+            String deckName = view.setDeckName();
+            if (deckCollection.isEmpty()) {
+                view.displayMessageNewLine("No cards in collection yet");
+                view.displayMessageNewLine("Input cards in collection first");
+            } else {
+                if (deckCollection.containsKey(deckName)) {
+                    deck = deckCollection.get(deckName);
+                    cardView.displayCollection(collection);
 
-                do {
-                    cardToRemove = cardView.setCardName();
-                    if (collection.containsKey(cardToRemove)){
-                        cardInCollection = collection.get(cardToRemove);
-                        if (cardInCollection.getQuantity() > 0){
-                            if (deck.getDeck().size() < 10){
-                                if(deck.addCardtoDeck(collection.get(cardToRemove), cardToRemove)){
-                                    cardInCollection.setQuantity(cardInCollection.getQuantity()-1);
-                                    view.displayMessageNewLine("Successfully transferred card into Deck");
-                                    taskDone = true;
+                    do {
+                        cardToRemove = cardView.setCardName();
+                        if (collection.containsKey(cardToRemove)) {
+                            cardInCollection = collection.get(cardToRemove);
+                            if (cardInCollection.getQuantity() > 0) {
+                                if (deck.getDeck().size() < 10) {
+                                    if (deck.addCardtoDeck(collection.get(cardToRemove), cardToRemove)) {
+                                        cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+                                        view.displayMessageNewLine("Successfully transferred card into Deck");
+                                        taskDone = true;
+                                    } else {
+                                        view.displayMessageNewLine("Deck already contains specified card");
+                                    }
                                 } else {
-                                    view.displayMessageNewLine("Deck already contains specified card");
+                                    view.displayMessageNewLine("Deck is already full");
                                 }
                             } else {
-                                view.displayMessageNewLine("Deck is already full");
+                                view.displayMessageNewLine("Collection currently has zero copies of specified card");
                             }
                         } else {
-                            view.displayMessageNewLine("Collection currently has zero copies of specified card");
+                            view.displayMessageNewLine("No Card with given name exists in Collection");
+                            view.displayMessageNewLine("Please re-input Card name");
                         }
-                    } else {
-                        view.displayMessageNewLine("No Card with given name exists in Collection");
-                        view.displayMessageNewLine("Please re-input Card name");
-                    }
-                } while (!collection.containsKey(cardToRemove) && !taskDone);
-            } else {
-                view.displayMessageNewLine("No Deck with given name exists");
+                    } while (!collection.containsKey(cardToRemove) && !taskDone);
+                } else {
+                    view.displayMessageNewLine("No Deck with given name exists");
+                }
             }
+        } else {
+            view.displayMessageNewLine("\nCard collection is empty\n");
         }
     }
 
-    public void displaySingleDeck(){
+    public void displaySingleDeck() {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         displayDecks();
         HashMap<String, CardModel> selectedDeck;
         view.displayMessageNewLine("Indicate Deck to view");
         String deckName = view.setDeckName();
 
-        if (deckCollection.containsKey(deckName)){
+        if (deckCollection.containsKey(deckName)) {
             selectedDeck = deckCollection.get(deckName).getDeck();
-            if (!selectedDeck.isEmpty()){
+            if (!selectedDeck.isEmpty()) {
                 view.displayDeckContent(selectedDeck);
                 chooseCardFromDeck(selectedDeck);
             } else {
@@ -173,41 +177,40 @@ public class DeckController {
         }
     }
 
-    public void displayDeckContent(HashMap<String, CardModel> deck){
-        if (!deck.isEmpty()){
+    public void displayDeckContent(HashMap<String, CardModel> deck) {
+        if (!deck.isEmpty()) {
             view.displayDeckContent(deck);
         } else {
             view.displayMessageNewLine("No Cards in Deck");
         }
     }
 
-
-    public void chooseCardFromDeck(HashMap<String, CardModel> deck){
+    public void chooseCardFromDeck(HashMap<String, CardModel> deck) {
         CardView cardView = new CardView();
         String toView = view.viewCardChoice();
         String selectionOption;
         String cardName;
         int cardNumber;
 
-        if (toView.equals("Y")){
+        if (toView.equals("Y")) {
             selectionOption = view.cardSelectionOption();
 
-            if (selectionOption.equals("name")){
+            if (selectionOption.equals("name")) {
                 cardName = view.setCardName();
 
-                if (deck.containsKey(cardName)){
+                if (deck.containsKey(cardName)) {
                     cardView.displayCard(deck, cardName);
                 } else {
                     view.displayMessageNewLine("Card does not exist in Deck");
                 }
-            } else if (selectionOption.equals("number")){
+            } else if (selectionOption.equals("number")) {
                 cardNumber = view.setCardNumber();
 
-                if (cardNumber <= deck.size()){
+                if (cardNumber <= deck.size()) {
                     ArrayList<String> cardByKey = new ArrayList<>(deck.keySet());
                     Collections.sort(cardByKey);
 
-                    CardModel cardModel = deck.get(cardByKey.get((cardNumber-1)));
+                    CardModel cardModel = deck.get(cardByKey.get((cardNumber - 1)));
 
                     cardView.displayCard(deck, cardModel.getName());
                 } else {
@@ -221,12 +224,10 @@ public class DeckController {
         }
     }
 
-
-
-    public void displayDecks(){
+    public void displayDecks() {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
 
-        if (!deckCollection.isEmpty()){
+        if (!deckCollection.isEmpty()) {
             view.displayDecks(deckCollection);
         } else {
             view.displayMessageNewLine("No Decks made yet");
