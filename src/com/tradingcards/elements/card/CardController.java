@@ -29,6 +29,10 @@ public class CardController {
     private CardView view;
 
     /**
+     *
+     */
+    private static final String EXIT_CODE = "-999";
+    /**
      * Constructs a {@code CardController} with the specified collection, model,
      * and view.
      *
@@ -58,34 +62,65 @@ public class CardController {
     public void addCard() {
         // Instantiate Card Object
         CardModel card = new CardModel();
+        boolean cancelled = false;
+        String name, rarity, variant;
+        double value;
+
 
         // Get from View
-        String name = view.setCardName();
+        view.displayMessageNewLine("Enter \"-999\" to cancel");
+        name = view.setCardName().trim();
         card.setName(name);
-
-        String rarity = view.setCardRarity();
-        card.setRarity(rarity);
-
-        if (card.getRarity().equals("Rare") || card.getRarity().equals("Legendary")) {
-            String variant = view.setCardVariant();
-            card.setVariant(variant);
-            double value = view.setCardValue();
-            card.setValue(card.calculateValue(value, variant));
-        } else {
-            double value = view.setCardValue();
-            card.setValue(value);
+        if (name.equals(EXIT_CODE)){
+            cancelled = true;
         }
 
-        if (sharedCollection.getCardCollection().containsKey(name)) {
-            if (card.hasCopy(sharedCollection, name, card)) {
-                if (view.allowIncreaseCardCount(name))
-                    sharedCollection.getCardCollection().get(name).increaseQuantity(1);
-            } else {
-                view.displayErrorNewLine("Card of the same name already exists");
+        if (!cancelled){
+            rarity = view.setCardRarity();
+            card.setRarity(rarity);
+
+            if (rarity.equals(EXIT_CODE)){
+                cancelled = true;
             }
-        } else {
-            card.setQuantity(1);
-            sharedCollection.setCardCollection(card, name);
+        }
+
+        if (!cancelled){
+            if (card.getRarity().equals("Rare") || card.getRarity().equals("Legendary")) {
+                variant = view.setCardVariant();
+                card.setVariant(variant);
+                if (variant.equals(EXIT_CODE)){
+                    cancelled = true;
+                }
+
+                if (!cancelled){
+                    value = view.setCardValue();
+                    card.setValue(card.calculateValue(value, variant));
+                    if (String.valueOf(value).equals(EXIT_CODE)){
+                        cancelled = true;
+                    }
+                }
+
+            } else {
+                value = view.setCardValue();
+                card.setValue(value);
+                if (String.valueOf(value).equals(EXIT_CODE)){
+                    cancelled = true;
+                }
+            }
+        }
+
+        if (!cancelled) {
+            if (sharedCollection.getCardCollection().containsKey(name)) {
+                if (card.hasCopy(sharedCollection, name, card)) {
+                    if (view.allowIncreaseCardCount(name))
+                        sharedCollection.getCardCollection().get(name).increaseQuantity(1);
+                } else {
+                    view.displayErrorNewLine("Card of the same name already exists");
+                }
+            } else {
+                card.setQuantity(1);
+                sharedCollection.setCardCollection(card, name);
+            }
         }
     }
 
