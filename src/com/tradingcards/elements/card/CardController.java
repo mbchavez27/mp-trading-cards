@@ -77,11 +77,11 @@ public class CardController {
         }
 
         if (sharedCollection.getCardCollection().containsKey(name)) {
-            if (card.isUnique(sharedCollection, name, card)) {
+            if (card.hasCopy(sharedCollection, name, card)) {
                 if (view.allowIncreaseCardCount(name))
                     sharedCollection.getCardCollection().get(name).increaseQuantity(1);
             } else {
-                view.displayErrorNewLine("\nCard is not unique");
+                view.displayErrorNewLine("Card of the same name already exists");
             }
         } else {
             card.setQuantity(1);
