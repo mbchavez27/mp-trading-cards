@@ -43,7 +43,7 @@ public class DeckController {
         do {
             name = view.setDeckName();
             if (sharedCollection.getDeckCollection().containsKey(name)) {
-                System.err.println("Deck already exists choose a new name...");
+                System.out.println("Deck already exists choose a new name...");
             }
 
         } while (sharedCollection.getDeckCollection().containsKey(name));
