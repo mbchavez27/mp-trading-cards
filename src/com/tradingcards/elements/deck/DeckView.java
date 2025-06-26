@@ -78,10 +78,6 @@ public class DeckView {
         System.out.println(message);
     }
 
-    public void displayErrorNewLine(String message){
-        System.err.println(message);
-    }
-
 
 
 

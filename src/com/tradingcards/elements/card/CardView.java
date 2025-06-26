@@ -135,22 +135,24 @@ public class CardView {
      * @param cardName   the name of the card to be displayed
      */
     public void displayCard(HashMap<String, CardModel> collection, String cardName) {
-        System.out.println("");
+        displayMessageNewLine("");
         if (collection.containsKey(cardName)) {
-            System.out.println("------------------------------------");
-            System.out.println("Card Details:");
-            System.out.println("Card Name: " + collection.get(cardName).getName());
-            System.out.println("Card Rarty: " + collection.get(cardName).getRarity());
+            displayMessageNewLine("------------------------------------");
+            displayMessageNewLine("Card Details:");
+            displayMessageNewLine("Card Name: " + collection.get(cardName).getName());
+            displayMessageNewLine("Card Rarity: " + collection.get(cardName).getRarity());
             if (collection.get(cardName).getVariant() != null) {
-                System.out.println("Card Variant: " + collection.get(cardName).getVariant());
+                displayMessageNewLine("Card Variant: " + collection.get(cardName).getVariant());
             }
-            System.out.println("Card Value: " + collection.get(cardName).getValue());
-            System.out.println("Card Quantity: " + collection.get(cardName).getQuantity());
-            System.out.println("------------------------------------");
+            displayMessageNewLine("Card Value: " + collection.get(cardName).getValue());
+            displayMessageNewLine("Card Quantity: " + collection.get(cardName).getQuantity());
+            displayMessageNewLine("------------------------------------");
         } else {
-            System.out.println("-------------------------------");
-            System.err.println(String.format("Card %s does not exist", cardName));
-            System.out.println("-------------------------------");
+            displayMessageNewLine("-------------------------------");
+            System.out.flush();
+            displayMessageNewLine(String.format("Card %s does not exist", cardName));
+            System.out.flush();
+            displayMessageNewLine("-------------------------------");
         }
     }
 
@@ -168,14 +170,14 @@ public class CardView {
     public void displayCollection(HashMap<String, CardModel> collection) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);
-        System.out.println("------------------------------------");
-        System.out.println("Collection:");
-        System.out.println("");
+        displayMessageNewLine("------------------------------------");
+        displayMessageNewLine("Collection:");
+        displayMessageNewLine("");
 
         for (String name : cardByKey) {
-            System.out.println("Card Name: " + collection.get(name).getName());
-            System.out.println("Card Quantity: " + collection.get(name).getQuantity());
-            System.out.println("");
+            displayMessageNewLine("Card Name: " + collection.get(name).getName());
+            displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
+            displayMessageNewLine("");
         }
     }
 
@@ -191,9 +193,6 @@ public class CardView {
         return action.equalsIgnoreCase("Y");
     }
 
-    public void displayErrorNewLine(String message) {
-        System.err.println(message);
-    }
     public void displayMessageNewLine(String message){
         System.out.println(message);
     }

@@ -90,14 +90,14 @@ public class DeckController {
                         view.displayMessageNewLine("Sucessfully transferred Card into Collection");
                         taskDone = true;
                     } else {
-                        view.displayErrorNewLine("No Card with given name exists in Deck");
-                        view.displayErrorNewLine("Please re-input Card name");
+                        view.displayMessageNewLine("No Card with given name exists in Deck");
+                        view.displayMessageNewLine("Please re-input Card name");
                     }
 
                 } while (!deck.containsKey(cardToRemove) && !taskDone);
             }
         } else {
-            view.displayErrorNewLine("No Binder with given name exists");
+            view.displayMessageNewLine("No Binder with given name exists");
         }
     }
 
@@ -134,21 +134,21 @@ public class DeckController {
                                     view.displayMessageNewLine("Successfully transferred card into Deck");
                                     taskDone = true;
                                 } else {
-                                    view.displayErrorNewLine("Deck already contains specified card");
+                                    view.displayMessageNewLine("Deck already contains specified card");
                                 }
                             } else {
-                                view.displayErrorNewLine("Deck is already full");
+                                view.displayMessageNewLine("Deck is already full");
                             }
                         } else {
-                            view.displayErrorNewLine("Collection currently has zero copies of specified card");
+                            view.displayMessageNewLine("Collection currently has zero copies of specified card");
                         }
                     } else {
-                        view.displayErrorNewLine("No Card with given name exists in Collection");
-                        view.displayErrorNewLine("Please re-input Card name");
+                        view.displayMessageNewLine("No Card with given name exists in Collection");
+                        view.displayMessageNewLine("Please re-input Card name");
                     }
                 } while (!collection.containsKey(cardToRemove) && !taskDone);
             } else {
-                view.displayErrorNewLine("No Deck with given name exists");
+                view.displayMessageNewLine("No Deck with given name exists");
             }
         }
     }
@@ -166,10 +166,10 @@ public class DeckController {
                 view.displayDeckContent(selectedDeck);
                 chooseCardFromDeck(selectedDeck);
             } else {
-                view.displayErrorNewLine("No Cards in Deck");
+                view.displayMessageNewLine("No Cards in Deck");
             }
         } else {
-            view.displayErrorNewLine("No Deck with given name exists");
+            view.displayMessageNewLine("No Deck with given name exists");
         }
     }
 
@@ -177,7 +177,7 @@ public class DeckController {
         if (!deck.isEmpty()){
             view.displayDeckContent(deck);
         } else {
-            view.displayErrorNewLine("No Cards in Deck");
+            view.displayMessageNewLine("No Cards in Deck");
         }
     }
 
@@ -198,7 +198,7 @@ public class DeckController {
                 if (deck.containsKey(cardName)){
                     cardView.displayCard(deck, cardName);
                 } else {
-                    view.displayErrorNewLine("Card does not exist in Deck");
+                    view.displayMessageNewLine("Card does not exist in Deck");
                 }
             } else if (selectionOption.equals("number")){
                 cardNumber = view.setCardNumber();
@@ -211,13 +211,13 @@ public class DeckController {
 
                     cardView.displayCard(deck, cardModel.getName());
                 } else {
-                    view.displayErrorNewLine("Invalid input, card with number does not exist");
+                    view.displayMessageNewLine("Invalid input, card with number does not exist");
                 }
             } else {
-                view.displayErrorNewLine("Invalid input, exiting deck view");
+                view.displayMessageNewLine("Invalid input, exiting deck view");
             }
         } else {
-            view.displayErrorNewLine("Exiting Deck View");
+            view.displayMessageNewLine("Exiting Deck View");
         }
     }
 
@@ -229,7 +229,7 @@ public class DeckController {
         if (!deckCollection.isEmpty()){
             view.displayDecks(deckCollection);
         } else {
-            view.displayErrorNewLine("No Decks made yet");
+            view.displayMessageNewLine("No Decks made yet");
         }
     }
 }

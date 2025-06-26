@@ -115,7 +115,7 @@ public class CardController {
                     if (view.allowIncreaseCardCount(name))
                         sharedCollection.getCardCollection().get(name).increaseQuantity(1);
                 } else {
-                    view.displayErrorNewLine("Card of the same name already exists");
+                    view.displayMessageNewLine("Card of the same name already exists");
                 }
             } else {
                 card.setQuantity(1);
@@ -148,7 +148,7 @@ public class CardController {
             collection.get(cardKey).setQuantity(newQuantity);
 
         } else {
-            view.displayErrorNewLine("No Card with given name existing in Collection");
+            view.displayMessageNewLine("No Card with given name existing in Collection");
         }
     }
 
@@ -165,11 +165,11 @@ public class CardController {
      */
     public void displayCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
-
+        displayCollection();
         if (!collection.isEmpty()) {
             view.displayCard(collection, view.setCardName());
         } else {
-            view.displayErrorNewLine("No Cards yet...");
+            view.displayMessageNewLine("No Cards yet...");
         }
     }
 
@@ -188,7 +188,7 @@ public class CardController {
         if (!collection.isEmpty()) {
             view.displayCollection(collection);
         } else {
-            view.displayErrorNewLine("No Cards yet...");
+            view.displayMessageNewLine("No Cards yet...");
         }
     }
 }
