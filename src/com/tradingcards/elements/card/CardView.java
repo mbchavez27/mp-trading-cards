@@ -149,9 +149,7 @@ public class CardView {
             displayMessageNewLine("------------------------------------");
         } else {
             displayMessageNewLine("-------------------------------");
-            System.out.flush();
             displayMessageNewLine(String.format("Card %s does not exist", cardName));
-            System.out.flush();
             displayMessageNewLine("-------------------------------");
         }
     }
