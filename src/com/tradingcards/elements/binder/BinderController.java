@@ -222,7 +222,51 @@ public class BinderController {
     }
 
     public void tradeCard() {
+        CardView cardView = new CardView();
 
+        CardController cardController = new CardController(sharedCollection, cardView);
+
+        HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
+
+        HashMap<String, CardModel> binder;
+
+        String outGoingCardName;
+
+        boolean taskDone = false;
+
+        displayBinders();
+
+        view.displayMessageNewLine("Indicate binder to view");
+
+        String binderName = view.setBinderName();
+
+        if (binderCollection.containsKey(binderName)) {
+            binder = binderCollection.get(binderName).getBinder();
+            displayBinderContent(binder);
+            do {
+                view.displayMessageNewLine("Indicate card to be traded");
+                outGoingCardName = cardView.setCardName();
+
+                if (binder.containsKey(outGoingCardName)) {
+                    String incomingCardName = cardController.addCard();
+                    double difference = sharedCollection.getCardCollection().get(incomingCardName).getValue()
+                            - binder.get(outGoingCardName).getValue();
+
+                    if (difference >= 1) {
+                        view.displayMessageNewLine("The difference of the ingoing vs outgoing card is " + difference);
+
+                    } else if (difference < 1) {
+
+                    }
+                } else {
+                    view.displayMessageNewLine("No Card with given name exists in Binder");
+                    view.displayMessageNewLine("Please re-input Card name");
+                }
+            } while (!binder.containsKey(outGoingCardName) && !taskDone);
+
+        } else {
+            view.displayMessageNewLine("No Binder with given name exists");
+        }
     }
 
     /**
