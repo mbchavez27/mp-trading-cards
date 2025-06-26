@@ -167,7 +167,7 @@ public class CardModel {
         return calculatedValue;
     }
 
-    protected Boolean isUnique(CollectionModel sharedCollection, String name, CardModel newCard) {
+    protected Boolean hasCopy(CollectionModel sharedCollection, String name, CardModel newCard) {
         HashMap<String, CardModel> cards = sharedCollection.getCardCollection();
 
         if (cards.containsKey(name)) {
@@ -176,6 +176,9 @@ public class CardModel {
                 return false;
             }
             if (!existingCard.cardVariant.equals(newCard.cardVariant)) {
+                return false;
+            }
+            if (existingCard.cardValue != newCard.cardValue) {
                 return false;
             }
         }

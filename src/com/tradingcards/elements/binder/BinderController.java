@@ -52,6 +52,13 @@ public class BinderController {
         sharedCollection.setBinderCollection(binder, name);
     }
 
+    /**
+     * Removes a card from a specified binder and returns it to the main card collection.
+     * This method allows the user to select a binder and transfer a card from that binder
+     * back into the shared card collection.
+     * Note: This method uses user input for both binder name and card name.
+     * The process continues until a valid card is successfully removed.
+    */
     public void removeCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
@@ -95,6 +102,14 @@ public class BinderController {
         }
     }
 
+    /**
+     * Transfers a card from the shared collection into a specific binder.
+     * This method allows the user to select a binder and move a card from the main collection
+     * into that binder.
+     * Constraints:
+     *      A binder can only hold up to 20 different cards.
+     *      The collection must have at least one copy of the selected card.
+    */
     public void addCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
@@ -125,6 +140,7 @@ public class BinderController {
                     if (collection.containsKey(cardName)) {
                         // checks if the collection has a positive number of card copies
                         cardInCollection = collection.get(cardName);
+                        System.out.println(cardInCollection.getQuantity());
                         if (cardInCollection.getQuantity() > 0) {
 
                             // checks if binder can accommodate new card;
