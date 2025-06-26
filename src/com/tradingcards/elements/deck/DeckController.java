@@ -72,9 +72,9 @@ public class DeckController {
         CardView cardView = new CardView();
         displayDecks();
 
-        String binderName = view.setDeckName();
-        if (deckCollection.containsKey(binderName)){
-            deck = deckCollection.get(binderName).getDeck();
+        String deckName = view.setDeckName();
+        if (deckCollection.containsKey(deckName)){
+            deck = deckCollection.get(deckName).getDeck();
 
             if (deck.isEmpty()){
                 view.displayMessageNewLine("Deck is currently empty");
@@ -97,7 +97,7 @@ public class DeckController {
                 } while (!deck.containsKey(cardToRemove) && !taskDone);
             }
         } else {
-            view.displayMessageNewLine("No Binder with given name exists");
+            view.displayMessageNewLine("No Deck with given name exists");
         }
     }
 
