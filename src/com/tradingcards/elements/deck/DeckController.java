@@ -57,9 +57,25 @@ public class DeckController {
      * the collection.
      */
     public void removeDeck() {
+        displayDecks();
         String name = view.setDeckName();
+        HashMap<String, DeckModel> decks = sharedCollection.getDeckCollection();
 
-        sharedCollection.removeDeckCollection(name);
+        if (decks.containsKey(name)) {
+            DeckModel deck = decks.get(name);
+            HashMap<String, CardModel> cardsInDeck = deck.getDeck();
+
+            for (HashMap.Entry<String, CardModel> entry : cardsInDeck.entrySet()) {
+                String cardName = entry.getKey();
+                sharedCollection.getCardCollection().get(cardName)
+                        .increaseQuantity(cardsInDeck.get(cardName).getQuantity());
+            }
+
+            sharedCollection.removeDeckCollection(name);
+            view.displayMessageNewLine("Deck \"" + name + "\" removed and cards returned.");
+        } else {
+            view.displayMessageNewLine("Deck \"" + name + "\" not found.");
+        }
     }
 
     public void removeCard() {
@@ -69,35 +85,39 @@ public class DeckController {
         String cardToRemove;
         boolean taskDone = false;
 
-        CardView cardView = new CardView();
-        displayDecks();
+        if (!deckCollection.isEmpty()) {
+            CardView cardView = new CardView();
+            displayDecks();
 
-        String deckName = view.setDeckName();
-        if (deckCollection.containsKey(deckName)) {
-            deck = deckCollection.get(deckName).getDeck();
+            String deckName = view.setDeckName();
+            if (deckCollection.containsKey(deckName)) {
+                deck = deckCollection.get(deckName).getDeck();
 
-            if (deck.isEmpty()) {
-                view.displayMessageNewLine("Deck is currently empty");
-                view.displayMessageNewLine("Add cards to the Deck first");
+                if (deck.isEmpty()) {
+                    view.displayMessageNewLine("Deck is currently empty");
+                    view.displayMessageNewLine("Add cards to the Deck first");
+                } else {
+                    displayDeckContent(deck);
+                    do {
+                        view.displayMessageNewLine("Indicate card to be deleted");
+                        cardToRemove = cardView.setCardName();
+                        if (deck.containsKey(cardToRemove)) {
+                            collection.get(cardToRemove).setQuantity(collection.get(cardToRemove).getQuantity() + 1);
+                            deck.remove(cardToRemove);
+                            view.displayMessageNewLine("Sucessfully transferred Card into Collection");
+                            taskDone = true;
+                        } else {
+                            view.displayMessageNewLine("No Card with given name exists in Deck");
+                            view.displayMessageNewLine("Please re-input Card name");
+                        }
+
+                    } while (!deck.containsKey(cardToRemove) && !taskDone);
+                }
             } else {
-                displayDeckContent(deck);
-                do {
-                    view.displayMessageNewLine("Indicate card to be deleted");
-                    cardToRemove = cardView.setCardName();
-                    if (deck.containsKey(cardToRemove)) {
-                        collection.get(cardToRemove).setQuantity(collection.get(cardToRemove).getQuantity() + 1);
-                        deck.remove(cardToRemove);
-                        view.displayMessageNewLine("Sucessfully transferred Card into Collection");
-                        taskDone = true;
-                    } else {
-                        view.displayMessageNewLine("No Card with given name exists in Deck");
-                        view.displayMessageNewLine("Please re-input Card name");
-                    }
-
-                } while (!deck.containsKey(cardToRemove) && !taskDone);
+                view.displayMessageNewLine("No Deck with given name exists");
             }
         } else {
-            view.displayMessageNewLine("No Deck with given name exists");
+            view.displayMessageNewLine("No decks made yet");
         }
     }
 
