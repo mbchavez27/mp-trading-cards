@@ -225,10 +225,22 @@ public class BinderController {
      * Removes a binder from the shared collection based on user input.
      */
     public void removeBinder() {
+        displayBinders();
         String name = view.setBinderName();
         HashMap<String, BinderModel> binders = sharedCollection.getBinderCollection();
+
         if (binders.containsKey(name)) {
-            // sharedCollection.removeBinderCollection(name);
+            BinderModel binder = binders.get(name);
+            HashMap<String, CardModel> cardsInBinder = binder.getBinder();
+            for (HashMap.Entry<String, CardModel> entry : cardsInBinder.entrySet()) {
+                String cardName = entry.getKey();
+                sharedCollection.getCardCollection().get(cardName)
+                        .increaseQuantity(cardsInBinder.get(cardName).getQuantity());
+            }
+            sharedCollection.removeBinderCollection(name);
+            view.displayMessageNewLine("Binder \"" + name + "\" removed and cards returned.");
+        } else {
+            view.displayMessageNewLine("Binder \"" + name + "\" not found.");
         }
     }
 
