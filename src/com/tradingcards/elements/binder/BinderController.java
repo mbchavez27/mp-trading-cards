@@ -201,8 +201,8 @@ public class BinderController {
 
     public void displaySingleBinder() {
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
+        displayBinders();
         if (!binderCollection.isEmpty()){
-            displayBinders();
             view.displayMessageNewLine("Indicate binder to view");
             String binderName = view.setBinderName();
 
