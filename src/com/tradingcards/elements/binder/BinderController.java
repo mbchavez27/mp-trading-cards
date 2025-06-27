@@ -202,13 +202,15 @@ public class BinderController {
     public void displaySingleBinder() {
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         displayBinders();
-        view.displayMessageNewLine("Indicate binder to view");
-        String binderName = view.setBinderName();
+        if (!binderCollection.isEmpty()){
+            view.displayMessageNewLine("Indicate binder to view");
+            String binderName = view.setBinderName();
 
-        if (binderCollection.containsKey(binderName)) {
-            displayBinderContent(binderCollection.get(binderName).getBinder());
-        } else {
-            view.displayMessageNewLine("No Binder with given name exists");
+            if (binderCollection.containsKey(binderName)) {
+                displayBinderContent(binderCollection.get(binderName).getBinder());
+            } else {
+                view.displayMessageNewLine("No Binder with given name exists");
+            }
         }
     }
 
