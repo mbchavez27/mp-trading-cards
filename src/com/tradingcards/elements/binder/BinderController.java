@@ -264,39 +264,40 @@ public class BinderController {
                         double difference = sharedCollection.getCardCollection().get(incomingCardName).getValue()
                                 - binder.get(outGoingCardName).getValue();
 
+                        view.displayMessageNewLine(
+                                "The difference of the ingoing vs outgoing card is " + difference + "\n");
                         if (difference >= 1) {
-                            view.displayMessageNewLine(
-                                    "The difference of the ingoing vs outgoing card is " + difference);
 
                         } else if (difference < 1) {
-                            // Remove c1 from binder
-                            if (binder.get(outGoingCardName).getQuantity() > 1) {
-                                binder.get(outGoingCardName)
-                                        .setQuantity(binder.get(outGoingCardName).getQuantity() - 1);
-                            } else {
-                                binder.remove(outGoingCardName);
-                            }
-
-                            // Add c2 to binder
-                            if (binder.size() < 20) {
-                                cardInCollection = collection.get(incomingCardName);
-
-                                if (binder.containsKey(incomingCardName)) {
-                                    cardInBinder = binder.get(incomingCardName);
-                                    cardInBinder.setQuantity(cardInBinder.getQuantity() + 1);
-                                } else {
-                                    cardCopy = createCardCopy(cardInCollection);
-                                    binderCollection.get(binderName).insertInBinder(cardCopy, incomingCardName);
-                                }
-
-                                // Decrease from collection
-                                cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
-
-                                view.displayMessageNewLine("Trade successful! " + outGoingCardName + " removed, "
-                                        + incomingCardName + " added.");
+                            // Check if incoming card already exists in the binder
+                            if (binder.containsKey(incomingCardName)) {
+                                view.displayMessageNewLine("Trade failed: Incoming card already exists in the binder.");
                                 taskDone = true;
                             } else {
-                                view.displayMessageNewLine("Trade failed: Binder is full.");
+                                // Remove outgoing card from binder
+                                if (binder.get(outGoingCardName).getQuantity() > 1) {
+                                    binder.get(outGoingCardName)
+                                            .setQuantity(binder.get(outGoingCardName).getQuantity() - 1);
+                                } else {
+                                    binder.remove(outGoingCardName);
+                                }
+
+                                // Add incoming card to binder
+                                if (binder.size() < 20) {
+                                    cardInCollection = collection.get(incomingCardName);
+                                    cardCopy = createCardCopy(cardInCollection);
+                                    binderCollection.get(binderName).insertInBinder(cardCopy, incomingCardName);
+
+                                    // Remove from collection
+                                    cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+
+                                    view.displayMessageNewLine("Trade successful! " + outGoingCardName + " removed, "
+                                            + incomingCardName + " added.");
+                                    taskDone = true;
+                                } else {
+                                    view.displayMessageNewLine("Trade failed: Binder is full.");
+                                    taskDone = true; // mark task as done to exit loop
+                                }
                             }
                         }
                     } else {
