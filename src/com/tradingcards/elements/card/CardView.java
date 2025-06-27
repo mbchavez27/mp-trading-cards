@@ -136,7 +136,7 @@ public class CardView {
      */
     public void displayCard(HashMap<String, CardModel> collection, String cardName) {
         displayMessageNewLine("");
-        if (collection.containsKey(cardName)) {
+        if (collection.containsKey(cardName) && collection.get(cardName).getQuantity() > 0) {
             displayMessageNewLine("------------------------------------");
             displayMessageNewLine("Card Details:");
             displayMessageNewLine("Card Name: " + collection.get(cardName).getName());
@@ -154,7 +154,7 @@ public class CardView {
         }
     }
 
-    //overloaded method used to handle viewing decks
+    // overloaded method used to handle viewing decks
     public void displayCard(HashMap<String, CardModel> collection, String cardName, int mode) {
         displayMessageNewLine("");
         displayMessageNewLine("------------------------------------");
@@ -187,7 +187,7 @@ public class CardView {
         displayMessageNewLine("");
 
         for (String name : cardByKey) {
-            if(collection.get(name).getQuantity() > 0){
+            if (collection.get(name).getQuantity() > 0) {
                 displayMessageNewLine("Card Name: " + collection.get(name).getName());
                 displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
                 displayMessageNewLine("");

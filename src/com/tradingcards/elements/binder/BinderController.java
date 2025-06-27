@@ -32,24 +32,34 @@ public class BinderController {
         this.view = view;
     }
 
+    private static final String EXIT_CODE = "-999";
+
     /**
      * Adds a new binder to the shared collection. Prompts the user for a binder
      * name and ensures the name is unique.
      */
     public void addBinder() {
         BinderModel binder = new BinderModel();
-        String name;
+        String name = null;
+        boolean cancelled = false;
 
-        do {
-            name = view.setBinderName();
+        if (!cancelled)
+            do {
+                view.displayMessageNewLine("Enter \"-999\" to cancel");
+                name = view.setBinderName();
 
-            if (sharedCollection.getBinderCollection().containsKey(name)) {
-                view.displayMessageNewLine("Binder already exists choose a new name...");
-            }
+                if (sharedCollection.getBinderCollection().containsKey(name)) {
+                    view.displayMessageNewLine("Binder already exists choose a new name...");
+                }
+                if (name.equals(EXIT_CODE))
+                    cancelled = true;
 
-        } while (sharedCollection.getBinderCollection().containsKey(name));
-        view.displayMessageNewLine("Binder successfully added to collection");
-        sharedCollection.setBinderCollection(binder, name);
+            } while (sharedCollection.getBinderCollection().containsKey(name));
+
+        if (!cancelled) {
+            view.displayMessageNewLine("Binder successfully added to collection");
+            sharedCollection.setBinderCollection(binder, name);
+        }
     }
 
     /**
@@ -67,41 +77,48 @@ public class BinderController {
         HashMap<String, CardModel> binder;
         String cardName;
         boolean taskDone = false;
+        boolean cancelled = false;
 
         if (!binderCollection.isEmpty()) {
             CardView cardView = new CardView();
             displayBinders();
 
+            view.displayMessageNewLine("Enter \"-999\" to cancel");
             String binderName = view.setBinderName();
-            if (binderCollection.containsKey(binderName)) {
-                binder = binderCollection.get(binderName).getBinder();
+            if (binderName.equals(EXIT_CODE))
+                cancelled = true;
 
-                if (binder.isEmpty()) {
-                    view.displayMessageNewLine("Binder is currently empty");
-                    view.displayMessageNewLine("Add cards to the Binder first");
-                } else {
-                    displayBinderContent(binder);
-                    do {
-                        view.displayMessageNewLine("Indicate card to be deleted");
-                        cardName = cardView.setCardName();
-                        if (binder.containsKey(cardName)) {
-                            collection.get(cardName).setQuantity(collection.get(cardName).getQuantity() + 1);
-                            if (binder.get(cardName).getQuantity() > 1) {
-                                binder.get(cardName).setQuantity(binder.get(cardName).getQuantity() - 1);
+            if (!cancelled) {
+                if (binderCollection.containsKey(binderName)) {
+                    binder = binderCollection.get(binderName).getBinder();
+
+                    if (binder.isEmpty()) {
+                        view.displayMessageNewLine("Binder is currently empty");
+                        view.displayMessageNewLine("Add cards to the Binder first");
+                    } else {
+                        displayBinderContent(binder);
+                        do {
+                            view.displayMessageNewLine("Indicate card to be deleted");
+                            cardName = cardView.setCardName();
+                            if (binder.containsKey(cardName)) {
+                                collection.get(cardName).setQuantity(collection.get(cardName).getQuantity() + 1);
+                                if (binder.get(cardName).getQuantity() > 1) {
+                                    binder.get(cardName).setQuantity(binder.get(cardName).getQuantity() - 1);
+                                } else {
+                                    binder.remove(cardName);
+                                }
+                                view.displayMessageNewLine("Successfully transferred Card into Collection");
+                                System.out.println();
+                                taskDone = true;
                             } else {
-                                binder.remove(cardName);
+                                view.displayMessageNewLine("No Card with given name exists in Binder");
+                                view.displayMessageNewLine("Please re-input Card name");
                             }
-                            view.displayMessageNewLine("Successfully transferred Card into Collection");
-                            System.out.println();
-                            taskDone = true;
-                        } else {
-                            view.displayMessageNewLine("No Card with given name exists in Binder");
-                            view.displayMessageNewLine("Please re-input Card name");
-                        }
-                    } while (!binder.containsKey(cardName) && !taskDone);
+                        } while (!binder.containsKey(cardName) && !taskDone);
+                    }
+                } else {
+                    view.displayMessageNewLine("No Binder with given name exists");
                 }
-            } else {
-                view.displayMessageNewLine("No Binder with given name exists");
             }
         } else {
             view.displayMessageNewLine("No Binders made yet");
@@ -129,58 +146,67 @@ public class BinderController {
         CardModel cardInBinder;
         CardModel cardCopy;
 
+        boolean cancelled = false;
+
         if (!collection.isEmpty()) {
             displayBinders();
 
+            view.displayMessageNewLine("Enter \"-999\" to cancel");
             String binderName = view.setBinderName();
 
-            if (binderCollection.isEmpty()) {
-                view.displayMessageNewLine("No cards in collection yet");
-                view.displayMessageNewLine("Input cards in collection first");
-            } else {
-                if (binderCollection.containsKey(binderName)) {
-                    binder = binderCollection.get(binderName);
-                    cardView.displayCollection(collection);
+            if (binderName.equals(EXIT_CODE))
+                cancelled = true;
 
-                    do {
-                        cardName = cardView.setCardName();
-                        // checks if the collection has the card
-                        if (collection.containsKey(cardName)) {
-                            // checks if the collection has a positive number of card copies
-                            cardInCollection = collection.get(cardName);
-                            System.out.println(cardInCollection.getQuantity());
-                            if (cardInCollection.getQuantity() > 0) {
+            if (!cancelled) {
+                if (binderCollection.isEmpty()) {
+                    view.displayMessageNewLine("No cards in collection yet");
+                    view.displayMessageNewLine("Input cards in collection first");
+                } else {
+                    if (binderCollection.containsKey(binderName)) {
+                        binder = binderCollection.get(binderName);
+                        cardView.displayCollection(collection);
 
-                                // checks if binder can accommodate new card;
-                                if (binder.getBinder().size() < 20) {
+                        do {
+                            cardName = cardView.setCardName();
+                            // checks if the collection has the card
+                            if (collection.containsKey(cardName)) {
+                                // checks if the collection has a positive number of card copies
+                                cardInCollection = collection.get(cardName);
+                                System.out.println(cardInCollection.getQuantity());
+                                if (cardInCollection.getQuantity() > 0) {
 
-                                    // checks if binder already contains the specified card
-                                    if (binder.getBinder().containsKey(cardName)) {
-                                        cardInBinder = binder.getBinder().get(cardName);
-                                        cardInBinder.setQuantity(cardInBinder.getQuantity() + 1);
+                                    // checks if binder can accommodate new card;
+                                    if (binder.getBinder().size() < 20) {
+
+                                        // checks if binder already contains the specified card
+                                        if (binder.getBinder().containsKey(cardName)) {
+                                            cardInBinder = binder.getBinder().get(cardName);
+                                            cardInBinder.setQuantity(cardInBinder.getQuantity() + 1);
+                                        } else {
+                                            // create a new card object to store details
+                                            cardCopy = createCardCopy(cardInCollection);
+                                            binder.insertInBinder(cardCopy, cardName);
+                                        }
+                                        cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+                                        view.displayMessageNewLine("Successfully transferred card into binder");
+                                        taskDone = true;
+
                                     } else {
-                                        // create a new card object to store details
-                                        cardCopy = createCardCopy(cardInCollection);
-                                        binder.insertInBinder(cardCopy, cardName);
+                                        view.displayMessageNewLine("Binder is already full");
                                     }
-                                    cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
-                                    view.displayMessageNewLine("Successfully transferred card into binder");
-                                    taskDone = true;
-
                                 } else {
-                                    view.displayMessageNewLine("Binder is already full");
+                                    view.displayMessageNewLine(
+                                            "Collection currently has zero copies of specified card");
                                 }
                             } else {
-                                view.displayMessageNewLine("Collection currently has zero copies of specified card");
+                                view.displayMessageNewLine("No Card with given name exists in Collection");
+                                view.displayMessageNewLine("Please re-input Card name");
                             }
-                        } else {
-                            view.displayMessageNewLine("No Card with given name exists in Collection");
-                            view.displayMessageNewLine("Please re-input Card name");
-                        }
 
-                    } while (!collection.containsKey(cardName) && !taskDone);
-                } else {
-                    view.displayMessageNewLine("No Binder with given name exists");
+                        } while (!collection.containsKey(cardName) && !taskDone);
+                    } else {
+                        view.displayMessageNewLine("No Binder with given name exists");
+                    }
                 }
             }
         } else {
@@ -202,7 +228,7 @@ public class BinderController {
     public void displaySingleBinder() {
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         displayBinders();
-        if (!binderCollection.isEmpty()){
+        if (!binderCollection.isEmpty()) {
             view.displayMessageNewLine("Indicate binder to view");
             String binderName = view.setBinderName();
 
@@ -242,38 +268,79 @@ public class BinderController {
 
         CardModel cardInCollection;
         CardModel cardCopy;
+
+        boolean cancelled = false;
         displayBinders();
 
         view.displayMessageNewLine("Indicate binder to view");
 
+        view.displayMessageNewLine("Enter \"-999\" to cancel");
         String binderName = view.setBinderName();
+        if (binderName.equals(EXIT_CODE))
+            cancelled = true;
 
-        if (binderCollection.containsKey(binderName)) {
-            binderModel = binderCollection.get(binderName);
-            binder = binderCollection.get(binderName).getBinder();
-            if (!binder.isEmpty()) {
-                displayBinderContent(binder);
-                do {
-                    view.displayMessageNewLine("Indicate card to be traded");
-                    outGoingCardName = cardView.setCardName();
+        if (!cancelled) {
+            if (binderCollection.containsKey(binderName)) {
+                binderModel = binderCollection.get(binderName);
+                binder = binderCollection.get(binderName).getBinder();
+                if (!binder.isEmpty()) {
+                    displayBinderContent(binder);
+                    do {
+                        view.displayMessageNewLine("Indicate card to be traded");
+                        outGoingCardName = cardView.setCardName();
 
-                    if (binder.containsKey(outGoingCardName)) {
+                        if (binder.containsKey(outGoingCardName)) {
 
-                        view.displayMessageNewLine("Add new card for the collection");
-                        String incomingCardName = cardController.addCard();
-                        double difference = sharedCollection.getCardCollection().get(incomingCardName).getValue()
-                                - binder.get(outGoingCardName).getValue();
+                            view.displayMessageNewLine("Add new card for the collection");
+                            String incomingCardName = cardController.addCard();
+                            double difference = sharedCollection.getCardCollection().get(incomingCardName).getValue()
+                                    - binder.get(outGoingCardName).getValue();
 
-                        if (difference >= 1) {
-                            String choice;
-                            view.displayMessageNewLine(
-                                    "The difference of the ingoing vs outgoing card is " + difference + "\n");
-                            choice = view.getBinderChoice("Do you want to cancel the trade? (Y/N)");
+                            if (difference >= 1) {
+                                String choice;
+                                view.displayMessageNewLine(
+                                        "The difference of the ingoing vs outgoing card is " + difference + "\n");
+                                choice = view.getBinderChoice("Do you want to cancel the trade? (Y/N)");
 
-                            // Cancels trade and removes the added card from the collection
-                            if (choice.equalsIgnoreCase("Y")) {
-                                collection.remove(incomingCardName);
-                            } else {
+                                // Cancels trade and removes the added card from the collection
+                                if (choice.equalsIgnoreCase("Y")) {
+                                    collection.remove(incomingCardName);
+                                } else {
+                                    // Check if incoming card already exists in the binder
+                                    if (binder.containsKey(incomingCardName)) {
+                                        view.displayMessageNewLine(
+                                                "Trade failed: Incoming card already exists in the binder.");
+                                        taskDone = true;
+                                    } else {
+                                        // Remove outgoing card from binder
+                                        if (binder.get(outGoingCardName).getQuantity() > 1) {
+                                            binder.get(outGoingCardName)
+                                                    .setQuantity(binder.get(outGoingCardName).getQuantity() - 1);
+                                        } else {
+                                            binder.remove(outGoingCardName);
+                                        }
+
+                                        // Add incoming card to binder
+                                        if (binder.size() < 20) {
+                                            cardInCollection = collection.get(incomingCardName);
+                                            cardCopy = createCardCopy(cardInCollection);
+                                            binderCollection.get(binderName).insertInBinder(cardCopy, incomingCardName);
+
+                                            // Remove from collection
+                                            cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+
+                                            view.displayMessageNewLine(
+                                                    "Trade successful! " + outGoingCardName + " removed, "
+                                                            + incomingCardName + " added.");
+                                            taskDone = true;
+                                        } else {
+                                            view.displayMessageNewLine("Trade failed: Binder is full.");
+                                            taskDone = true; // mark task as done to exit loop
+                                        }
+                                    }
+                                }
+
+                            } else if (difference < 1) {
                                 // Check if incoming card already exists in the binder
                                 if (binder.containsKey(incomingCardName)) {
                                     view.displayMessageNewLine(
@@ -307,49 +374,17 @@ public class BinderController {
                                     }
                                 }
                             }
-
-                        } else if (difference < 1) {
-                            // Check if incoming card already exists in the binder
-                            if (binder.containsKey(incomingCardName)) {
-                                view.displayMessageNewLine("Trade failed: Incoming card already exists in the binder.");
-                                taskDone = true;
-                            } else {
-                                // Remove outgoing card from binder
-                                if (binder.get(outGoingCardName).getQuantity() > 1) {
-                                    binder.get(outGoingCardName)
-                                            .setQuantity(binder.get(outGoingCardName).getQuantity() - 1);
-                                } else {
-                                    binder.remove(outGoingCardName);
-                                }
-
-                                // Add incoming card to binder
-                                if (binder.size() < 20) {
-                                    cardInCollection = collection.get(incomingCardName);
-                                    cardCopy = createCardCopy(cardInCollection);
-                                    binderCollection.get(binderName).insertInBinder(cardCopy, incomingCardName);
-
-                                    // Remove from collection
-                                    cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
-
-                                    view.displayMessageNewLine("Trade successful! " + outGoingCardName + " removed, "
-                                            + incomingCardName + " added.");
-                                    taskDone = true;
-                                } else {
-                                    view.displayMessageNewLine("Trade failed: Binder is full.");
-                                    taskDone = true; // mark task as done to exit loop
-                                }
-                            }
+                        } else {
+                            view.displayMessageNewLine("No Card with given name exists in Binder");
+                            view.displayMessageNewLine("Please re-input Card name");
                         }
-                    } else {
-                        view.displayMessageNewLine("No Card with given name exists in Binder");
-                        view.displayMessageNewLine("Please re-input Card name");
-                    }
-                } while (!binder.containsKey(outGoingCardName) && !taskDone);
+                    } while (!binder.containsKey(outGoingCardName) && !taskDone);
+                } else {
+                    view.displayMessageNewLine("No Cards in Binder");
+                }
             } else {
-                view.displayMessageNewLine("No Cards in Binder");
+                view.displayMessageNewLine("No Binder with given name exists");
             }
-        } else {
-            view.displayMessageNewLine("No Binder with given name exists");
         }
     }
 
