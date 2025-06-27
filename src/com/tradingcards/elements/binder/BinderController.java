@@ -239,7 +239,6 @@ public class BinderController {
         boolean taskDone = false;
 
         CardModel cardInCollection;
-        CardModel cardInBinder;
         CardModel cardCopy;
         displayBinders();
 
@@ -257,16 +256,55 @@ public class BinderController {
                     outGoingCardName = cardView.setCardName();
 
                     if (binder.containsKey(outGoingCardName)) {
-                        cardInCollection = collection.get(outGoingCardName);
 
                         view.displayMessageNewLine("Add new card for the collection");
                         String incomingCardName = cardController.addCard();
                         double difference = sharedCollection.getCardCollection().get(incomingCardName).getValue()
                                 - binder.get(outGoingCardName).getValue();
 
-                        view.displayMessageNewLine(
-                                "The difference of the ingoing vs outgoing card is " + difference + "\n");
                         if (difference >= 1) {
+                            String choice;
+                            view.displayMessageNewLine(
+                                    "The difference of the ingoing vs outgoing card is " + difference + "\n");
+                            choice = view.getBinderChoice("Do you want to cancel the trade? (Y/N)");
+
+                            // Cancels trade and removes the added card from the collection
+                            if (choice.equalsIgnoreCase("Y")) {
+                                collection.remove(incomingCardName);
+                            } else {
+                                // Check if incoming card already exists in the binder
+                                if (binder.containsKey(incomingCardName)) {
+                                    view.displayMessageNewLine(
+                                            "Trade failed: Incoming card already exists in the binder.");
+                                    taskDone = true;
+                                } else {
+                                    // Remove outgoing card from binder
+                                    if (binder.get(outGoingCardName).getQuantity() > 1) {
+                                        binder.get(outGoingCardName)
+                                                .setQuantity(binder.get(outGoingCardName).getQuantity() - 1);
+                                    } else {
+                                        binder.remove(outGoingCardName);
+                                    }
+
+                                    // Add incoming card to binder
+                                    if (binder.size() < 20) {
+                                        cardInCollection = collection.get(incomingCardName);
+                                        cardCopy = createCardCopy(cardInCollection);
+                                        binderCollection.get(binderName).insertInBinder(cardCopy, incomingCardName);
+
+                                        // Remove from collection
+                                        cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+
+                                        view.displayMessageNewLine(
+                                                "Trade successful! " + outGoingCardName + " removed, "
+                                                        + incomingCardName + " added.");
+                                        taskDone = true;
+                                    } else {
+                                        view.displayMessageNewLine("Trade failed: Binder is full.");
+                                        taskDone = true; // mark task as done to exit loop
+                                    }
+                                }
+                            }
 
                         } else if (difference < 1) {
                             // Check if incoming card already exists in the binder

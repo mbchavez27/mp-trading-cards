@@ -1,7 +1,6 @@
 package com.tradingcards.elements.binder;
 
 import com.tradingcards.elements.card.CardModel;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,6 +29,11 @@ public class BinderView {
 
     public void displayMessageNewLine(String message) {
         System.out.println(message);
+    }
+
+    public String getBinderChoice(String message) {
+        System.out.print(message);
+        return scanner.nextLine();
     }
 
     public void displayBinders(HashMap<String, BinderModel> binderCollection) {
