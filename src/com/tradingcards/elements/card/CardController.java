@@ -32,6 +32,7 @@ public class CardController {
      *
      */
     private static final String EXIT_CODE = "-999";
+
     /**
      * Constructs a {@code CardController} with the specified collection, model,
      * and view.
@@ -59,43 +60,42 @@ public class CardController {
      * <b>Note:</b> Currently, the method does not check for duplicate cards in
      * the collection before setting the quantity.
      */
-    public void addCard() {
+    public String addCard() {
         // Instantiate Card Object
         CardModel card = new CardModel();
         boolean cancelled = false;
         String name, rarity, variant;
         double value;
 
-
         // Get from View
         view.displayMessageNewLine("Enter \"-999\" to cancel");
         name = view.setCardName().trim();
         card.setName(name);
-        if (name.equals(EXIT_CODE)){
+        if (name.equals(EXIT_CODE)) {
             cancelled = true;
         }
 
-        if (!cancelled){
+        if (!cancelled) {
             rarity = view.setCardRarity();
             card.setRarity(rarity);
 
-            if (rarity.equals(EXIT_CODE)){
+            if (rarity.equals(EXIT_CODE)) {
                 cancelled = true;
             }
         }
 
-        if (!cancelled){
+        if (!cancelled) {
             if (card.getRarity().equals("Rare") || card.getRarity().equals("Legendary")) {
                 variant = view.setCardVariant();
                 card.setVariant(variant);
-                if (variant.equals(EXIT_CODE)){
+                if (variant.equals(EXIT_CODE)) {
                     cancelled = true;
                 }
 
-                if (!cancelled){
+                if (!cancelled) {
                     value = view.setCardValue();
                     card.setValue(card.calculateValue(value, variant));
-                    if (String.valueOf(value).equals(EXIT_CODE)){
+                    if (String.valueOf(value).equals(EXIT_CODE)) {
                         cancelled = true;
                     }
                 }
@@ -103,7 +103,7 @@ public class CardController {
             } else {
                 value = view.setCardValue();
                 card.setValue(value);
-                if (String.valueOf(value).equals(EXIT_CODE)){
+                if (String.valueOf(value).equals(EXIT_CODE)) {
                     cancelled = true;
                 }
             }
@@ -122,6 +122,8 @@ public class CardController {
                 sharedCollection.setCardCollection(card, name);
             }
         }
+
+        return name;
     }
 
     /**

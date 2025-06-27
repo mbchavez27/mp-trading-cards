@@ -1,26 +1,26 @@
 package com.tradingcards.elements.menus;
 
 import com.tradingcards.elements.binder.BinderController;
-
 import java.util.Scanner;
 
 public class BinderMenu {
 
     private BinderController binderController;
     public static final Scanner GETACTION = new Scanner(System.in);
-    public BinderMenu(BinderController controller){
+
+    public BinderMenu(BinderController controller) {
         this.binderController = controller;
     }
 
-    public void runMenu(){
+    public void runMenu() {
         int action;
 
-        do{
+        do {
             manageBinders();
             System.out.print("Action: ");
             action = GETACTION.nextInt();
             GETACTION.nextLine(); // Clears input buffer
-            switch(action){
+            switch (action) {
                 case 1:
                     binderController.removeBinder();
                     break;
@@ -31,7 +31,7 @@ public class BinderMenu {
                     binderController.removeCard();
                     break;
                 case 4:
-                    //TODO: Must implement trade card
+                    binderController.tradeCard();
                     break;
                 case 5:
                     binderController.displaySingleBinder();
@@ -56,6 +56,3 @@ public class BinderMenu {
         System.out.println("[0] Exit Menu");
     }
 }
-
-
-

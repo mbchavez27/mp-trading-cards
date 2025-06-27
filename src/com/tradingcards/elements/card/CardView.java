@@ -174,6 +174,7 @@ public class CardView {
 
         for (String name : cardByKey) {
             displayMessageNewLine("Card Name: " + collection.get(name).getName());
+            displayMessageNewLine("Card Value: " + collection.get(name).getValue());
             displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
             displayMessageNewLine("");
         }
@@ -191,7 +192,7 @@ public class CardView {
         return action.equalsIgnoreCase("Y");
     }
 
-    public void displayMessageNewLine(String message){
+    public void displayMessageNewLine(String message) {
         System.out.println(message);
     }
 
