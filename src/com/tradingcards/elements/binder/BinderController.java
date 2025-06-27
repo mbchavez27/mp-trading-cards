@@ -269,7 +269,7 @@ public class BinderController {
                                     "The difference of the ingoing vs outgoing card is " + difference);
 
                         } else if (difference < 1) {
-                            // Step 1: Remove c1 from binder
+                            // Remove c1 from binder
                             if (binder.get(outGoingCardName).getQuantity() > 1) {
                                 binder.get(outGoingCardName)
                                         .setQuantity(binder.get(outGoingCardName).getQuantity() - 1);
@@ -277,7 +277,7 @@ public class BinderController {
                                 binder.remove(outGoingCardName);
                             }
 
-                            // Step 2: Add c2 to binder
+                            // Add c2 to binder
                             if (binder.size() < 20) {
                                 cardInCollection = collection.get(incomingCardName);
 
@@ -286,11 +286,10 @@ public class BinderController {
                                     cardInBinder.setQuantity(cardInBinder.getQuantity() + 1);
                                 } else {
                                     cardCopy = createCardCopy(cardInCollection);
-                                    // ✅ Use insertInBinder method here
                                     binderCollection.get(binderName).insertInBinder(cardCopy, incomingCardName);
                                 }
 
-                                // Step 3: Decrease from collection
+                                // Decrease from collection
                                 cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
 
                                 view.displayMessageNewLine("Trade successful! " + outGoingCardName + " removed, "
