@@ -154,6 +154,20 @@ public class CardView {
         }
     }
 
+    //overloaded method used to handle viewing decks
+    public void displayCard(HashMap<String, CardModel> collection, String cardName, int mode) {
+        displayMessageNewLine("");
+        displayMessageNewLine("------------------------------------");
+        displayMessageNewLine("Card Details:");
+        displayMessageNewLine("Card Name: " + collection.get(cardName).getName());
+        displayMessageNewLine("Card Rarity: " + collection.get(cardName).getRarity());
+        if (collection.get(cardName).getVariant() != null) {
+            displayMessageNewLine("Card Variant: " + collection.get(cardName).getVariant());
+        }
+        displayMessageNewLine("Card Value: " + collection.get(cardName).getValue());
+        displayMessageNewLine("------------------------------------");
+    }
+
     /**
      * Displays the contents of a card collection in alphabetical order by card
      * name. This method takes a {@code HashMap<String, CardModel>} where the
