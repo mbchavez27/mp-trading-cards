@@ -1,6 +1,7 @@
 package com.tradingcards.elements.card;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import com.tradingcards.elements.collection.CollectionModel;
 
@@ -172,10 +173,10 @@ public class CardModel {
 
         if (cards.containsKey(name)) {
             CardModel existingCard = cards.get(name);
-            if (!existingCard.cardRarity.equals(newCard.cardRarity)) {
+            if (!Objects.equals(existingCard.cardRarity, newCard.cardRarity)) {
                 return false;
             }
-            if (!existingCard.cardVariant.equals(newCard.cardVariant)) {
+            if (!Objects.equals(existingCard.cardVariant, newCard.cardVariant)) {
                 return false;
             }
             if (existingCard.cardValue != newCard.cardValue) {
