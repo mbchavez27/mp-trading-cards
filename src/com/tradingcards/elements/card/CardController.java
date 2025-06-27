@@ -101,11 +101,15 @@ public class CardController {
                 }
 
             } else {
-                value = view.setCardValue();
-                card.setValue(value);
-                if (String.valueOf(value).equals(EXIT_CODE)) {
-                    cancelled = true;
-                }
+                do {
+                    value = view.setCardValue();
+                    card.setValue(value);
+                    if (String.valueOf(value).equals(EXIT_CODE)) {
+                        cancelled = true;
+                    }
+                    if (value < 0)
+                        view.displayMessageNewLine("No negative values please!");
+                } while (value < 0);
             }
         }
 
