@@ -179,21 +179,23 @@ public class DeckController {
 
     public void displaySingleDeck() {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
-        displayDecks();
         HashMap<String, CardModel> selectedDeck;
-        view.displayMessageNewLine("Indicate Deck to view");
-        String deckName = view.setDeckName();
+        displayDecks();
+        if (!deckCollection.isEmpty()){
+            view.displayMessageNewLine("Indicate Deck to view");
+            String deckName = view.setDeckName();
 
-        if (deckCollection.containsKey(deckName)) {
-            selectedDeck = deckCollection.get(deckName).getDeck();
-            if (!selectedDeck.isEmpty()) {
-                view.displayDeckContent(selectedDeck);
-                chooseCardFromDeck(selectedDeck);
+            if (deckCollection.containsKey(deckName)) {
+                selectedDeck = deckCollection.get(deckName).getDeck();
+                if (!selectedDeck.isEmpty()) {
+                    view.displayDeckContent(selectedDeck);
+                    chooseCardFromDeck(selectedDeck);
+                } else {
+                    view.displayMessageNewLine("No Cards in Deck");
+                }
             } else {
-                view.displayMessageNewLine("No Cards in Deck");
+                view.displayMessageNewLine("No Deck with given name exists");
             }
-        } else {
-            view.displayMessageNewLine("No Deck with given name exists");
         }
     }
 
