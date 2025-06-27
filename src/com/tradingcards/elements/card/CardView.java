@@ -173,10 +173,11 @@ public class CardView {
         displayMessageNewLine("");
 
         for (String name : cardByKey) {
-            displayMessageNewLine("Card Name: " + collection.get(name).getName());
-            displayMessageNewLine("Card Value: " + collection.get(name).getValue());
-            displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
-            displayMessageNewLine("");
+            if(collection.get(name).getQuantity() > 0){
+                displayMessageNewLine("Card Name: " + collection.get(name).getName());
+                displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
+                displayMessageNewLine("");
+            }
         }
     }
 
