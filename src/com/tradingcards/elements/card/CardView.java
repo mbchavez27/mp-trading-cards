@@ -105,6 +105,7 @@ public class CardView {
      * @return the base value entered by the user as a {@code double}
      */
     public double setCardValue() {
+        System.out.println("[-999]: Cancel ");
         System.out.print("Give Card Value: ");
         double value = scanner.nextDouble();
         scanner.nextLine();

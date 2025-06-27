@@ -67,7 +67,7 @@ public class CardController {
         double value;
 
 
-        // Get from View
+        // Prompt user for card name, allow early exit
         view.displayMessageNewLine("Enter \"-999\" to cancel");
         name = view.setCardName().trim();
         card.setName(name);
@@ -75,16 +75,19 @@ public class CardController {
             cancelled = true;
         }
 
+        // If not cancelled, continue collecting card rarity
         if (!cancelled){
             rarity = view.setCardRarity();
             card.setRarity(rarity);
 
+            // Check if rarity input is the exit code
             if (rarity.equals(EXIT_CODE)){
                 cancelled = true;
             }
         }
 
         if (!cancelled){
+            // If the card is Rare or Legendary, request variant and adjust value
             if (card.getRarity().equals("Rare") || card.getRarity().equals("Legendary")) {
                 variant = view.setCardVariant();
                 card.setVariant(variant);
@@ -93,31 +96,39 @@ public class CardController {
                 }
 
                 if (!cancelled){
+                    // Get value input and calculate actual value based on variant
                     value = view.setCardValue();
                     card.setValue(card.calculateValue(value, variant));
-                    if (String.valueOf(value).equals(EXIT_CODE)){
+                    // Check if value is equal to exit code (converted to double)
+                    if (Double.parseDouble(EXIT_CODE) == value){
                         cancelled = true;
                     }
                 }
 
             } else {
+                // For non-Rare/Legendary cards, just store the base value
                 value = view.setCardValue();
                 card.setValue(value);
-                if (String.valueOf(value).equals(EXIT_CODE)){
+                if (Double.parseDouble(EXIT_CODE) == value){
                     cancelled = true;
                 }
             }
         }
 
+        // If still not cancelled, proceed to add or update card in collection
         if (!cancelled) {
+            // If card with the same name already exists in collection
             if (sharedCollection.getCardCollection().containsKey(name)) {
+                // Check if it's an exact copy (same name, rarity, variant, value)
                 if (card.hasCopy(sharedCollection, name, card)) {
+                    // Ask user if they want to increase the quantity
                     if (view.allowIncreaseCardCount(name))
                         sharedCollection.getCardCollection().get(name).increaseQuantity(1);
                 } else {
                     view.displayMessageNewLine("Card of the same name already exists");
                 }
             } else {
+                // New unique card: set quantity and add to collection
                 card.setQuantity(1);
                 sharedCollection.setCardCollection(card, name);
             }
