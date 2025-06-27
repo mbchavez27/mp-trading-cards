@@ -221,7 +221,7 @@ public class DeckController {
                 cardName = view.setCardName();
 
                 if (deck.containsKey(cardName)) {
-                    cardView.displayCard(deck, cardName);
+                    cardView.displayCard(deck, cardName,0);
                 } else {
                     view.displayMessageNewLine("Card does not exist in Deck");
                 }
@@ -234,7 +234,7 @@ public class DeckController {
 
                     CardModel cardModel = deck.get(cardByKey.get((cardNumber - 1)));
 
-                    cardView.displayCard(deck, cardModel.getName());
+                    cardView.displayCard(deck, cardModel.getName(), 0);
                 } else {
                     view.displayMessageNewLine("Invalid input, card with number does not exist");
                 }
