@@ -228,12 +228,19 @@ public class BinderController {
 
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
 
+        HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
+
         HashMap<String, CardModel> binder;
+
+        BinderModel binderModel;
 
         String outGoingCardName;
 
         boolean taskDone = false;
 
+        CardModel cardInCollection;
+        CardModel cardInBinder;
+        CardModel cardCopy;
         displayBinders();
 
         view.displayMessageNewLine("Indicate binder to view");
@@ -241,29 +248,66 @@ public class BinderController {
         String binderName = view.setBinderName();
 
         if (binderCollection.containsKey(binderName)) {
+            binderModel = binderCollection.get(binderName);
             binder = binderCollection.get(binderName).getBinder();
-            displayBinderContent(binder);
-            do {
-                view.displayMessageNewLine("Indicate card to be traded");
-                outGoingCardName = cardView.setCardName();
+            if (!binder.isEmpty()) {
+                displayBinderContent(binder);
+                do {
+                    view.displayMessageNewLine("Indicate card to be traded");
+                    outGoingCardName = cardView.setCardName();
 
-                if (binder.containsKey(outGoingCardName)) {
-                    String incomingCardName = cardController.addCard();
-                    double difference = sharedCollection.getCardCollection().get(incomingCardName).getValue()
-                            - binder.get(outGoingCardName).getValue();
+                    if (binder.containsKey(outGoingCardName)) {
+                        cardInCollection = collection.get(outGoingCardName);
 
-                    if (difference >= 1) {
-                        view.displayMessageNewLine("The difference of the ingoing vs outgoing card is " + difference);
+                        view.displayMessageNewLine("Add new card for the collection");
+                        String incomingCardName = cardController.addCard();
+                        double difference = sharedCollection.getCardCollection().get(incomingCardName).getValue()
+                                - binder.get(outGoingCardName).getValue();
 
-                    } else if (difference < 1) {
+                        if (difference >= 1) {
+                            view.displayMessageNewLine(
+                                    "The difference of the ingoing vs outgoing card is " + difference);
 
+                        } else if (difference < 1) {
+                            // Step 1: Remove c1 from binder
+                            if (binder.get(outGoingCardName).getQuantity() > 1) {
+                                binder.get(outGoingCardName)
+                                        .setQuantity(binder.get(outGoingCardName).getQuantity() - 1);
+                            } else {
+                                binder.remove(outGoingCardName);
+                            }
+
+                            // Step 2: Add c2 to binder
+                            if (binder.size() < 20) {
+                                cardInCollection = collection.get(incomingCardName);
+
+                                if (binder.containsKey(incomingCardName)) {
+                                    cardInBinder = binder.get(incomingCardName);
+                                    cardInBinder.setQuantity(cardInBinder.getQuantity() + 1);
+                                } else {
+                                    cardCopy = createCardCopy(cardInCollection);
+                                    // ✅ Use insertInBinder method here
+                                    binderCollection.get(binderName).insertInBinder(cardCopy, incomingCardName);
+                                }
+
+                                // Step 3: Decrease from collection
+                                cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+
+                                view.displayMessageNewLine("Trade successful! " + outGoingCardName + " removed, "
+                                        + incomingCardName + " added.");
+                                taskDone = true;
+                            } else {
+                                view.displayMessageNewLine("Trade failed: Binder is full.");
+                            }
+                        }
+                    } else {
+                        view.displayMessageNewLine("No Card with given name exists in Binder");
+                        view.displayMessageNewLine("Please re-input Card name");
                     }
-                } else {
-                    view.displayMessageNewLine("No Card with given name exists in Binder");
-                    view.displayMessageNewLine("Please re-input Card name");
-                }
-            } while (!binder.containsKey(outGoingCardName) && !taskDone);
-
+                } while (!binder.containsKey(outGoingCardName) && !taskDone);
+            } else {
+                view.displayMessageNewLine("No Cards in Binder");
+            }
         } else {
             view.displayMessageNewLine("No Binder with given name exists");
         }

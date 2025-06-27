@@ -28,11 +28,11 @@ public class BinderView {
         return scanner.nextLine();
     }
 
-    public void displayMessageNewLine(String message){
+    public void displayMessageNewLine(String message) {
         System.out.println(message);
     }
 
-    public void displayBinders(HashMap<String, BinderModel> binderCollection){
+    public void displayBinders(HashMap<String, BinderModel> binderCollection) {
         ArrayList<String> binderKeys = new ArrayList<>(binderCollection.keySet());
         Collections.sort(binderKeys);
 
@@ -45,7 +45,7 @@ public class BinderView {
         }
     }
 
-    public void displayBinderContent(HashMap<String, CardModel> binder){
+    public void displayBinderContent(HashMap<String, CardModel> binder) {
         ArrayList<String> cardByKey = new ArrayList<>(binder.keySet());
         Collections.sort(cardByKey);
 
@@ -53,13 +53,15 @@ public class BinderView {
         System.out.println("Binder Contents:");
         System.out.println("");
 
-        for (String name : cardByKey){
-            if (binder.get(name).getQuantity() > 1){
-                for (int i = 1; i <= binder.get(name).getQuantity(); i++){
+        for (String name : cardByKey) {
+            if (binder.get(name).getQuantity() > 1) {
+                for (int i = 1; i <= binder.get(name).getQuantity(); i++) {
                     System.out.println("Card Name: " + binder.get(name).getName());
+                    System.out.println("Card Value: " + binder.get(name).getValue());
                 }
             } else {
                 System.out.println("Card Name: " + binder.get(name).getName());
+                System.out.println("Card Value: " + binder.get(name).getValue());
             }
 
         }
