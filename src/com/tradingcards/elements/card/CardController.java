@@ -93,23 +93,27 @@ public class CardController {
                 }
 
                 if (!cancelled) {
-                    value = view.setCardValue();
-                    card.setValue(card.calculateValue(value, variant));
-                    if (String.valueOf(value).equals(EXIT_CODE)) {
-                        cancelled = true;
-                    }
+                    do {
+                        value = view.setCardValue();
+                        card.setValue(card.calculateValue(value, variant));
+                        if (value == Double.parseDouble(EXIT_CODE)) {
+                            cancelled = true;
+                        } else {
+                            view.displayMessageNewLine("No negative values please![Except exit code]");
+                        }
+                    } while (value < 0 && !cancelled);
                 }
 
             } else {
                 do {
                     value = view.setCardValue();
                     card.setValue(value);
-                    if (String.valueOf(value).equals(EXIT_CODE)) {
+                    if (value == Double.parseDouble(EXIT_CODE)) {
                         cancelled = true;
                     }
                     if (value < 0)
-                        view.displayMessageNewLine("No negative values please!");
-                } while (value < 0);
+                        view.displayMessageNewLine("No negative values please![Except exit code]");
+                } while (value < 0 && !cancelled);
             }
         }
 
@@ -144,7 +148,7 @@ public class CardController {
      */
     public void modifyCardQuantity() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
-        displayCollection();
+        displayCollection(0);
         String cardKey = view.setCardName();
         if (collection.containsKey(cardKey)) {
             int newQuantity;
@@ -171,9 +175,16 @@ public class CardController {
      */
     public void displayCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
+        boolean cancelled = false;
         displayCollection();
         if (!collection.isEmpty()) {
-            view.displayCard(collection, view.setCardName());
+            String cardName = view.setCardName();
+
+            if (cardName.equals(EXIT_CODE))
+                cancelled = true;
+
+            if (!cancelled)
+                view.displayCard(collection, cardName);
         } else {
             view.displayMessageNewLine("No Cards yet...");
         }
@@ -189,10 +200,26 @@ public class CardController {
      * error message is printed to indicate that there are no cards.
      */
     public void displayCollection() {
+        // mode 0 -> displays zeroes
+        // mode 1 -> does not display zeroes
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
             view.displayCollection(collection);
+
+        } else {
+            view.displayMessageNewLine("No Cards yet...");
+        }
+    }
+
+    public void displayCollection(int mode) {
+        // mode 0 -> displays zeroes
+        // mode 1 -> does not display zeroes
+        HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
+
+        if (!collection.isEmpty()) {
+            view.displayCollection(collection, mode);
+
         } else {
             view.displayMessageNewLine("No Cards yet...");
         }
