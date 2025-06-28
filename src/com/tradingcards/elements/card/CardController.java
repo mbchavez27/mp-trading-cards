@@ -98,7 +98,8 @@ public class CardController {
                         card.setValue(card.calculateValue(value, variant));
                         if (value == Double.parseDouble(EXIT_CODE)) {
                             cancelled = true;
-                        } else {
+                        }
+                        if (value < 0) {
                             view.displayMessageNewLine("No negative values please![Except exit code]");
                         }
                     } while (value < 0 && !cancelled);
@@ -148,17 +149,29 @@ public class CardController {
      */
     public void modifyCardQuantity() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
-        displayCollection(0);
-        String cardKey = view.setCardName();
-        if (collection.containsKey(cardKey)) {
-            int newQuantity;
-            do {
-                newQuantity = view.setCardQuantity();
-            } while (collection.get(cardKey).getQuantity() == newQuantity || newQuantity < 0);
-            collection.get(cardKey).setQuantity(newQuantity);
 
-        } else {
-            view.displayMessageNewLine("No Card with given name existing in Collection");
+        boolean cancelled = false;
+
+        displayCollection(0);
+
+        view.displayMessageNewLine("Enter \"-999\" to cancel");
+
+        String cardKey = view.setCardName();
+
+        if (cardKey.equals(EXIT_CODE))
+            cancelled = true;
+
+        if (!cancelled) {
+            if (collection.containsKey(cardKey)) {
+                int newQuantity;
+                do {
+                    newQuantity = view.setCardQuantity();
+                } while (collection.get(cardKey).getQuantity() == newQuantity || newQuantity < 0);
+                collection.get(cardKey).setQuantity(newQuantity);
+
+            } else {
+                view.displayMessageNewLine("No Card with given name existing in Collection");
+            }
         }
     }
 

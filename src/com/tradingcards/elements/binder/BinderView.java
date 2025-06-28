@@ -47,6 +47,7 @@ public class BinderView {
         for (String binderNames : binderKeys) {
             System.out.println(binderNames);
         }
+        System.out.println("");
     }
 
     public void displayBinderContent(HashMap<String, CardModel> binder) {
@@ -69,5 +70,6 @@ public class BinderView {
             }
 
         }
+        System.out.println("");
     }
 }
