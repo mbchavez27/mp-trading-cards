@@ -8,19 +8,20 @@ public class CardMenu {
 
     private CardController cardController;
     public static final Scanner GETACTION = new Scanner(System.in);
-    public CardMenu(CardController controller){
+
+    public CardMenu(CardController controller) {
         this.cardController = controller;
     }
 
-    public void runMenu(){
+    public void runMenu() {
         int action;
 
-        do{
+        do {
             manageCards();
             System.out.print("Action: ");
             action = GETACTION.nextInt();
             GETACTION.nextLine(); // Clears input buffer
-            switch(action){
+            switch (action) {
                 case 1:
                     cardController.displayCard();
                     break;
@@ -34,6 +35,7 @@ public class CardMenu {
 
         } while (action != 0);
     }
+
     /**
      * Displays the card management submenu options.
      */

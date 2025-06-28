@@ -179,6 +179,22 @@ public class CardView {
      * @param collection the HashMap containing card names as keys and their
      *                   corresponding {@code CardModel} objects as values
      */
+    public void displayCollection(HashMap<String, CardModel> collection, int mode) {
+        ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
+        Collections.sort(cardByKey);
+        displayMessageNewLine("------------------------------------");
+        displayMessageNewLine("Collection:");
+        displayMessageNewLine("");
+
+        for (String name : cardByKey) {
+            if (mode == 0) {
+                displayMessageNewLine("Card Name: " + collection.get(name).getName());
+                displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
+                displayMessageNewLine("");
+            }
+        }
+    }
+
     public void displayCollection(HashMap<String, CardModel> collection) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);

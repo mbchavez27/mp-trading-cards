@@ -61,11 +61,11 @@ public class BinderView {
             if (binder.get(name).getQuantity() > 1) {
                 for (int i = 1; i <= binder.get(name).getQuantity(); i++) {
                     System.out.println("Card Name: " + binder.get(name).getName());
-                    System.out.println("Card Value: " + binder.get(name).getValue());
+
                 }
             } else {
                 System.out.println("Card Name: " + binder.get(name).getName());
-                System.out.println("Card Value: " + binder.get(name).getValue());
+
             }
 
         }
