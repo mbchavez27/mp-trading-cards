@@ -147,6 +147,10 @@ public class CardView {
             displayMessageNewLine("Card Value: " + collection.get(cardName).getValue());
             displayMessageNewLine("Card Quantity: " + collection.get(cardName).getQuantity());
             displayMessageNewLine("------------------------------------");
+        } else if (collection.get(cardName).getQuantity() == 0) {
+            displayMessageNewLine("-------------------------------");
+            displayMessageNewLine(String.format("Card %s is empty", cardName));
+            displayMessageNewLine("-------------------------------");
         } else {
             displayMessageNewLine("-------------------------------");
             displayMessageNewLine(String.format("Card %s does not exist", cardName));

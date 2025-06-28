@@ -25,28 +25,28 @@ public class DeckView {
         return scanner.nextLine();
     }
 
-    public String setCardName(){
+    public String setCardName() {
         System.out.print("Give Card Name in Deck: ");
         return scanner.nextLine();
     }
 
-    public int setCardNumber(){
+    public int setCardNumber() {
         System.out.print("Give Card Number in Deck: ");
         return scanner.nextInt();
     }
 
-    public String viewCardChoice(){
+    public String viewCardChoice() {
         System.out.print("Would you like to view a Card in the deck? [Y/N]");
         return scanner.nextLine();
     }
 
-    public String cardSelectionOption(){
+    public String cardSelectionOption() {
         System.out.println("Indicate card selection mode");
         System.out.print("Input [name/number]: ");
         return scanner.nextLine();
     }
 
-    public void displayDecks(HashMap<String, DeckModel> deckCollection){
+    public void displayDecks(HashMap<String, DeckModel> deckCollection) {
         ArrayList<String> deckKeys = new ArrayList<>(deckCollection.keySet());
         Collections.sort(deckKeys);
 
@@ -57,9 +57,10 @@ public class DeckView {
         for (String deckNames : deckKeys) {
             System.out.println(deckNames);
         }
+        System.out.println("");
     }
 
-    public void displayDeckContent(HashMap<String, CardModel> deck){
+    public void displayDeckContent(HashMap<String, CardModel> deck) {
         ArrayList<String> cardByKey = new ArrayList<>(deck.keySet());
         Collections.sort(cardByKey);
         int counter = 0;
@@ -67,18 +68,16 @@ public class DeckView {
         System.out.println("Deck Contents:");
         System.out.println("");
 
-        for (String name : cardByKey){
+        for (String name : cardByKey) {
             counter += 1;
-            System.out.println("Card Name: " + deck.get(name).getName() +"\n");
+            System.out.println("Card Name: " + deck.get(name).getName() + "\n");
             System.out.println("Card Number: " + counter);
         }
+        System.out.println("");
     }
 
-    public void displayMessageNewLine(String message){
+    public void displayMessageNewLine(String message) {
         System.out.println(message);
     }
-
-
-
 
 }

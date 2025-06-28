@@ -71,11 +71,12 @@ public class DeckController {
         boolean cancelled = false;
         view.displayMessageNewLine("Enter \"-999\" to cancel");
         String name = view.setDeckName();
-        HashMap<String, DeckModel> decks = sharedCollection.getDeckCollection();
         if (name.equals(EXIT_CODE))
             cancelled = true;
 
         if (!cancelled) {
+            HashMap<String, DeckModel> decks = sharedCollection.getDeckCollection();
+
             if (decks.containsKey(name)) {
                 DeckModel deck = decks.get(name);
                 HashMap<String, CardModel> cardsInDeck = deck.getDeck();
@@ -83,7 +84,7 @@ public class DeckController {
                 for (HashMap.Entry<String, CardModel> entry : cardsInDeck.entrySet()) {
                     String cardName = entry.getKey();
                     sharedCollection.getCardCollection().get(cardName)
-                            .increaseQuantity(cardsInDeck.get(cardName).getQuantity());
+                            .setQuantity(sharedCollection.getCardCollection().get(cardName).getQuantity() + 1);
                 }
 
                 sharedCollection.removeDeckCollection(name);
@@ -251,7 +252,7 @@ public class DeckController {
         String cardName;
         int cardNumber;
 
-        if (toView.equals("Y")) {
+        if (toView.equalsIgnoreCase("Y")) {
             selectionOption = view.cardSelectionOption();
 
             if (selectionOption.equals("name")) {
