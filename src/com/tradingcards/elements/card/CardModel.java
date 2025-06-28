@@ -119,6 +119,11 @@ public class CardModel {
         this.cardQuantity = quantity;
     }
 
+    /**
+     * Increases the quantity of this card by the specified amount.
+     *
+     * @param quantity the number of copies to add to the current quantity
+     */
     public void increaseQuantity(int quantity) {
         this.cardQuantity += quantity;
     }
@@ -133,8 +138,7 @@ public class CardModel {
     }
 
     /**
-     * Calculates the final value of the card based on its base value and
-     * variant.
+     * Calculates the final value of the card based on its base value and variant.
      * <p>
      * The variant affects the final value as follows:
      * <ul>
@@ -152,22 +156,25 @@ public class CardModel {
         double calculatedValue = value;
 
         switch (variant) {
-            case "Normal" ->
-                calculatedValue *= 1;
-
-            case "Extended-art" ->
-                calculatedValue *= 1.5;
-
-            case "Full-art" ->
-                calculatedValue *= 2;
-
-            case "Alt-art" ->
-                calculatedValue *= 3;
-
+            case "Normal" -> calculatedValue *= 1;
+            case "Extended-art" -> calculatedValue *= 1.5;
+            case "Full-art" -> calculatedValue *= 2;
+            case "Alt-art" -> calculatedValue *= 3;
         }
+
         return calculatedValue;
     }
 
+    /**
+     * Determines whether a card with the same name already exists in the collection
+     * and has the same rarity, variant, and value.
+     *
+     * @param sharedCollection the main collection to check against
+     * @param name             the name of the card to compare
+     * @param newCard          the new card being checked
+     * @return {@code true} if a card with the same name and properties exists;
+     *         {@code false} otherwise
+     */
     protected Boolean hasCopy(CollectionModel sharedCollection, String name, CardModel newCard) {
         HashMap<String, CardModel> cards = sharedCollection.getCardCollection();
 

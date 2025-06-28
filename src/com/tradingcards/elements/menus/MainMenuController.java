@@ -16,6 +16,7 @@ import java.util.Scanner;
  */
 public class MainMenuController {
 
+    /** Shared collection that holds cards, binders, and decks. */
     private CollectionModel sharedCollection = new CollectionModel();
 
     /**
@@ -49,29 +50,26 @@ public class MainMenuController {
 
             System.out.print("Action: ");
             action = getAction.nextInt();
-            getAction.nextLine(); //Clears input buffer
+            getAction.nextLine(); // Clears input buffer
+
             switch (action) {
                 case 1 -> {
                     System.out.println("");
                     cardController.addCard();
                     System.out.println("");
                 }
-
                 case 2 -> {
                     binderController.addBinder();
                 }
-
                 case 3 -> {
                     deckController.addDeck();
                 }
-
                 case 4 -> {
                     System.out.println("");
                     cardMenu = new CardMenu(cardController);
                     cardMenu.runMenu();
                     System.out.println("");
                 }
-
                 case 5 -> {
                     System.out.println("");
                     binderMenu = new BinderMenu(binderController);
@@ -91,8 +89,8 @@ public class MainMenuController {
     }
 
     /**
-     * Displays the base menu options to the user based on current collection
-     * state.
+     * Displays the base menu options to the user.
+     * The options dynamically reflect the current state of the collection.
      */
     private void baseMenu() {
         System.out.println("[1] Add Card");
@@ -109,5 +107,4 @@ public class MainMenuController {
         }
         System.out.println("[0] Exit Program");
     }
-
 }

@@ -38,11 +38,23 @@ public class BinderModel {
         return this.binderName;
     }
 
-    public HashMap<String, CardModel> getBinder(){
+    /**
+     * Retrieves the collection of cards stored in the binder.
+     *
+     * @return a {@code HashMap} containing card names mapped to {@link CardModel}
+     *         instances
+     */
+    public HashMap<String, CardModel> getBinder() {
         return this.cardsInBinder;
     }
 
-    public void insertInBinder(CardModel card, String name){
+    /**
+     * Inserts a card into the binder.
+     * 
+     * @param card the {@link CardModel} object to add
+     * @param name the name of the card to use as the key in the binder
+     */
+    public void insertInBinder(CardModel card, String name) {
         cardsInBinder.put(name, card);
     }
 }

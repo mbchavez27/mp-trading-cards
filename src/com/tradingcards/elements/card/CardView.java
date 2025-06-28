@@ -46,16 +46,11 @@ public class CardView {
         } while (option != -999 && (option > 4 || option < 1));
 
         switch (option) {
-            case 1 ->
-                rarity = "Common";
-            case 2 ->
-                rarity = "Uncommon";
-            case 3 ->
-                rarity = "Rare";
-            case 4 ->
-                rarity = "Legendary";
-            case -999 ->
-                rarity = "-999";
+            case 1 -> rarity = "Common";
+            case 2 -> rarity = "Uncommon";
+            case 3 -> rarity = "Rare";
+            case 4 -> rarity = "Legendary";
+            case -999 -> rarity = "-999";
         }
 
         return rarity;
@@ -84,16 +79,11 @@ public class CardView {
         } while (option != -999 && (option > 4 || option < 1));
 
         switch (option) {
-            case 1 ->
-                variant = "Normal";
-            case 2 ->
-                variant = "Extended-art";
-            case 3 ->
-                variant = "Full-art";
-            case 4 ->
-                variant = "Alt-art";
-            case -999 ->
-                variant = "-999";
+            case 1 -> variant = "Normal";
+            case 2 -> variant = "Extended-art";
+            case 3 -> variant = "Full-art";
+            case 4 -> variant = "Alt-art";
+            case -999 -> variant = "-999";
         }
 
         return variant;
@@ -125,14 +115,9 @@ public class CardView {
 
     /**
      * Displays detailed information about a specific card from the collection.
-     * If the card with the specified name exists in the collection, this method
-     * prints its name, rarity, variant (if available), value, and quantity to
-     * the standard output. If the card is not found, an error message is
-     * printed instead.
      *
-     * @param collection the HashMap containing card names as keys and their
-     *                   corresponding {@code CardModel} objects as values
-     * @param cardName   the name of the card to be displayed
+     * @param collection the HashMap of card name to CardModel
+     * @param cardName   the name of the card to display
      */
     public void displayCard(HashMap<String, CardModel> collection, String cardName) {
         displayMessageNewLine("");
@@ -158,7 +143,13 @@ public class CardView {
         }
     }
 
-    // overloaded method used to handle viewing decks
+    /**
+     * Displays card details (used for decks), omitting quantity.
+     *
+     * @param collection the collection containing the card
+     * @param cardName   the name of the card to display
+     * @param mode       an unused parameter (used to overload method signature)
+     */
     public void displayCard(HashMap<String, CardModel> collection, String cardName, int mode) {
         displayMessageNewLine("");
         displayMessageNewLine("------------------------------------");
@@ -173,15 +164,11 @@ public class CardView {
     }
 
     /**
-     * Displays the contents of a card collection in alphabetical order by card
-     * name. This method takes a {@code HashMap<String, CardModel>} where the
-     * key is the card name and the value is a {@code CardModel} object
-     * containing details such as the name and quantity. It sorts the keys (card
-     * names) alphabetically and prints each card's name and quantity to the
-     * standard output.
+     * Displays all cards in the collection with their quantities, regardless of
+     * value.
      *
-     * @param collection the HashMap containing card names as keys and their
-     *                   corresponding {@code CardModel} objects as values
+     * @param collection the card collection to display
+     * @param mode       display mode; mode 0 displays all including zeroes
      */
     public void displayCollection(HashMap<String, CardModel> collection, int mode) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
@@ -199,6 +186,11 @@ public class CardView {
         }
     }
 
+    /**
+     * Displays all cards in the collection that have a quantity greater than zero.
+     *
+     * @param collection the card collection to display
+     */
     public void displayCollection(HashMap<String, CardModel> collection) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);
@@ -215,6 +207,12 @@ public class CardView {
         }
     }
 
+    /**
+     * Prompts the user to confirm whether to increase the card quantity.
+     *
+     * @param name the name of the card in question
+     * @return true if user selects Y, false if N
+     */
     public boolean allowIncreaseCardCount(String name) {
         System.out.print("Do you want to add another copy for Card: " + name + "? (Y/N): ");
         String action = scanner.nextLine().trim();
@@ -227,8 +225,12 @@ public class CardView {
         return action.equalsIgnoreCase("Y");
     }
 
+    /**
+     * Displays a message on a new line.
+     *
+     * @param message the message to be printed
+     */
     public void displayMessageNewLine(String message) {
         System.out.println(message);
     }
-
 }

@@ -8,6 +8,9 @@ import java.util.HashMap;
 /**
  * The {@code CollectionModel} class manages a user's trading card collection,
  * including individual cards, binders, and decks.
+ * <p>
+ * It provides methods to add, retrieve, and remove elements from each type of
+ * collection.
  */
 public class CollectionModel {
 
@@ -57,14 +60,12 @@ public class CollectionModel {
 
     /**
      * Removes a binder from the binder collection by its name.
+     * <p>
+     * If the binder is found and successfully removed, a confirmation message is
+     * printed. Otherwise, a message indicating the binder was not found is
+     * displayed.
      *
      * @param name the name of the binder to be removed
-     *
-     *             If the binder is found and successfully removed, a confirmation
-     *             message
-     *             is printed. Otherwise, a message indicating the binder was not
-     *             found is
-     *             displayed.
      */
     public void removeBinderCollection(String name) {
         BinderModel removed = binderCollection.remove(name);
@@ -96,12 +97,11 @@ public class CollectionModel {
 
     /**
      * Removes a deck from the deck collection by its name.
+     * <p>
+     * Prints a message indicating whether the deck was successfully removed or
+     * if no deck with the given name exists in the collection.
      *
      * @param name the name (key) of the deck to be removed
-     *
-     *             Prints a message indicating whether the deck was successfully
-     *             removed or
-     *             if no deck with the given name exists in the collection.
      */
     public void removeDeckCollection(String name) {
         DeckModel removed = deckCollection.remove(name);
@@ -120,5 +120,4 @@ public class CollectionModel {
     public HashMap<String, DeckModel> getDeckCollection() {
         return this.deckCollection;
     }
-
 }

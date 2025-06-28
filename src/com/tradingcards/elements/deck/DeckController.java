@@ -9,22 +9,24 @@ import java.util.HashMap;
 
 /**
  * Controller class responsible for managing operations related to decks. This
- * includes adding new decks and removing existing ones by interacting with the
- * shared collection and view.
+ * includes adding new decks, removing existing ones, and manipulating cards
+ * within decks by interacting with the shared collection and view.
  */
 public class DeckController {
 
+    /** Reference to the shared collection model containing decks and cards. */
     private CollectionModel sharedCollection;
+
+    /** The view component responsible for user interaction regarding decks. */
     private DeckView view;
 
+    /** Constant used to signal user cancellation of an operation. */
     private static final String EXIT_CODE = "-999";
 
     /**
-     * Constructs a DeckController with the given shared collection, model, and
-     * view.
+     * Constructs a DeckController with the given shared collection and view.
      *
-     * @param sharedCollection the shared CollectionModel containing the deck
-     *                         data
+     * @param sharedCollection the shared CollectionModel containing the deck data
      * @param view             the DeckView responsible for user interaction
      */
     public DeckController(CollectionModel sharedCollection, DeckView view) {
@@ -33,10 +35,9 @@ public class DeckController {
     }
 
     /**
-     * Adds a new deck to the shared collection. Prompts the user to enter a
-     * unique deck name. If the name already exists, the user is asked to input
-     * a new name until a unique one is provided. A new DeckModel is then
-     * created and added to the collection.
+     * Adds a new deck to the shared collection.
+     * Prompts the user for a unique deck name and creates the deck if valid.
+     * If the user inputs "-999", the operation is cancelled.
      */
     public void addDeck() {
         DeckModel deck = new DeckModel();
@@ -62,9 +63,9 @@ public class DeckController {
     }
 
     /**
-     * Removes a deck from the shared collection. Prompts the user to input the
-     * name of the deck to be removed. The specified deck is then removed from
-     * the collection.
+     * Removes a specified deck from the shared collection.
+     * All cards in the deck are returned to the card collection.
+     * Cancels operation if user inputs "-999".
      */
     public void removeDeck() {
         displayDecks();
@@ -95,6 +96,11 @@ public class DeckController {
         }
     }
 
+    /**
+     * Removes a specific card from a selected deck and returns it to the card
+     * collection.
+     * Cancels operation if user inputs "-999".
+     */
     public void removeCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
@@ -145,6 +151,11 @@ public class DeckController {
         }
     }
 
+    /**
+     * Adds a card from the collection to a specified deck.
+     * Validates input and checks for quantity and deck size limits.
+     * Cancels operation if user inputs "-999".
+     */
     public void addCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
@@ -209,6 +220,11 @@ public class DeckController {
         }
     }
 
+    /**
+     * Displays the contents of a specified deck.
+     * Allows the user to select a card to view in detail by name or number.
+     * Cancels operation if user inputs "-999".
+     */
     public void displaySingleDeck() {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         HashMap<String, CardModel> selectedDeck;
@@ -237,6 +253,12 @@ public class DeckController {
         }
     }
 
+    /**
+     * Displays the contents of the given deck.
+     * If the deck is empty, a message is shown.
+     *
+     * @param deck the deck to be displayed
+     */
     public void displayDeckContent(HashMap<String, CardModel> deck) {
         if (!deck.isEmpty()) {
             view.displayDeckContent(deck);
@@ -245,6 +267,11 @@ public class DeckController {
         }
     }
 
+    /**
+     * Allows the user to view a card in the deck by name or number.
+     *
+     * @param deck the deck containing the cards to choose from
+     */
     public void chooseCardFromDeck(HashMap<String, CardModel> deck) {
         CardView cardView = new CardView();
         String toView = view.viewCardChoice();
@@ -284,6 +311,10 @@ public class DeckController {
         }
     }
 
+    /**
+     * Displays all available decks in the shared collection.
+     * If there are no decks, an appropriate message is shown.
+     */
     public void displayDecks() {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
 

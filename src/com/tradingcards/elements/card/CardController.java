@@ -7,6 +7,7 @@ import java.util.HashMap;
  * The {@code CardController} class handles logic for managing cards in the
  * user's collection. It communicates with the {@code CardModel} to manipulate
  * data and interacts with the user through the {@code CardView}.
+ *
  * <p>
  * Responsibilities include:
  * <ul>
@@ -29,13 +30,12 @@ public class CardController {
     private CardView view;
 
     /**
-     *
+     * Exit code constant for user cancellation.
      */
     private static final String EXIT_CODE = "-999";
 
     /**
-     * Constructs a {@code CardController} with the specified collection, model,
-     * and view.
+     * Constructs a {@code CardController} with the specified collection and view.
      *
      * @param sharedCollection the central collection shared across the app
      * @param view             the view class that handles user input/output for
@@ -48,26 +48,21 @@ public class CardController {
 
     /**
      * Creates and adds a new card to the collection based on user input.
+     *
      * <p>
-     * This method instantiates a new {@code CardModel} object and sets its
-     * properties (name, rarity, value, and optionally variant) using input
-     * provided by the user through the {@code view}. If the rarity is "Rare" or
-     * "Legendary", a variant is also required and the card's value is
-     * calculated using the variant. Otherwise, the value is set directly. The
-     * card is then given a default quantity of 1 and added to the collection
-     * via {@code CollectionModel.setCardCollection()}.
-     * <p>
-     * <b>Note:</b> Currently, the method does not check for duplicate cards in
-     * the collection before setting the quantity.
+     * This method sets card properties (name, rarity, value, variant) from
+     * user input and stores the card in the shared collection. For "Rare" or
+     * "Legendary" rarities, it also asks for a variant and calculates the value
+     * accordingly.
+     *
+     * @return the name of the card added (or attempted to add)
      */
     public String addCard() {
-        // Instantiate Card Object
         CardModel card = new CardModel();
         boolean cancelled = false;
         String name, rarity, variant;
         double value;
 
-        // Get from View
         view.displayMessageNewLine("Enter \"-999\" to cancel");
         name = view.setCardName().trim();
         card.setName(name);
@@ -137,25 +132,14 @@ public class CardController {
 
     /**
      * Modifies the quantity of a specific card in the collection.
-     * <p>
-     * This method first displays the current collection and prompts the user to
-     * enter the name of the card they wish to modify using
-     * {@code view.setCardName()}. If the card exists, it repeatedly prompts the
-     * user for a new quantity using {@code view.setCardQuantity()} until a
-     * valid and different quantity (non-negative and not equal to the current
-     * quantity) is provided. It then updates the card's quantity in the
-     * collection. If the specified card does not exist, an error message is
-     * displayed.
+     * Prompts the user to choose a card and input a new valid quantity.
      */
     public void modifyCardQuantity() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
-
         boolean cancelled = false;
 
         displayCollection(0);
-
         view.displayMessageNewLine("Enter \"-999\" to cancel");
-
         String cardKey = view.setCardName();
 
         if (cardKey.equals(EXIT_CODE))
@@ -176,20 +160,14 @@ public class CardController {
     }
 
     /**
-     * Prompts the user to enter a card name and displays the details of the
-     * specified card.
-     * <p>
-     * This method retrieves the current card collection from
-     * {@code CollectionModel.getCardCollection()}. If the collection is not
-     * empty, it prompts the user to input a card name using
-     * {@code view.setCardName()}, then displays the corresponding card details
-     * using {@code view.displayCard()}. If the collection is empty, an error
-     * message is displayed.
+     * Prompts the user to select a card and displays its details.
+     * If the collection is empty, displays an appropriate message.
      */
     public void displayCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         boolean cancelled = false;
         displayCollection();
+
         if (!collection.isEmpty()) {
             String cardName = view.setCardName();
 
@@ -204,35 +182,29 @@ public class CardController {
     }
 
     /**
-     * Retrieves and displays the user's entire card collection.
-     * <p>
-     * This method obtains the current card collection from
-     * {@code CollectionModel.getCardCollection()}. If the collection is not
-     * empty, it delegates the display task to the
-     * {@code view.displayCollection()} method. If the collection is empty, an
-     * error message is printed to indicate that there are no cards.
+     * Displays the full card collection including cards with 0 quantity.
      */
     public void displayCollection() {
-        // mode 0 -> displays zeroes
-        // mode 1 -> does not display zeroes
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
             view.displayCollection(collection);
-
         } else {
             view.displayMessageNewLine("No Cards yet...");
         }
     }
 
+    /**
+     * Displays the card collection with filtering options.
+     *
+     * @param mode display mode (0 = include zero-quantity cards, 1 = exclude
+     *             zeroes)
+     */
     public void displayCollection(int mode) {
-        // mode 0 -> displays zeroes
-        // mode 1 -> does not display zeroes
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
             view.displayCollection(collection, mode);
-
         } else {
             view.displayMessageNewLine("No Cards yet...");
         }

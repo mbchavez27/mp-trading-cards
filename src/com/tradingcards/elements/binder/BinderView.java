@@ -27,15 +27,31 @@ public class BinderView {
         return scanner.nextLine();
     }
 
+    /**
+     * Displays a message followed by a newline.
+     *
+     * @param message the message to display
+     */
     public void displayMessageNewLine(String message) {
         System.out.println(message);
     }
 
+    /**
+     * Displays a prompt message and retrieves user input.
+     *
+     * @param message the message to prompt the user
+     * @return the user's input as a string
+     */
     public String getBinderChoice(String message) {
         System.out.print(message);
         return scanner.nextLine();
     }
 
+    /**
+     * Displays the list of all binder names in the binder collection.
+     *
+     * @param binderCollection a map containing binder names and their models
+     */
     public void displayBinders(HashMap<String, BinderModel> binderCollection) {
         ArrayList<String> binderKeys = new ArrayList<>(binderCollection.keySet());
         Collections.sort(binderKeys);
@@ -50,6 +66,12 @@ public class BinderView {
         System.out.println("");
     }
 
+    /**
+     * Displays the contents of a binder, including each card's name.
+     * If a card has more than one copy, it is listed multiple times.
+     *
+     * @param binder a map containing card names and their models
+     */
     public void displayBinderContent(HashMap<String, CardModel> binder) {
         ArrayList<String> cardByKey = new ArrayList<>(binder.keySet());
         Collections.sort(cardByKey);
@@ -62,13 +84,10 @@ public class BinderView {
             if (binder.get(name).getQuantity() > 1) {
                 for (int i = 1; i <= binder.get(name).getQuantity(); i++) {
                     System.out.println("Card Name: " + binder.get(name).getName());
-
                 }
             } else {
                 System.out.println("Card Name: " + binder.get(name).getName());
-
             }
-
         }
         System.out.println("");
     }
