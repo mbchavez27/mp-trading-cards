@@ -227,15 +227,22 @@ public class BinderController {
 
     public void displaySingleBinder() {
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
+        boolean cancelled = false;
         displayBinders();
         if (!binderCollection.isEmpty()) {
+
+            view.displayMessageNewLine("Enter \"-999\" to cancel");
             view.displayMessageNewLine("Indicate binder to view");
             String binderName = view.setBinderName();
+            if (binderName.equals(EXIT_CODE))
+                cancelled = true;
 
-            if (binderCollection.containsKey(binderName)) {
-                displayBinderContent(binderCollection.get(binderName).getBinder());
-            } else {
-                view.displayMessageNewLine("No Binder with given name exists");
+            if (!cancelled) {
+                if (binderCollection.containsKey(binderName)) {
+                    displayBinderContent(binderCollection.get(binderName).getBinder());
+                } else {
+                    view.displayMessageNewLine("No Binder with given name exists");
+                }
             }
         }
     }
@@ -393,21 +400,28 @@ public class BinderController {
      */
     public void removeBinder() {
         displayBinders();
+        boolean cancelled = false;
+        view.displayMessageNewLine("Enter \"-999\" to cancel");
         String name = view.setBinderName();
-        HashMap<String, BinderModel> binders = sharedCollection.getBinderCollection();
+        if (name.equals(EXIT_CODE))
+            cancelled = true;
 
-        if (binders.containsKey(name)) {
-            BinderModel binder = binders.get(name);
-            HashMap<String, CardModel> cardsInBinder = binder.getBinder();
-            for (HashMap.Entry<String, CardModel> entry : cardsInBinder.entrySet()) {
-                String cardName = entry.getKey();
-                sharedCollection.getCardCollection().get(cardName)
-                        .increaseQuantity(cardsInBinder.get(cardName).getQuantity());
+        if (!cancelled) {
+            HashMap<String, BinderModel> binders = sharedCollection.getBinderCollection();
+
+            if (binders.containsKey(name)) {
+                BinderModel binder = binders.get(name);
+                HashMap<String, CardModel> cardsInBinder = binder.getBinder();
+                for (HashMap.Entry<String, CardModel> entry : cardsInBinder.entrySet()) {
+                    String cardName = entry.getKey();
+                    sharedCollection.getCardCollection().get(cardName)
+                            .increaseQuantity(cardsInBinder.get(cardName).getQuantity());
+                }
+                sharedCollection.removeBinderCollection(name);
+                view.displayMessageNewLine("Binder \"" + name + "\" removed and cards returned.");
+            } else {
+                view.displayMessageNewLine("Binder \"" + name + "\" not found.");
             }
-            sharedCollection.removeBinderCollection(name);
-            view.displayMessageNewLine("Binder \"" + name + "\" removed and cards returned.");
-        } else {
-            view.displayMessageNewLine("Binder \"" + name + "\" not found.");
         }
     }
 

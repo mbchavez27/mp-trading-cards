@@ -175,9 +175,16 @@ public class CardController {
      */
     public void displayCard() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
+        boolean cancelled = false;
         displayCollection();
         if (!collection.isEmpty()) {
-            view.displayCard(collection, view.setCardName());
+            String cardName = view.setCardName();
+
+            if (cardName.equals(EXIT_CODE))
+                cancelled = true;
+
+            if (!cancelled)
+                view.displayCard(collection, cardName);
         } else {
             view.displayMessageNewLine("No Cards yet...");
         }

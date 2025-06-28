@@ -17,6 +17,8 @@ public class DeckController {
     private CollectionModel sharedCollection;
     private DeckView view;
 
+    private static final String EXIT_CODE = "-999";
+
     /**
      * Constructs a DeckController with the given shared collection, model, and
      * view.
@@ -39,16 +41,24 @@ public class DeckController {
     public void addDeck() {
         DeckModel deck = new DeckModel();
         String name;
+        boolean cancelled = false;
 
         do {
+            view.displayMessageNewLine("Enter \"-999\" to cancel");
             name = view.setDeckName();
-            if (sharedCollection.getDeckCollection().containsKey(name)) {
-                System.out.println("Deck already exists choose a new name...");
+            if (name.equals(EXIT_CODE))
+                cancelled = true;
+
+            if (!cancelled) {
+                if (sharedCollection.getDeckCollection().containsKey(name)) {
+                    System.out.println("Deck already exists choose a new name...");
+                }
             }
 
         } while (sharedCollection.getDeckCollection().containsKey(name));
 
-        sharedCollection.setDeckCollection(deck, name);
+        if (!cancelled)
+            sharedCollection.setDeckCollection(deck, name);
     }
 
     /**
@@ -58,23 +68,29 @@ public class DeckController {
      */
     public void removeDeck() {
         displayDecks();
+        boolean cancelled = false;
+        view.displayMessageNewLine("Enter \"-999\" to cancel");
         String name = view.setDeckName();
         HashMap<String, DeckModel> decks = sharedCollection.getDeckCollection();
+        if (name.equals(EXIT_CODE))
+            cancelled = true;
 
-        if (decks.containsKey(name)) {
-            DeckModel deck = decks.get(name);
-            HashMap<String, CardModel> cardsInDeck = deck.getDeck();
+        if (!cancelled) {
+            if (decks.containsKey(name)) {
+                DeckModel deck = decks.get(name);
+                HashMap<String, CardModel> cardsInDeck = deck.getDeck();
 
-            for (HashMap.Entry<String, CardModel> entry : cardsInDeck.entrySet()) {
-                String cardName = entry.getKey();
-                sharedCollection.getCardCollection().get(cardName)
-                        .increaseQuantity(cardsInDeck.get(cardName).getQuantity());
+                for (HashMap.Entry<String, CardModel> entry : cardsInDeck.entrySet()) {
+                    String cardName = entry.getKey();
+                    sharedCollection.getCardCollection().get(cardName)
+                            .increaseQuantity(cardsInDeck.get(cardName).getQuantity());
+                }
+
+                sharedCollection.removeDeckCollection(name);
+                view.displayMessageNewLine("Deck \"" + name + "\" removed and cards returned.");
+            } else {
+                view.displayMessageNewLine("Deck \"" + name + "\" not found.");
             }
-
-            sharedCollection.removeDeckCollection(name);
-            view.displayMessageNewLine("Deck \"" + name + "\" removed and cards returned.");
-        } else {
-            view.displayMessageNewLine("Deck \"" + name + "\" not found.");
         }
     }
 
@@ -84,40 +100,47 @@ public class DeckController {
         HashMap<String, CardModel> deck;
         String cardToRemove;
         boolean taskDone = false;
+        boolean cancelled = false;
 
         if (!deckCollection.isEmpty()) {
             CardView cardView = new CardView();
             displayDecks();
 
+            view.displayMessageNewLine("Enter \"-999\" to cancel");
             String deckName = view.setDeckName();
-            if (deckCollection.containsKey(deckName)) {
-                deck = deckCollection.get(deckName).getDeck();
+            if (deckName.equals(EXIT_CODE))
+                cancelled = false;
+            if (!cancelled) {
+                if (deckCollection.containsKey(deckName)) {
+                    deck = deckCollection.get(deckName).getDeck();
 
-                if (deck.isEmpty()) {
-                    view.displayMessageNewLine("Deck is currently empty");
-                    view.displayMessageNewLine("Add cards to the Deck first");
+                    if (deck.isEmpty()) {
+                        view.displayMessageNewLine("Deck is currently empty");
+                        view.displayMessageNewLine("Add cards to the Deck first");
+                    } else {
+                        displayDeckContent(deck);
+                        do {
+                            view.displayMessageNewLine("Indicate card to be deleted");
+                            cardToRemove = cardView.setCardName();
+                            if (deck.containsKey(cardToRemove)) {
+                                collection.get(cardToRemove)
+                                        .setQuantity(collection.get(cardToRemove).getQuantity() + 1);
+                                deck.remove(cardToRemove);
+                                view.displayMessageNewLine("Sucessfully transferred Card into Collection");
+                                taskDone = true;
+                            } else {
+                                view.displayMessageNewLine("No Card with given name exists in Deck");
+                                view.displayMessageNewLine("Please re-input Card name");
+                            }
+
+                        } while (!deck.containsKey(cardToRemove) && !taskDone);
+                    }
                 } else {
-                    displayDeckContent(deck);
-                    do {
-                        view.displayMessageNewLine("Indicate card to be deleted");
-                        cardToRemove = cardView.setCardName();
-                        if (deck.containsKey(cardToRemove)) {
-                            collection.get(cardToRemove).setQuantity(collection.get(cardToRemove).getQuantity() + 1);
-                            deck.remove(cardToRemove);
-                            view.displayMessageNewLine("Sucessfully transferred Card into Collection");
-                            taskDone = true;
-                        } else {
-                            view.displayMessageNewLine("No Card with given name exists in Deck");
-                            view.displayMessageNewLine("Please re-input Card name");
-                        }
-
-                    } while (!deck.containsKey(cardToRemove) && !taskDone);
+                    view.displayMessageNewLine("No Deck with given name exists");
                 }
             } else {
-                view.displayMessageNewLine("No Deck with given name exists");
+                view.displayMessageNewLine("No decks made yet");
             }
-        } else {
-            view.displayMessageNewLine("No decks made yet");
         }
     }
 
@@ -130,46 +153,54 @@ public class DeckController {
 
         String cardToRemove;
         boolean taskDone = false;
+        boolean cancelled = false;
 
         if (!collection.isEmpty()) {
 
             displayDecks();
 
+            view.displayMessageNewLine("Enter \"-999\" to cancel");
             String deckName = view.setDeckName();
-            if (deckCollection.isEmpty()) {
-                view.displayMessageNewLine("No cards in collection yet");
-                view.displayMessageNewLine("Input cards in collection first");
-            } else {
-                if (deckCollection.containsKey(deckName)) {
-                    deck = deckCollection.get(deckName);
-                    cardView.displayCollection(collection);
+            if (deckName.equals(EXIT_CODE))
+                cancelled = true;
 
-                    do {
-                        cardToRemove = cardView.setCardName();
-                        if (collection.containsKey(cardToRemove)) {
-                            cardInCollection = collection.get(cardToRemove);
-                            if (cardInCollection.getQuantity() > 0) {
-                                if (deck.getDeck().size() < 10) {
-                                    if (deck.addCardtoDeck(collection.get(cardToRemove), cardToRemove)) {
-                                        cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
-                                        view.displayMessageNewLine("Successfully transferred card into Deck");
-                                        taskDone = true;
+            if (!cancelled) {
+                if (deckCollection.isEmpty()) {
+                    view.displayMessageNewLine("No cards in collection yet");
+                    view.displayMessageNewLine("Input cards in collection first");
+                } else {
+                    if (deckCollection.containsKey(deckName)) {
+                        deck = deckCollection.get(deckName);
+                        cardView.displayCollection(collection);
+
+                        do {
+                            cardToRemove = cardView.setCardName();
+                            if (collection.containsKey(cardToRemove)) {
+                                cardInCollection = collection.get(cardToRemove);
+                                if (cardInCollection.getQuantity() > 0) {
+                                    if (deck.getDeck().size() < 10) {
+                                        if (deck.addCardtoDeck(collection.get(cardToRemove), cardToRemove)) {
+                                            cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+                                            view.displayMessageNewLine("Successfully transferred card into Deck");
+                                            taskDone = true;
+                                        } else {
+                                            view.displayMessageNewLine("Deck already contains specified card");
+                                        }
                                     } else {
-                                        view.displayMessageNewLine("Deck already contains specified card");
+                                        view.displayMessageNewLine("Deck is already full");
                                     }
                                 } else {
-                                    view.displayMessageNewLine("Deck is already full");
+                                    view.displayMessageNewLine(
+                                            "Collection currently has zero copies of specified card");
                                 }
                             } else {
-                                view.displayMessageNewLine("Collection currently has zero copies of specified card");
+                                view.displayMessageNewLine("No Card with given name exists in Collection");
+                                view.displayMessageNewLine("Please re-input Card name");
                             }
-                        } else {
-                            view.displayMessageNewLine("No Card with given name exists in Collection");
-                            view.displayMessageNewLine("Please re-input Card name");
-                        }
-                    } while (!collection.containsKey(cardToRemove) && !taskDone);
-                } else {
-                    view.displayMessageNewLine("No Deck with given name exists");
+                        } while (!collection.containsKey(cardToRemove) && !taskDone);
+                    } else {
+                        view.displayMessageNewLine("No Deck with given name exists");
+                    }
                 }
             }
         } else {
@@ -181,20 +212,26 @@ public class DeckController {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         HashMap<String, CardModel> selectedDeck;
         displayDecks();
-        if (!deckCollection.isEmpty()){
+        boolean cancelled = false;
+        if (!deckCollection.isEmpty()) {
             view.displayMessageNewLine("Indicate Deck to view");
+            view.displayMessageNewLine("Enter \"-999\" to cancel");
             String deckName = view.setDeckName();
+            if (deckName.equals(EXIT_CODE))
+                cancelled = true;
 
-            if (deckCollection.containsKey(deckName)) {
-                selectedDeck = deckCollection.get(deckName).getDeck();
-                if (!selectedDeck.isEmpty()) {
-                    view.displayDeckContent(selectedDeck);
-                    chooseCardFromDeck(selectedDeck);
+            if (!cancelled) {
+                if (deckCollection.containsKey(deckName)) {
+                    selectedDeck = deckCollection.get(deckName).getDeck();
+                    if (!selectedDeck.isEmpty()) {
+                        view.displayDeckContent(selectedDeck);
+                        chooseCardFromDeck(selectedDeck);
+                    } else {
+                        view.displayMessageNewLine("No Cards in Deck");
+                    }
                 } else {
-                    view.displayMessageNewLine("No Cards in Deck");
+                    view.displayMessageNewLine("No Deck with given name exists");
                 }
-            } else {
-                view.displayMessageNewLine("No Deck with given name exists");
             }
         }
     }
@@ -221,7 +258,7 @@ public class DeckController {
                 cardName = view.setCardName();
 
                 if (deck.containsKey(cardName)) {
-                    cardView.displayCard(deck, cardName,0);
+                    cardView.displayCard(deck, cardName, 0);
                 } else {
                     view.displayMessageNewLine("Card does not exist in Deck");
                 }
