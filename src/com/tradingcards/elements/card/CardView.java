@@ -121,21 +121,23 @@ public class CardView {
      */
     public void displayCard(HashMap<String, CardModel> collection, String cardName) {
         displayMessageNewLine("");
-        if (collection.containsKey(cardName) && collection.get(cardName).getQuantity() > 0) {
-            displayMessageNewLine("------------------------------------");
-            displayMessageNewLine("Card Details:");
-            displayMessageNewLine("Card Name: " + collection.get(cardName).getName());
-            displayMessageNewLine("Card Rarity: " + collection.get(cardName).getRarity());
-            if (collection.get(cardName).getVariant() != null) {
-                displayMessageNewLine("Card Variant: " + collection.get(cardName).getVariant());
+        if (collection.containsKey(cardName)){
+            if (collection.get(cardName).getQuantity() > 0) {
+                displayMessageNewLine("------------------------------------");
+                displayMessageNewLine("Card Details:");
+                displayMessageNewLine("Card Name: " + collection.get(cardName).getName());
+                displayMessageNewLine("Card Rarity: " + collection.get(cardName).getRarity());
+                if (collection.get(cardName).getVariant() != null) {
+                    displayMessageNewLine("Card Variant: " + collection.get(cardName).getVariant());
+                }
+                displayMessageNewLine("Card Value: " + collection.get(cardName).getValue());
+                displayMessageNewLine("Card Quantity: " + collection.get(cardName).getQuantity());
+                displayMessageNewLine("------------------------------------");
+            } else if (collection.get(cardName).getQuantity() == 0) {
+                displayMessageNewLine("-------------------------------");
+                displayMessageNewLine(String.format("Card %s is empty", cardName));
+                displayMessageNewLine("-------------------------------");
             }
-            displayMessageNewLine("Card Value: " + collection.get(cardName).getValue());
-            displayMessageNewLine("Card Quantity: " + collection.get(cardName).getQuantity());
-            displayMessageNewLine("------------------------------------");
-        } else if (collection.get(cardName).getQuantity() == 0) {
-            displayMessageNewLine("-------------------------------");
-            displayMessageNewLine(String.format("Card %s is empty", cardName));
-            displayMessageNewLine("-------------------------------");
         } else {
             displayMessageNewLine("-------------------------------");
             displayMessageNewLine(String.format("Card %s does not exist", cardName));
