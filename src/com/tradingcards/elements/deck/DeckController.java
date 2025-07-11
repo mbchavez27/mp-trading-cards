@@ -70,6 +70,7 @@ public class DeckController {
      * Cancels operation if user inputs "-999".
      */
     public void removeDeck() {
+        // Display the list of decks to the user
         displayDecks();
         boolean cancelled = false;
         view.displayMessageNewLine("Enter \"-999\" to cancel");
@@ -77,19 +78,25 @@ public class DeckController {
         if (name.equals(EXIT_CODE))
             cancelled = true;
 
+        // Proceed only if not cancelled
         if (!cancelled) {
+            // Get all existing decks
             HashMap<String, DeckModel> decks = sharedCollection.getDeckCollection();
 
+            // Check if the specified deck exists
             if (decks.containsKey(name)) {
                 DeckModel deck = decks.get(name);
                 HashMap<String, CardModel> cardsInDeck = deck.getDeck();
 
+                // Return each card from the deck to the main collection
                 for (HashMap.Entry<String, CardModel> entry : cardsInDeck.entrySet()) {
                     String cardName = entry.getKey();
+                    // Increase the quantity of the card in the collection by 1
                     sharedCollection.getCardCollection().get(cardName)
                             .setQuantity(sharedCollection.getCardCollection().get(cardName).getQuantity() + 1);
                 }
 
+                // Remove the deck from the shared collection
                 sharedCollection.removeDeckCollection(name);
                 view.displayMessageNewLine("Deck \"" + name + "\" removed and cards returned.");
             } else {
@@ -104,6 +111,7 @@ public class DeckController {
      * Cancels operation if user inputs "-999".
      */
     public void removeCard() {
+        // Get references to main collections
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         HashMap<String, CardModel> deck;
@@ -111,6 +119,7 @@ public class DeckController {
         boolean taskDone = false;
         boolean cancelled = false;
 
+        // Proceed only if at least one deck exists
         if (!deckCollection.isEmpty()) {
             CardView cardView = new CardView();
             displayDecks();
@@ -118,7 +127,9 @@ public class DeckController {
             view.displayMessageNewLine("Enter \"-999\" to cancel");
             String deckName = view.setDeckName();
             if (deckName.equals(EXIT_CODE))
-                cancelled = false;
+                cancelled = true;
+
+            // Proceed only if user didn't cancel
             if (!cancelled) {
                 if (deckCollection.containsKey(deckName)) {
                     deck = deckCollection.get(deckName).getDeck();
@@ -128,16 +139,23 @@ public class DeckController {
                         view.displayMessageNewLine("Add cards to the Deck first");
                     } else {
                         displayDeckContent(deck);
+
+                        // Repeat until a valid card is removed
                         do {
                             view.displayMessageNewLine("Indicate card to be deleted");
                             cardToRemove = cardView.setCardName();
+
+                            // Check if the card exists in the deck
                             if (deck.containsKey(cardToRemove)) {
+                                // Increase quantity back to main collection
                                 collection.get(cardToRemove)
                                         .setQuantity(collection.get(cardToRemove).getQuantity() + 1);
+                                // Remove card from deck
                                 deck.remove(cardToRemove);
                                 view.displayMessageNewLine("Sucessfully transferred Card into Collection");
                                 taskDone = true;
                             } else {
+                                // Invalid input; prompt again
                                 view.displayMessageNewLine("No Card with given name exists in Deck");
                                 view.displayMessageNewLine("Please re-input Card name");
                             }
@@ -145,9 +163,11 @@ public class DeckController {
                         } while (!deck.containsKey(cardToRemove) && !taskDone);
                     }
                 } else {
+                    // If deck name is invalid
                     view.displayMessageNewLine("No Deck with given name exists");
                 }
             } else {
+                // If there are no decks created
                 view.displayMessageNewLine("No decks made yet");
             }
         }
@@ -159,6 +179,7 @@ public class DeckController {
      * Cancels operation if user inputs "-999".
      */
     public void addCard() {
+        // Get references to the card collection and deck collection
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         CardView cardView = new CardView();
@@ -169,55 +190,74 @@ public class DeckController {
         boolean taskDone = false;
         boolean cancelled = false;
 
+        // Proceed only if the collection is not empty
         if (!collection.isEmpty()) {
 
             displayDecks();
 
+            // Prompt user for deck name or cancel
             view.displayMessageNewLine("Enter \"-999\" to cancel");
             String deckName = view.setDeckName();
             if (deckName.equals(EXIT_CODE))
                 cancelled = true;
 
+            // Check if user canceled
             if (!cancelled) {
                 if (deckCollection.isEmpty()) {
                     view.displayMessageNewLine("No cards in collection yet");
                     view.displayMessageNewLine("Input cards in collection first");
                 } else {
+                    // Proceed if the specified deck exists
                     if (deckCollection.containsKey(deckName)) {
                         deck = deckCollection.get(deckName);
                         cardView.displayCollection(collection);
 
                         do {
                             cardToRemove = cardView.setCardName();
+
+                            // Check if card exists in collection
                             if (collection.containsKey(cardToRemove)) {
                                 cardInCollection = collection.get(cardToRemove);
+
+                                // Check if card has copies left in collection
                                 if (cardInCollection.getQuantity() > 0) {
+
+                                    // Check if deck has space for more cards (max 10)
                                     if (deck.getDeck().size() < 10) {
                                         if (deck.addCardtoDeck(collection.get(cardToRemove), cardToRemove)) {
+                                            // Decrease quantity in main collection
                                             cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+
+                                            // Confirm success
                                             view.displayMessageNewLine("Successfully transferred card into Deck");
                                             taskDone = true;
                                         } else {
+                                            // Card is already in the deck
                                             view.displayMessageNewLine("Deck already contains specified card");
                                         }
                                     } else {
+                                        // Deck has reached max size
                                         view.displayMessageNewLine("Deck is already full");
                                     }
                                 } else {
+                                    // No more copies of this card left in collection
                                     view.displayMessageNewLine(
                                             "Collection currently has zero copies of specified card");
                                 }
                             } else {
+                                // Invalid card name entered
                                 view.displayMessageNewLine("No Card with given name exists in Collection");
                                 view.displayMessageNewLine("Please re-input Card name");
                             }
                         } while (!collection.containsKey(cardToRemove) && !taskDone);
                     } else {
+                        // Deck name not found
                         view.displayMessageNewLine("No Deck with given name exists");
                     }
                 }
             }
         } else {
+            // No cards available to add to deck
             view.displayMessageNewLine("\nCard collection is empty\n");
         }
     }
@@ -228,18 +268,29 @@ public class DeckController {
      * Cancels operation if user inputs "-999".
      */
     public void displaySingleDeck() {
+        // Get the map of all decks
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         HashMap<String, CardModel> selectedDeck;
+
+        // Display all available decks to the user
         displayDecks();
         boolean cancelled = false;
+
+        // Proceed only if there is at least one deck
         if (!deckCollection.isEmpty()) {
+
+            // Prompt user to choose a deck or cancel
             view.displayMessageNewLine("Indicate Deck to view");
             view.displayMessageNewLine("Enter \"-999\" to cancel");
+
+            // Get the deck name input from the user
             String deckName = view.setDeckName();
             if (deckName.equals(EXIT_CODE))
                 cancelled = true;
 
+            // If not cancelled, proceed
             if (!cancelled) {
+                // Check if the deck name exists
                 if (deckCollection.containsKey(deckName)) {
                     selectedDeck = deckCollection.get(deckName).getDeck();
                     if (!selectedDeck.isEmpty()) {
@@ -275,23 +326,29 @@ public class DeckController {
      * @param deck the deck containing the cards to choose from
      */
     public void chooseCardFromDeck(HashMap<String, CardModel> deck) {
-        CardView cardView = new CardView();
-        String toView = view.viewCardChoice();
+        CardView cardView = new CardView(); // Used to display card details
+        String toView = view.viewCardChoice(); // Ask user if they want to view a card
         String selectionOption;
         String cardName;
         int cardNumber;
 
+        // Proceed only if user inputs "Y" or "y"
         if (toView.equalsIgnoreCase("Y")) {
+            // Ask if user wants to select by name or number
             selectionOption = view.cardSelectionOption();
 
+            // If user chooses to select by card name
             if (selectionOption.equals("name")) {
                 cardName = view.setCardName();
 
+                // Check if the specified card exists in the deck
                 if (deck.containsKey(cardName)) {
                     cardView.displayCard(deck, cardName, 0);
                 } else {
                     view.displayMessageNewLine("Card does not exist in Deck");
                 }
+
+            // If user chooses to select by card number
             } else if (selectionOption.equals("number")) {
                 cardNumber = view.setCardNumber();
 
