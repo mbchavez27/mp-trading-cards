@@ -81,11 +81,14 @@ public class BinderView {
         System.out.println("");
 
         for (String name : cardByKey) {
+            // If there are multiple copies of the card
             if (binder.get(name).getQuantity() > 1) {
+                // Print the card name once per copy
                 for (int i = 1; i <= binder.get(name).getQuantity(); i++) {
                     System.out.println("Card Name: " + binder.get(name).getName());
                 }
             } else {
+                // If only one copy, print once
                 System.out.println("Card Name: " + binder.get(name).getName());
             }
         }

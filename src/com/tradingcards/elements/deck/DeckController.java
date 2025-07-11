@@ -44,18 +44,20 @@ public class DeckController {
         String name;
         boolean cancelled = false;
 
+        // Loop to prompt user for a valid, non-duplicate deck name
         do {
             view.displayMessageNewLine("Enter \"-999\" to cancel");
             name = view.setDeckName();
             if (name.equals(EXIT_CODE))
                 cancelled = true;
 
+            // If not cancelled, check if deck name already exists
             if (!cancelled) {
                 if (sharedCollection.getDeckCollection().containsKey(name)) {
                     System.out.println("Deck already exists choose a new name...");
                 }
             }
-
+            // Repeat loop if deck name is already taken
         } while (sharedCollection.getDeckCollection().containsKey(name));
 
         if (!cancelled)
