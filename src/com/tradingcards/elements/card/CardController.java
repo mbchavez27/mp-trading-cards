@@ -64,13 +64,17 @@ public class CardController {
         double value;
 
         view.displayMessageNewLine("Enter \"-999\" to cancel");
+
+        // Ask for card name
         name = view.setCardName().trim();
         card.setName(name);
         if (name.equals(EXIT_CODE)) {
             cancelled = true;
         }
 
+        // Proceed if not cancelled
         if (!cancelled) {
+            // Ask for card rarity and assign
             rarity = view.setCardRarity();
             card.setRarity(rarity);
 
@@ -79,21 +83,31 @@ public class CardController {
             }
         }
 
+        // Continue only if still not cancelled
         if (!cancelled) {
+            // If card is Rare or Legendary, ask for variant and compute modified value
             if (card.getRarity().equals("Rare") || card.getRarity().equals("Legendary")) {
                 variant = view.setCardVariant();
                 card.setVariant(variant);
+                // Cancel if user inputs exit code
                 if (variant.equals(EXIT_CODE)) {
                     cancelled = true;
                 }
 
+                // If not cancelled, ask for card value
                 if (!cancelled) {
                     do {
                         value = view.setCardValue();
+
+                        // Calculate value based on rarity/variant logic
                         card.setValue(card.calculateValue(value, variant));
+
+                        // Cancel if value equals exit code
                         if (value == Double.parseDouble(EXIT_CODE)) {
                             cancelled = true;
                         }
+
+                        // Prevent negative values
                         if (value < 0) {
                             view.displayMessageNewLine("No negative values please![Except exit code]");
                         }
@@ -101,24 +115,33 @@ public class CardController {
                 }
 
             } else {
+                // For Common or other rarities, no variant needed
                 do {
                     value = view.setCardValue();
                     card.setValue(value);
+
+                    // Cancel if value equals exit code
                     if (value == Double.parseDouble(EXIT_CODE)) {
                         cancelled = true;
                     }
+
+                    // Prevent negative values
                     if (value < 0)
                         view.displayMessageNewLine("No negative values please![Except exit code]");
                 } while (value < 0 && !cancelled);
             }
         }
 
+        // Final processing if still not cancelled
         if (!cancelled) {
+            // Check if card already exists in collection
             if (sharedCollection.getCardCollection().containsKey(name)) {
                 if (card.hasCopy(sharedCollection, name, card)) {
+                    // Ask if user wants to increase card count
                     if (view.allowIncreaseCardCount(name))
                         sharedCollection.getCardCollection().get(name).increaseQuantity(1);
                 } else {
+                    // Reject cards with same name but different properties
                     view.displayMessageNewLine("Card of the same name already exists");
                 }
             } else {
@@ -126,7 +149,7 @@ public class CardController {
                 sharedCollection.setCardCollection(card, name);
             }
         }
-
+        // Return the card name (used for feedback or tracking)
         return name;
     }
 
@@ -135,22 +158,29 @@ public class CardController {
      * Prompts the user to choose a card and input a new valid quantity.
      */
     public void modifyCardQuantity() {
+        // Get the card collection from the shared collection
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         boolean cancelled = false;
 
+        // Display all cards in the collection
         displayCollection(0);
         view.displayMessageNewLine("Enter \"-999\" to cancel");
         String cardKey = view.setCardName();
 
+        // Cancel operation if user enters exit code
         if (cardKey.equals(EXIT_CODE))
             cancelled = true;
 
         if (!cancelled) {
+            // Check if the card exists in the collection
             if (collection.containsKey(cardKey)) {
                 int newQuantity;
+
+                // Ask for new quantity until it's valid (not negative and not same as current)
                 do {
                     newQuantity = view.setCardQuantity();
                 } while (collection.get(cardKey).getQuantity() == newQuantity || newQuantity < 0);
+                // Update the quantity of the card
                 collection.get(cardKey).setQuantity(newQuantity);
 
             } else {
@@ -164,11 +194,15 @@ public class CardController {
      * If the collection is empty, displays an appropriate message.
      */
     public void displayCard() {
+        // Get the main card collection
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         boolean cancelled = false;
+        // Display all cards to the user
         displayCollection();
 
+        // Proceed only if there are cards in the collection
         if (!collection.isEmpty()) {
+            // Ask user to select a card name
             String cardName = view.setCardName();
 
             if (cardName.equals(EXIT_CODE))
