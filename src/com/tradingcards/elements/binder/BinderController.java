@@ -384,6 +384,8 @@ public class BinderController {
                                     // Cancels trade and removes the added card from the collection
                                     if (choice.equalsIgnoreCase("Y")) {
                                         collection.remove(incomingCardName);
+                                        view.displayMessageNewLine(
+                                                "Trade cancelled...");
                                     } else {
                                         // Check if incoming card already exists in the binder
                                         if (binder.containsKey(incomingCardName)) {
@@ -468,7 +470,6 @@ public class BinderController {
             }
         }
     }
-
 
     /**
      * Creates a deep copy of a given CardModel, initializing it with quantity 1.
