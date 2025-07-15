@@ -7,6 +7,11 @@ import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.deck.DeckController;
 import com.tradingcards.elements.deck.DeckView;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+
 import java.util.Scanner;
 
 /**
@@ -14,7 +19,7 @@ import java.util.Scanner;
  * System. Initializes and coordinates all component controllers and handles
  * user input to navigate the system.
  */
-public class MainMenuController {
+public class MainMenuView {
 
     /** Shared collection that holds cards, binders, and decks. */
     private CollectionModel sharedCollection = new CollectionModel();
@@ -24,7 +29,10 @@ public class MainMenuController {
      * through different functionalities such as managing cards, binders, and
      * decks.
      */
-    public void runMenu() {
+
+    private Scene scene;
+
+    public MainMenuView(Stage stage){
         CardView cardView = new CardView();
         CardController cardController = new CardController(sharedCollection, cardView);
 
@@ -33,6 +41,29 @@ public class MainMenuController {
 
         DeckView deckView = new DeckView();
         DeckController deckController = new DeckController(sharedCollection, deckView);
+
+        Button addCardBtn = new Button("Add Card");
+        addCardBtn.setOnAction(e -> System.out.println("ADD CARD"));
+
+        Button addBinderBtn = new Button("Add Binder");
+        addBinderBtn.setOnAction(e -> System.out.println("ADD BINDER"));
+
+        Button addDeckBtn = new Button("Add Deck");
+        addDeckBtn.setOnAction(e -> System.out.println("ADD Deck"));
+
+        Button exitBtn = new Button("Exit Menu");
+
+        HBox hbox = new HBox();
+        hbox.getChildren().addAll(addCardBtn, addBinderBtn, addDeckBtn);
+        scene = new Scene(hbox, 500,500);
+    }
+
+    public Scene getScene(){
+        return this.scene;
+    }
+    /*
+    public void runMenu() {
+
 
         int action;
         Scanner getAction = new Scanner(System.in);
@@ -87,6 +118,9 @@ public class MainMenuController {
         } while (action != 0);
         getAction.close();
     }
+
+     */
+
 
     /**
      * Displays the base menu options to the user.
