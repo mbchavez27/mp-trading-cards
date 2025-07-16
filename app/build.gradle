@@ -1,0 +1,31 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13' // ✅ REQUIRED for JavaFX support
+}
+
+repositories {
+    mavenCentral()
+}
+
+def javafxVersion = "21"
+
+dependencies {
+    implementation "org.openjfx:javafx-controls:$javafxVersion"
+    implementation "org.openjfx:javafx-fxml:$javafxVersion"
+    testImplementation 'junit:junit:4.13.2'
+}
+
+application {
+    mainClass = 'com.tradingcards.Main' // ✅ Set to your JavaFX Application class
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17) // or 21
+    }
+}
+
+javafx {
+    version = javafxVersion
+    modules = [ 'javafx.controls', 'javafx.fxml' ]
+}

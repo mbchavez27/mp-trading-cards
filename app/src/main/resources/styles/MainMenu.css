@@ -1,0 +1,6 @@
+.root{
+    -fx-font-family: "Inter";
+    /*-fx-background-color: black;*/
+    /*-fx-background-color: radial-gradient(center 50% 50% , radius 600px , #521b9c, #0b064e);*/
+    -fx-background-color: linear-gradient(to bottom right, #390081, #120f3f);
+}

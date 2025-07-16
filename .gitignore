@@ -21,3 +21,9 @@ Thumbs.db
 
 # Ignore any generated files or temp files you don’t want to commit
 *.tmp
+
+# Ignore Gradle project-specific cache directory
+.gradle
+
+# Ignore Gradle build output directory
+build
