@@ -44,7 +44,9 @@ public class MainMenuController {
         view.setVisible(true);
 
         view.setAddCardAction(e -> {
+            view.setVisible(false);
             cardController.addCard();
+            view.setVisible(true);
             if (!sharedCollection.getCardCollection().isEmpty()) {
                 view.ShowManageCard();
             }
