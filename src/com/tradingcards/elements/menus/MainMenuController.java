@@ -1,5 +1,10 @@
 package com.tradingcards.elements.menus;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+
 import com.tradingcards.elements.binder.BinderController;
 import com.tradingcards.elements.binder.BinderView;
 import com.tradingcards.elements.card.CardController;
@@ -34,7 +39,7 @@ public class MainMenuController {
         DeckView deckView = new DeckView();
         DeckController deckController = new DeckController(sharedCollection, deckView);
 
-        CardMenu cardMenu;
+        CardMenuController cardMenu = new CardMenuController(new CardMenuView(), cardController);
         BinderMenu binderMenu;
         DeckMenu deckMenu;
 
@@ -52,6 +57,7 @@ public class MainMenuController {
             }
 
         });
+
         view.setNewBinderAction(e -> {
             binderController.addBinder();
             view.setVisible(false);
@@ -59,6 +65,22 @@ public class MainMenuController {
                 view.ShowManageBinder();
             }
         });
+
+        view.setManageCardsAction(e -> {
+            view.setVisible(false);
+
+            CardMenuView cardMenuView = cardMenu.getView();
+            cardMenuView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            cardMenuView.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    view.setVisible(true);
+                }
+            });
+
+            cardMenu.start();
+        });
+
         view.setCloseApplicationButton(e -> System.exit(0));
 
     }

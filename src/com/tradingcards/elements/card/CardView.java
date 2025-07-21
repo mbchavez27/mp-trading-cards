@@ -66,17 +66,31 @@ public class CardView {
                 new String[] { "Normal", "Extended-art", "Full-art", "Alt-art" });
         JTextField valueField = new JTextField();
 
-        panel.add(new JLabel("Card Name:"));
+        JLabel nameLabel = new JLabel("Card Name:");
+        JLabel rarityLabel = new JLabel("Rarity:");
+        JLabel variantLabel = new JLabel("Variant:");
+        JLabel valueLabel = new JLabel("Card Value:");
+
+        panel.add(nameLabel);
         panel.add(nameField);
 
-        panel.add(new JLabel("Rarity:"));
+        panel.add(rarityLabel);
         panel.add(rarityBox);
 
-        panel.add(new JLabel("Variant:"));
+        panel.add(variantLabel);
         panel.add(variantBox);
 
-        panel.add(new JLabel("Card Value:"));
+        panel.add(valueLabel);
         panel.add(valueField);
+
+        rarityBox.addActionListener(e -> {
+            String selected = (String) rarityBox.getSelectedItem();
+            boolean showVariant = selected.equals("Rare") || selected.equals("Legendary");
+            variantLabel.setVisible(showVariant);
+            variantBox.setVisible(showVariant);
+            panel.revalidate();
+            panel.repaint();
+        });
 
         int result = JOptionPane.showConfirmDialog(null, panel, "Add New Card", JOptionPane.OK_CANCEL_OPTION);
 
@@ -327,15 +341,15 @@ public class CardView {
         System.out.println(message);
     }
 
-    public static void showWarning(Component parent, String message, String title) {
+    public void showWarning(Component parent, String message, String title) {
         JOptionPane.showMessageDialog(parent, message, title, JOptionPane.WARNING_MESSAGE);
     }
 
-    public static void showInfo(Component parent, String message, String title) {
+    public void showInfo(Component parent, String message, String title) {
         JOptionPane.showMessageDialog(parent, message, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static void showError(Component parent, String message, String title) {
+    public void showError(Component parent, String message, String title) {
         JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
     }
 }
