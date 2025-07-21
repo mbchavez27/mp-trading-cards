@@ -1,7 +1,8 @@
 package com.tradingcards.elements.card;
 
-import com.tradingcards.elements.collection.CollectionModel;
 import java.util.HashMap;
+
+import com.tradingcards.elements.collection.CollectionModel;
 
 /**
  * The {@code CardController} class handles logic for managing cards in the
@@ -58,98 +59,24 @@ public class CardController {
      * @return the name of the card added (or attempted to add)
      */
     public String addCard() {
-        CardModel card = new CardModel();
-        boolean cancelled = false;
-        String name, rarity, variant;
-        double value;
+        CardModel card = view.showAddCardForm();
 
-        view.displayMessageNewLine("Enter \"-999\" to cancel");
+        if (card == null)
+            return null; // cancel
 
-        // Ask for card name
-        name = view.setCardName().trim();
-        card.setName(name);
-        if (name.equals(EXIT_CODE)) {
-            cancelled = true;
-        }
+        String name = card.getName();
 
-        // Proceed if not cancelled
-        if (!cancelled) {
-            // Ask for card rarity and assign
-            rarity = view.setCardRarity();
-            card.setRarity(rarity);
-
-            if (rarity.equals(EXIT_CODE)) {
-                cancelled = true;
-            }
-        }
-
-        // Continue only if still not cancelled
-        if (!cancelled) {
-            // If card is Rare or Legendary, ask for variant and compute modified value
-            if (card.getRarity().equals("Rare") || card.getRarity().equals("Legendary")) {
-                variant = view.setCardVariant();
-                card.setVariant(variant);
-                // Cancel if user inputs exit code
-                if (variant.equals(EXIT_CODE)) {
-                    cancelled = true;
-                }
-
-                // If not cancelled, ask for card value
-                if (!cancelled) {
-                    do {
-                        value = view.setCardValue();
-
-                        // Calculate value based on rarity/variant logic
-                        card.setValue(card.calculateValue(value, variant));
-
-                        // Cancel if value equals exit code
-                        if (value == Double.parseDouble(EXIT_CODE)) {
-                            cancelled = true;
-                        }
-
-                        // Prevent negative values
-                        if (value < 0) {
-                            view.displayMessageNewLine("No negative values please![Except exit code]");
-                        }
-                    } while (value < 0 && !cancelled);
-                }
-
-            } else {
-                // For Common or other rarities, no variant needed
-                do {
-                    value = view.setCardValue();
-                    card.setValue(value);
-
-                    // Cancel if value equals exit code
-                    if (value == Double.parseDouble(EXIT_CODE)) {
-                        cancelled = true;
-                    }
-
-                    // Prevent negative values
-                    if (value < 0)
-                        view.displayMessageNewLine("No negative values please![Except exit code]");
-                } while (value < 0 && !cancelled);
-            }
-        }
-
-        // Final processing if still not cancelled
-        if (!cancelled) {
-            // Check if card already exists in collection
-            if (sharedCollection.getCardCollection().containsKey(name)) {
-                if (card.hasCopy(sharedCollection, name, card)) {
-                    // Ask if user wants to increase card count
-                    if (view.allowIncreaseCardCount(name))
-                        sharedCollection.getCardCollection().get(name).increaseQuantity(1);
+        if (sharedCollection.getCardCollection().containsKey(name)) {
+            if (card.hasCopy(sharedCollection, name, card)) {
+                if (view.allowIncreaseCardCount(name)) {
+                    sharedCollection.getCardCollection().get(name).increaseQuantity(1);
                 } else {
-                    // Reject cards with same name but different properties
-                    view.displayMessageNewLine("Card of the same name already exists");
+                    view.showWarning(null, "Card of the same name already exists", "Duplicate Card");
                 }
-            } else {
-                card.setQuantity(1);
-                sharedCollection.setCardCollection(card, name);
             }
+        } else {
+            sharedCollection.setCardCollection(card, name);
         }
-        // Return the card name (used for feedback or tracking)
         return name;
     }
 

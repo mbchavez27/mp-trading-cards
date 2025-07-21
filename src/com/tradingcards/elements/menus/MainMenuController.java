@@ -52,6 +52,7 @@ public class MainMenuController {
         });
         view.setNewBinderAction(e -> {
             binderController.addBinder();
+            view.setVisible(false);
             if (!sharedCollection.getBinderCollection().isEmpty()) {
                 view.ShowManageBinder();
             }
