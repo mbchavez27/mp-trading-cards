@@ -40,5 +40,8 @@ public class MainMenuController {
         MainMenuView view = new MainMenuView();
 
         view.setVisible(true);
+
+        view.setCloseApplicationButton(e -> System.exit(0));
+
     }
 }
