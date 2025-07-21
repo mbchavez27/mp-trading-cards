@@ -24,6 +24,7 @@ public class MainMenuController {
      * decks.
      */
     public void start() {
+        // Initialize Needed MVC
         CardView cardView = new CardView();
         CardController cardController = new CardController(sharedCollection, cardView);
 
@@ -39,8 +40,22 @@ public class MainMenuController {
 
         MainMenuView view = new MainMenuView();
 
+        // Show Menu
         view.setVisible(true);
 
+        view.setAddCardAction(e -> {
+            cardController.addCard();
+            if (!sharedCollection.getCardCollection().isEmpty()) {
+                view.ShowManageCard();
+            }
+
+        });
+        view.setNewBinderAction(e -> {
+            binderController.addBinder();
+            if (!sharedCollection.getBinderCollection().isEmpty()) {
+                view.ShowManageBinder();
+            }
+        });
         view.setCloseApplicationButton(e -> System.exit(0));
 
     }
