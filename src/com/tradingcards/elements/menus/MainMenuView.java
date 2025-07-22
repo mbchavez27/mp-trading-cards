@@ -52,18 +52,25 @@ public class MainMenuView extends JFrame {
         closeApplicationBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         buttonPanel.add(addCardBtn);
+        addCardBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(newBinderBtn);
+        newBinderBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(newDeckBtn);
+        newDeckBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(manageCardsBtn);
+        manageCardsBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(manageBindersBtn);
+        manageBindersBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(manageDecksBtn);
+        manageDecksBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(closeApplicationBtn);
+        closeApplicationBtn.setFocusable(false);
 
         add(buttonPanel, BorderLayout.CENTER);
     }

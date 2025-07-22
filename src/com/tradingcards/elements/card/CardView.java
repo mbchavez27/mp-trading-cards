@@ -1,6 +1,6 @@
 package com.tradingcards.elements.card;
 
-import java.awt.Component;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -58,6 +58,7 @@ public class CardView {
      */
     public CardModel showAddCardForm() {
         JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(300,200));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JTextField nameField = new JTextField();
@@ -79,6 +80,10 @@ public class CardView {
 
         panel.add(variantLabel);
         panel.add(variantBox);
+
+        //Initially set these elements to invisible
+        variantLabel.setVisible(false);
+        variantBox.setVisible(false);
 
         panel.add(valueLabel);
         panel.add(valueField);
