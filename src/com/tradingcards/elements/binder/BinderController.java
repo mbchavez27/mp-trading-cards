@@ -37,36 +37,40 @@ public class BinderController {
      * name and ensures the name is unique.
      */
     public void addBinder() {
+        BinderModel binder = view.showBinderForm();
 
-
-
-        BinderModel binder = new BinderModel();
-        String name = null;
-        boolean cancelled = false;
-
-        // Proceed only if not cancelled initially
-        if (!cancelled)
-            do {
-                view.displayMessageNewLine("Enter \"-999\" to cancel");
-                name = view.setBinderName();
-
-                // Check if the name already exists in the collection
-                if (sharedCollection.getBinderCollection().containsKey(name)) {
-                    view.displayMessageNewLine("Binder already exists choose a new name...");
-                }
-
-                // Check if the input is the exit code (e.g., "-999") to cancel operation
-                if (name.equals(EXIT_CODE))
-                    cancelled = true;
-
-                // Repeat loop if binder name already exists
-            } while (sharedCollection.getBinderCollection().containsKey(name));
-
-        // If not cancelled, add the new binder to the collection
-        if (!cancelled) {
-            view.displayMessageNewLine("Binder successfully added to collection");
-            sharedCollection.setBinderCollection(binder, name);
+        if (!sharedCollection.getBinderCollection().containsKey(binder.getName())) {
+            sharedCollection.setBinderCollection(binder, binder.getName());
+        } else {
+            view.showWarning(null, "Binder of the same name already exists", "Duplicate Binder");
         }
+
+//        String name = null;
+//        boolean cancelled = false;
+//
+//        // Proceed only if not cancelled initially
+//        if (!cancelled)
+//            do {
+//                view.displayMessageNewLine("Enter \"-999\" to cancel");
+//                name = view.setBinderName();
+//
+//                // Check if the name already exists in the collection
+//                if (sharedCollection.getBinderCollection().containsKey(name)) {
+//                    view.displayMessageNewLine("Binder already exists choose a new name...");
+//                }
+//
+//                // Check if the input is the exit code (e.g., "-999") to cancel operation
+//                if (name.equals(EXIT_CODE))
+//                    cancelled = true;
+//
+//                // Repeat loop if binder name already exists
+//            } while (sharedCollection.getBinderCollection().containsKey(name));
+//
+//        // If not cancelled, add the new binder to the collection
+//        if (!cancelled) {
+//            view.displayMessageNewLine("Binder successfully added to collection");
+//            sharedCollection.setBinderCollection(binder, name);
+//        }
     }
 
     /**
