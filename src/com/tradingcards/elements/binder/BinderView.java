@@ -1,6 +1,9 @@
 package com.tradingcards.elements.binder;
 
 import com.tradingcards.elements.card.CardModel;
+
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,6 +28,37 @@ public class BinderView {
     public String setBinderName() {
         System.out.print("Give Binder Name: ");
         return scanner.nextLine();
+    }
+
+    public BinderModel showBinderForm(){
+        BinderModel model = new BinderModel();
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(300, 100));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JLabel nameLabel = new JLabel("Binder Name:");
+        JTextField nameField = new JTextField();
+        nameField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+
+        panel.add(nameLabel);
+        panel.add(Box.createVerticalStrut(5));
+        panel.add(nameField);
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Create New Binder", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String name = nameField.getText().trim();
+            if (!name.isEmpty()) {
+                model.setName(name);
+                return model;
+            }
+        }
+
+        return null;
+    }
+
+    public void showWarning(Component parent, String message, String title) {
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.WARNING_MESSAGE);
     }
 
     /**

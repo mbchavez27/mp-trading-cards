@@ -1,9 +1,17 @@
 package com.tradingcards.elements.card;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * Provides methods for user interaction related to trading cards, such as
@@ -11,7 +19,124 @@ import java.util.Scanner;
  */
 public class CardView {
 
+    /**
+     * Scanner object for reading user input from the console.
+     */
     private Scanner scanner = new Scanner(System.in);
+
+    /**
+     * Displays a modal form dialog that allows the user to input information for a
+     * new card.
+     * <p>
+     * The form includes fields for:
+     * <ul>
+     * <li>Card Name (Text)</li>
+     * <li>Rarity (Dropdown: Common, Uncommon, Rare, Legendary)</li>
+     * <li>Variant (Dropdown: Normal, Extended-art, Full-art, Alt-art)</li>
+     * <li>Card Value (Numeric Text)</li>
+     * </ul>
+     * 
+     * <p>
+     * If the user selects "OK" and provides valid input:
+     * <ul>
+     * <li>A new {@code CardModel} object is instantiated and populated with the
+     * input values.</li>
+     * <li>If the rarity is "Rare" or "Legendary", the card's value is calculated
+     * using the
+     * {@code calculateValue} method based on the variant and input value.</li>
+     * <li>The quantity is set to 1 by default.</li>
+     * </ul>
+     * 
+     * <p>
+     * If the form is canceled or invalid input is provided (e.g., empty name/value
+     * or invalid number),
+     * the method returns {@code null}.
+     * 
+     * @return a populated {@code CardModel} instance if the user submits valid
+     *         input;
+     *         {@code null} if the form is canceled or the input is invalid
+     */
+    public CardModel showAddCardForm() {
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(300,200));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JTextField nameField = new JTextField();
+        JComboBox<String> rarityBox = new JComboBox<>(new String[] { "Common", "Uncommon", "Rare", "Legendary" });
+        JComboBox<String> variantBox = new JComboBox<>(
+                new String[] { "Normal", "Extended-art", "Full-art", "Alt-art" });
+        JTextField valueField = new JTextField();
+
+        JLabel nameLabel = new JLabel("Card Name:");
+        JLabel rarityLabel = new JLabel("Rarity:");
+        JLabel variantLabel = new JLabel("Variant:");
+        JLabel valueLabel = new JLabel("Card Value:");
+
+        panel.add(nameLabel);
+        panel.add(nameField);
+
+        panel.add(rarityLabel);
+        panel.add(rarityBox);
+
+        panel.add(variantLabel);
+        panel.add(variantBox);
+
+        //Initially set these elements to invisible
+        variantLabel.setVisible(false);
+        variantBox.setVisible(false);
+
+        panel.add(valueLabel);
+        panel.add(valueField);
+
+        rarityBox.addActionListener(e -> {
+            String selected = (String) rarityBox.getSelectedItem();
+            boolean showVariant = selected.equals("Rare") || selected.equals("Legendary");
+            variantLabel.setVisible(showVariant);
+            variantBox.setVisible(showVariant);
+            panel.revalidate();
+            panel.repaint();
+        });
+
+        int result = JOptionPane.showConfirmDialog(null, panel, "Add New Card", JOptionPane.OK_CANCEL_OPTION);
+
+        if (result == JOptionPane.OK_OPTION) {
+            String name = nameField.getText().trim();
+            String rarity = (String) rarityBox.getSelectedItem();
+            String variant = (String) variantBox.getSelectedItem();
+            String valueText = valueField.getText().trim();
+
+            // Cancel on empty name or invalid value
+            if (name.isEmpty() || valueText.isEmpty())
+                return null;
+
+            try {
+                double value = Double.parseDouble(valueText);
+                if (value < 0) {
+                    JOptionPane.showMessageDialog(null, "Value must be non-negative.");
+                    return null;
+                }
+
+                CardModel card = new CardModel();
+                card.setName(name);
+                card.setRarity(rarity);
+
+                if (rarity.equals("Rare") || rarity.equals("Legendary")) {
+                    card.setVariant(variant);
+                    card.setValue(card.calculateValue(value, variant));
+                } else {
+                    card.setValue(value);
+                }
+
+                card.setQuantity(1);
+                return card;
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Invalid value entered.");
+            }
+        }
+
+        return null; // cancelled
+    }
 
     /**
      * Prompts the user to input the name of the card.
@@ -19,8 +144,7 @@ public class CardView {
      * @return the card name entered by the user
      */
     public String setCardName() {
-        System.out.print("Give Card Name: ");
-        return scanner.nextLine();
+        return JOptionPane.showInputDialog(null, "Give Card Name (Enter -999 to cancel):");
     }
 
     /**
@@ -31,29 +155,16 @@ public class CardView {
      *         "Rare", "Legendary")
      */
     public String setCardRarity() {
-        String rarity = "";
-        int option;
-        do {
-            System.out.println("Give Card Rarity: ");
-            System.out.println("[1]: Common");
-            System.out.println("[2]: Uncommon");
-            System.out.println("[3]: Rare");
-            System.out.println("[4]: Legendary");
-            System.out.println("[-999]: Cancel");
-            System.out.print("Rarity: ");
-            option = scanner.nextInt();
-            scanner.nextLine();
-        } while (option != -999 && (option > 4 || option < 1));
-
-        switch (option) {
-            case 1 -> rarity = "Common";
-            case 2 -> rarity = "Uncommon";
-            case 3 -> rarity = "Rare";
-            case 4 -> rarity = "Legendary";
-            case -999 -> rarity = "-999";
-        }
-
-        return rarity;
+        String[] options = { "Common", "Uncommon", "Rare", "Legendary" };
+        Object input = JOptionPane.showInputDialog(
+                null,
+                "Select Card Rarity:",
+                "Card Rarity",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        return input == null ? "-999" : input.toString();
     }
 
     /**
@@ -64,29 +175,17 @@ public class CardView {
      *         "Full-art", "Alt-art")
      */
     public String setCardVariant() {
-        String variant = "";
-        int option;
-        do {
-            System.out.println("Give Card Variant: ");
-            System.out.println("[1]: Normal");
-            System.out.println("[2]: Extended-art");
-            System.out.println("[3]: Full-art");
-            System.out.println("[4]: Alt-art");
-            System.out.println("[-999]: Cancel");
-            System.out.print("Variant: ");
-            option = scanner.nextInt();
-            scanner.nextLine();
-        } while (option != -999 && (option > 4 || option < 1));
+        String[] options = { "Normal", "Extended-art", "Full-art", "Alt-art" };
+        Object input = JOptionPane.showInputDialog(
+                null,
+                "Select Card Variant:",
+                "Card Variant",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                options,
+                options[0]);
+        return input == null ? "-999" : input.toString();
 
-        switch (option) {
-            case 1 -> variant = "Normal";
-            case 2 -> variant = "Extended-art";
-            case 3 -> variant = "Full-art";
-            case 4 -> variant = "Alt-art";
-            case -999 -> variant = "-999";
-        }
-
-        return variant;
     }
 
     /**
@@ -95,10 +194,24 @@ public class CardView {
      * @return the base value entered by the user as a {@code double}
      */
     public double setCardValue() {
-        System.out.print("Give Card Value: ");
-        double value = scanner.nextDouble();
-        scanner.nextLine();
-        return value;
+        String input = "";
+        double value = -1;
+
+        // Keep looping until valid input is given or user cancels
+        while (!input.equals("-999")) {
+            input = JOptionPane.showInputDialog(null, "Give Card Value (Enter -999 to cancel):");
+            if (input == null || input.equals("-999"))
+                return -999;
+
+            try {
+                value = Double.parseDouble(input);
+                return value;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid number.");
+            }
+        }
+
+        return -999;
     }
 
     /**
@@ -121,7 +234,7 @@ public class CardView {
      */
     public void displayCard(HashMap<String, CardModel> collection, String cardName) {
         displayMessageNewLine("");
-        if (collection.containsKey(cardName)){
+        if (collection.containsKey(cardName)) {
             if (collection.get(cardName).getQuantity() > 0) {
                 displayMessageNewLine("------------------------------------");
                 displayMessageNewLine("Card Details:");
@@ -216,15 +329,12 @@ public class CardView {
      * @return true if user selects Y, false if N
      */
     public boolean allowIncreaseCardCount(String name) {
-        System.out.print("Do you want to add another copy for Card: " + name + "? (Y/N): ");
-        String action = scanner.nextLine().trim();
-
-        while (!action.equalsIgnoreCase("Y") && !action.equalsIgnoreCase("N")) {
-            System.out.print("Please enter Y or N only: ");
-            action = scanner.nextLine().trim();
-        }
-
-        return action.equalsIgnoreCase("Y");
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                "Do you want to add another copy for Card: " + name + "?",
+                "Confirm",
+                JOptionPane.YES_NO_OPTION);
+        return result == JOptionPane.YES_OPTION;
     }
 
     /**
@@ -234,5 +344,17 @@ public class CardView {
      */
     public void displayMessageNewLine(String message) {
         System.out.println(message);
+    }
+
+    public void showWarning(Component parent, String message, String title) {
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.WARNING_MESSAGE);
+    }
+
+    public void showInfo(Component parent, String message, String title) {
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void showError(Component parent, String message, String title) {
+        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
     }
 }
