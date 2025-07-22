@@ -27,6 +27,10 @@ public class BinderView {
         return scanner.nextLine();
     }
 
+    public BinderModel showBinderForm(){
+        return null;
+    }
+
     /**
      * Displays a message followed by a newline.
      *

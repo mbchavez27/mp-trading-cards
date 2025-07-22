@@ -37,6 +37,9 @@ public class BinderController {
      * name and ensures the name is unique.
      */
     public void addBinder() {
+
+
+
         BinderModel binder = new BinderModel();
         String name = null;
         boolean cancelled = false;
