@@ -80,6 +80,15 @@ public class CardController {
         return name;
     }
 
+    /**
+     * Sells a card from the shared collection by its name.
+     * <p>
+     * If the card exists in the collection, its value is added to the total money
+     * and the card is removed from the collection. If the card does not exist,
+     * a warning is displayed to the user.
+     *
+     * @param name The name of the card to be sold.
+     */
     public void sellCard(String name) {
 
         if (sharedCollection.getCardCollection().containsKey(name)) {
