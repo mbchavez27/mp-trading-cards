@@ -1,9 +1,10 @@
 package com.tradingcards.elements.collection;
 
+import java.util.HashMap;
+
 import com.tradingcards.elements.binder.BinderModel;
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.deck.DeckModel;
-import java.util.HashMap;
 
 /**
  * The {@code CollectionModel} class manages a user's trading card collection,
@@ -13,6 +14,12 @@ import java.util.HashMap;
  * collection.
  */
 public class CollectionModel {
+
+    /**
+     * The total amount of money associated with the collection.
+     * Initialized to 0.0 by default.
+     */
+    private double money = 0.0;
 
     /**
      * Stores a collection of cards with their associated names as keys.
@@ -28,6 +35,24 @@ public class CollectionModel {
      * Stores a collection of decks with their associated names as keys.
      */
     private HashMap<String, DeckModel> deckCollection = new HashMap<>();
+
+    /**
+     * Sets the total amount of money in the collection.
+     *
+     * @param money The amount of money to set.
+     */
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    /**
+     * Retrieves the current total amount of money in the collection.
+     *
+     * @return The current amount of money.
+     */
+    public double getMoney() {
+        return this.money;
+    }
 
     /**
      * Adds or updates a card in the card collection.
