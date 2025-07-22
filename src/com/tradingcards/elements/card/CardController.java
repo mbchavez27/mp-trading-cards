@@ -80,6 +80,18 @@ public class CardController {
         return name;
     }
 
+    public void sellCard(String name) {
+
+        if (sharedCollection.getCardCollection().containsKey(name)) {
+            sharedCollection
+                    .setMoney(sharedCollection.getMoney() + sharedCollection.getCardCollection().get(name).getValue());
+
+            sharedCollection.getCardCollection().remove(name);
+        } else {
+            view.showWarning(null, "Card does not exist", "Undefined card");
+        }
+    }
+
     /**
      * Modifies the quantity of a specific card in the collection.
      * Prompts the user to choose a card and input a new valid quantity.
