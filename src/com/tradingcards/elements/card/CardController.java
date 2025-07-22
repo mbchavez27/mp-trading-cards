@@ -81,21 +81,27 @@ public class CardController {
     }
 
     /**
-     * Sells a card from the shared collection by its name.
+     * Attempts to sell a card from the shared collection based on its name.
      * <p>
-     * If the card exists in the collection, its value is added to the total money
-     * and the card is removed from the collection. If the card does not exist,
-     * a warning is displayed to the user.
+     * If the card exists and has a quantity greater than zero, the method:
+     * <ul>
+     * <li>Adds the card's value to the total money</li>
+     * <li>Decrements the card's quantity by one</li>
+     * </ul>
+     * If the card does not exist or its quantity is zero, a warning dialog is
+     * displayed.
      *
-     * @param name The name of the card to be sold.
+     * @param name the name of the card to sell
      */
     public void sellCard(String name) {
 
-        if (sharedCollection.getCardCollection().containsKey(name)) {
+        if (sharedCollection.getCardCollection().containsKey(name)
+                && sharedCollection.getCardCollection().get(name).getQuantity() > 0) {
             sharedCollection
                     .setMoney(sharedCollection.getMoney() + sharedCollection.getCardCollection().get(name).getValue());
 
-            sharedCollection.getCardCollection().remove(name);
+            sharedCollection.getCardCollection().get(name)
+                    .setQuantity(sharedCollection.getCardCollection().get(name).getQuantity() - 1);
         } else {
             view.showWarning(null, "Card does not exist", "Undefined card");
         }
