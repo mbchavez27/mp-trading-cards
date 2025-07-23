@@ -1,4 +1,4 @@
-package com.tradingcards.elements.menus;
+package com.tradingcards.elements.menus.cardMenu;
 
 import javax.swing.*;
 import java.awt.*;

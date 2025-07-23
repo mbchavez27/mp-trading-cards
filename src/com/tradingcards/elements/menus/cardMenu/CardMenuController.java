@@ -1,8 +1,5 @@
-package com.tradingcards.elements.menus;
+package com.tradingcards.elements.menus.cardMenu;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionListener;
 import com.tradingcards.elements.card.CardController;
 
 public class CardMenuController {
