@@ -1,4 +1,4 @@
-package com.tradingcards.elements.menus;
+package com.tradingcards.elements.menus.binderMenu;
 
 import com.tradingcards.elements.binder.BinderController;
 import java.util.Scanner;

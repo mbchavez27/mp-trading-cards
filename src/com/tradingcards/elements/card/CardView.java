@@ -6,12 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  * Provides methods for user interaction related to trading cards, such as
@@ -306,20 +301,27 @@ public class CardView {
      *
      * @param collection the card collection to display
      */
-    public void displayCollection(HashMap<String, CardModel> collection) {
+    public JPanel displayCollection(HashMap<String, CardModel> collection) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);
-        displayMessageNewLine("------------------------------------");
-        displayMessageNewLine("Collection:");
-        displayMessageNewLine("");
+//        displayMessageNewLine("------------------------------------");
+//        displayMessageNewLine("Collection:");
+//        displayMessageNewLine("");
+
+        JPanel displayPanel = new JPanel(new GridLayout(0,3));
 
         for (String name : cardByKey) {
             if (collection.get(name).getQuantity() > 0) {
-                displayMessageNewLine("Card Name: " + collection.get(name).getName());
-                displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
-                displayMessageNewLine("");
+                System.out.println("Hello");
+                displayPanel.add(new JButton(collection.get(name).getName() + " quantity: " + collection.get(name).getQuantity()));
+//                displayPanel.add(new Label(collection.get(name).getName()));
+//                displayMessageNewLine("Card Name: " + collection.get(name).getName());
+//                displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
+//                displayMessageNewLine("");
             }
         }
+
+        return displayPanel;
     }
 
     /**

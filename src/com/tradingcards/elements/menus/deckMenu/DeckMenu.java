@@ -1,4 +1,4 @@
-package com.tradingcards.elements.menus;
+package com.tradingcards.elements.menus.deckMenu;
 
 import com.tradingcards.elements.deck.DeckController;
 import java.util.Scanner;

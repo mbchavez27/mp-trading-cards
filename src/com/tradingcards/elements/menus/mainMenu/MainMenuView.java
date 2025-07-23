@@ -1,18 +1,10 @@
-package com.tradingcards.elements.menus;
+package com.tradingcards.elements.menus.mainMenu;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-public class MainMenuView extends JFrame {
+public class MainMenuView extends JPanel {
 
     private final JButton addCardBtn = new JButton("Add Card");
     private final JButton newBinderBtn = new JButton("Create Binder");
@@ -24,10 +16,6 @@ public class MainMenuView extends JFrame {
     private final JButton closeApplicationBtn = new JButton("Exit");
 
     public MainMenuView() {
-        setTitle("Trading Card Inventory System");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(300, 400);
-        setLocationRelativeTo(null); // center the window
         setLayout(new BorderLayout());
 
         JLabel titleLabel = new JLabel("Trading Card Inventory System", SwingConstants.CENTER);
@@ -35,55 +23,35 @@ public class MainMenuView extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
         add(titleLabel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(3, 3, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 10, 10));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
-//        addCardBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-//        newBinderBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-//        newDeckBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-//        manageCardsBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         manageCardsBtn.setEnabled(false);
-//        manageBindersBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-
         manageBindersBtn.setEnabled(false);
-//        manageDecksBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         manageDecksBtn.setEnabled(false);
-//        closeApplicationBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        buttonPanel.add(addCardBtn);
-        addCardBtn.setFocusable(false);
-//        buttonPanel.add(Box.createVerticalStrut(10));
-
-        buttonPanel.add(newBinderBtn);
-        newBinderBtn.setFocusable(false);
-//        buttonPanel.add(Box.createVerticalStrut(10));
-
-        buttonPanel.add(newDeckBtn);
-        newDeckBtn.setFocusable(false);
-//        buttonPanel.add(Box.createVerticalStrut(10));
-
-        buttonPanel.add(manageCardsBtn);
-        manageCardsBtn.setFocusable(false);
-//        buttonPanel.add(Box.createVerticalStrut(10));
-
-        buttonPanel.add(manageBindersBtn);
-        manageBindersBtn.setFocusable(false);
-//        buttonPanel.add(Box.createVerticalStrut(10));
-
-        buttonPanel.add(manageDecksBtn);
-        manageDecksBtn.setFocusable(false);
-//        buttonPanel.add(Box.createVerticalStrut(10));
-
-        buttonPanel.add(placeHolderBtn);
         placeHolderBtn.setVisible(false);
 
-        buttonPanel.add(closeApplicationBtn);
+        addCardBtn.setFocusable(false);
+        newBinderBtn.setFocusable(false);
+        newDeckBtn.setFocusable(false);
+        manageCardsBtn.setFocusable(false);
+        manageBindersBtn.setFocusable(false);
+        manageDecksBtn.setFocusable(false);
         closeApplicationBtn.setFocusable(false);
+
+        buttonPanel.add(addCardBtn);
+        buttonPanel.add(newBinderBtn);
+        buttonPanel.add(newDeckBtn);
+        buttonPanel.add(manageCardsBtn);
+        buttonPanel.add(manageBindersBtn);
+        buttonPanel.add(manageDecksBtn);
+        buttonPanel.add(placeHolderBtn);
+        buttonPanel.add(closeApplicationBtn);
 
         add(buttonPanel, BorderLayout.CENTER);
     }
 
+    // Action setters
     public void setAddCardAction(ActionListener listener) {
         addCardBtn.addActionListener(listener);
     }
@@ -112,15 +80,16 @@ public class MainMenuView extends JFrame {
         closeApplicationBtn.addActionListener(listener);
     }
 
-    public void ShowManageCard() {
+    // Visibility control
+    public void showManageCardBtn() {
         manageCardsBtn.setEnabled(true);
     }
 
-    public void ShowManageBinder() {
+    public void showManageBinderBtn() {
         manageBindersBtn.setEnabled(true);
     }
 
-    public void ShowManageDeck() {
+    public void showManageDeckBtn() {
         manageDecksBtn.setEnabled(true);
     }
 }
