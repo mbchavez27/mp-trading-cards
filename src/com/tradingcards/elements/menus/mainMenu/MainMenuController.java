@@ -29,6 +29,8 @@ import com.tradingcards.elements.deck.DeckView;
 import com.tradingcards.elements.menus.cardMenu.CardMenuController;
 import com.tradingcards.elements.menus.cardMenu.CardMenuView;
 
+import javax.smartcardio.Card;
+
 //
 // * Controller class for handling the main menu of the Trading Card Inventory
 // * System. Initializes and coordinates all component controllers and handles
@@ -107,18 +109,17 @@ import com.tradingcards.elements.menus.cardMenu.CardMenuView;
 public class MainMenuController {
     private final CollectionModel sharedCollection = new CollectionModel();
 
+
     public void start() {
         MainFrame mainFrame = new MainFrame();
         MainMenuView mainMenuView = new MainMenuView();
 
-        mainFrame.addPanel("mainMenu", mainMenuView);
-        mainFrame.setVisible(true);
-        mainFrame.showPanel("mainMenu");
+        CardMenuView cardMenuView = new CardMenuView();
 
         // Setup MVC subcomponents
         CardView cardView = new CardView();
         CardController cardController = new CardController(sharedCollection, cardView);
-        CardMenuController cardMenu = new CardMenuController(new CardMenuView(), cardController);
+        CardMenuController cardMenuController = new CardMenuController(cardMenuView, cardController, mainFrame);
 
         BinderView binderView = new BinderView();
         BinderController binderController = new BinderController(sharedCollection, binderView);
@@ -127,6 +128,12 @@ public class MainMenuController {
         DeckView deckView = new DeckView();
         DeckController deckController = new DeckController(sharedCollection, deckView);
 //        DeckMenuController deckMenu = new DeckMenuController(...);
+
+
+        mainFrame.addPanel("mainMenu", mainMenuView);
+        mainFrame.addPanel("manageCardMenu", cardMenuView);
+        mainFrame.setVisible(true);
+        mainFrame.showPanel("mainMenu");
 
 
         // Action for Adding Cards
@@ -164,7 +171,8 @@ public class MainMenuController {
 
         //Switch panel to Manage Card Menu
         mainMenuView.setManageCardsAction(e -> {
-            cardMenu.start();
+            cardMenuController.start();
+            mainFrame.showPanel("manageCardMenu");
         });
 
         mainMenuView.setManageBindersAction(e->{
