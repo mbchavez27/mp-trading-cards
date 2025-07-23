@@ -53,17 +53,18 @@ public class MainMenuController {
             cardController.addCard();
             view.setVisible(true);
             if (!sharedCollection.getCardCollection().isEmpty()) {
-                view.ShowManageCard();
+                view.ShowManageCardBtn();
             }
 
         });
+
 
         view.setNewBinderAction(e -> {
             view.setVisible(false);
             binderController.addBinder();
             view.setVisible(true);
             if (!sharedCollection.getBinderCollection().isEmpty()) {
-                view.ShowManageBinder();
+                view.ShowManageBinderBtn();
             }
         });
 

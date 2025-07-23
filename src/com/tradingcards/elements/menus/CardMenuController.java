@@ -18,7 +18,22 @@ public class CardMenuController {
     public void start() {
         view.setVisible(true);
         view.setBackAction(e -> view.dispose());
+
+        view.setDisplayCardAction(e->{
+
+        });
+
+        view.setDisplayCollectionAction(e->{
+            view.setVisible(false);
+            cardController.displayCollection();
+            view.setVisible(true);
+        });
+
+        view.setModifyQuantityAction(e->{
+
+        });
     }
+
 
     public CardMenuView getView() {
         return view;

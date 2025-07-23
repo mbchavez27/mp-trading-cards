@@ -4,8 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -24,9 +22,11 @@ public class MainMenuView extends JFrame {
     private final JButton closeApplicationBtn = new JButton("Exit");
 
     public MainMenuView() {
+        this.setSize(new Dimension(800,700));
+        this.setResizable(false);
         setTitle("Trading Card Inventory System");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(300, 400);
+
         setLocationRelativeTo(null); // center the window
         setLayout(new BorderLayout());
 
@@ -112,11 +112,11 @@ public class MainMenuView extends JFrame {
         closeApplicationBtn.addActionListener(listener);
     }
 
-    public void ShowManageCard() {
+    public void ShowManageCardBtn() {
         manageCardsBtn.setEnabled(true);
     }
 
-    public void ShowManageBinder() {
+    public void ShowManageBinderBtn() {
         manageBindersBtn.setEnabled(true);
     }
 

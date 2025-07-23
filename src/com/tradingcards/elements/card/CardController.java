@@ -178,7 +178,7 @@ public class CardController {
         if (!collection.isEmpty()) {
             view.displayCollection(collection);
         } else {
-            view.displayMessageNewLine("No Cards yet...");
+            view.showWarning(null, "No Cards yet...", "Collection Warning");
         }
     }
 

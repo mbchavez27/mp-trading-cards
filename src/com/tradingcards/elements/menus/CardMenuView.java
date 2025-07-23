@@ -36,10 +36,13 @@ public class CardMenuView extends JFrame {
         backBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         buttonPanel.add(displayCardBtn);
+        displayCardBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(displayCollectionBtn);
+        displayCollectionBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(modifyQuantityBtn);
+        modifyQuantityBtn.setFocusable(false);
         buttonPanel.add(Box.createVerticalStrut(10));
         buttonPanel.add(backBtn);
 
