@@ -26,7 +26,7 @@ public class CardMenuController {
         });
 
         view.setDisplayCollectionAction(e->{
-            cardController.displayCollection();
+            view.setDataInPanel(cardController.displayCollection());
         });
         view.setModifyQuantityAction(e->{
             cardController.modifyCardQuantity();

@@ -12,19 +12,44 @@ public class CardMenuView extends JPanel{
     private final JButton displayCollectionBtn = new JButton("Display Collection");
     private final JButton modifyQuantityBtn = new JButton("Modify Card Quantity");
     private final JButton backBtn = new JButton("Back");
+    private final JPanel optionPanel = new JPanel();
+    private final JPanel dataPanel = new JPanel();
 
     public CardMenuView(){
         setLayout(new BorderLayout());
 
-        JPanel optionPanel = new JPanel();
+//        JPanel optionPanel = new JPanel();
+//        JPanel dataPanel = new JPanel();
+        add(dataPanel, BorderLayout.CENTER);
+        dataPanel.setBackground(Color.white);
+
+
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
 
         add(optionPanel, BorderLayout.WEST);
+        optionPanel.setBackground(Color.darkGray);
 
+        displayCardBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, displayCardBtn.getPreferredSize().height));
+        displayCollectionBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, displayCollectionBtn.getPreferredSize().height));
+        modifyQuantityBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, modifyQuantityBtn.getPreferredSize().height));
+        backBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, backBtn.getPreferredSize().height));
+
+        optionPanel.add(Box.createVerticalStrut(100));
         optionPanel.add(displayCardBtn);
+        optionPanel.add(Box.createVerticalStrut(10));
         optionPanel.add(displayCollectionBtn);
+        optionPanel.add(Box.createVerticalStrut(10));
         optionPanel.add(modifyQuantityBtn);
+        optionPanel.add(Box.createVerticalStrut(10));
         optionPanel.add(backBtn);
+    }
+
+    public void setDataInPanel(JPanel newPanel){
+        dataPanel.removeAll();
+        dataPanel.setLayout(new BorderLayout());
+        dataPanel.add(newPanel, BorderLayout.CENTER);
+        dataPanel.revalidate();
+        dataPanel.repaint();
     }
 
 

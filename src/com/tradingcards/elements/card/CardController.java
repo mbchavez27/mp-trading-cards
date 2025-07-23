@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import com.tradingcards.elements.collection.CollectionModel;
 
+import javax.swing.*;
+
 /**
  * The {@code CardController} class handles logic for managing cards in the
  * user's collection. It communicates with the {@code CardModel} to manipulate
@@ -172,14 +174,15 @@ public class CardController {
     /**
      * Displays the full card collection including cards with 0 quantity.
      */
-    public void displayCollection() {
+    public JPanel displayCollection() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
-            view.displayCollection(collection);
+            return(view.displayCollection(collection));
         } else {
             view.showWarning(null, "No Cards yet...", "Collection Warning");
         }
+        return null;
     }
 
     /**
