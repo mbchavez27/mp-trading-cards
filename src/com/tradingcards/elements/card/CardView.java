@@ -5,14 +5,17 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -60,7 +63,7 @@ public class CardView {
      */
     public CardModel showAddCardForm() {
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(300, 200));
+        panel.setPreferredSize(new Dimension(300, 350));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JTextField nameField = new JTextField();
@@ -68,6 +71,8 @@ public class CardView {
         JComboBox<String> variantBox = new JComboBox<>(
                 new String[] { "Normal", "Extended-art", "Full-art", "Alt-art" });
         JTextField valueField = new JTextField();
+        JButton uploadImageButton = new JButton("Upload Image");
+        JLabel selectedImageLabel = new JLabel("No image selected");
 
         JLabel nameLabel = new JLabel("Card Name:");
         JLabel rarityLabel = new JLabel("Rarity:");
@@ -76,19 +81,45 @@ public class CardView {
 
         panel.add(nameLabel);
         panel.add(nameField);
+        panel.add(Box.createVerticalStrut(5));
 
         panel.add(rarityLabel);
         panel.add(rarityBox);
+        panel.add(Box.createVerticalStrut(5));
 
         panel.add(variantLabel);
         panel.add(variantBox);
+        panel.add(Box.createVerticalStrut(5));
 
         // Initially set these elements to invisible
         variantLabel.setVisible(false);
         variantBox.setVisible(false);
+        panel.add(Box.createVerticalStrut(5));
 
         panel.add(valueLabel);
         panel.add(valueField);
+        panel.add(Box.createVerticalStrut(10));
+
+        panel.add(uploadImageButton);
+        panel.add(Box.createVerticalStrut(5));
+        panel.add(selectedImageLabel);
+
+        final String[] imagePath = { null };
+
+        uploadImageButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Select Card Image");
+            fileChooser.setAcceptAllFileFilterUsed(false);
+            fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileNameExtensionFilter(
+                    "Image files", "jpg", "jpeg", "png", "gif"));
+
+            int result = fileChooser.showOpenDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                imagePath[0] = selectedFile.getAbsolutePath();
+                selectedImageLabel.setText("Image: " + selectedFile.getName());
+            }
+        });
 
         rarityBox.addActionListener(e -> {
             String selected = (String) rarityBox.getSelectedItem();
@@ -129,6 +160,9 @@ public class CardView {
                     card.setValue(value);
                 }
 
+                if (imagePath[0] != null) {
+                    card.setImagePath(imagePath[0]);
+                }
                 card.setQuantity(1);
                 return card;
 
@@ -256,14 +290,19 @@ public class CardView {
         JPanel displayPanel = new JPanel(new BorderLayout());
         JPanel imagePanel = new JPanel(new BorderLayout());
 
-        // handles temporary image
-        ImageIcon temporaryPhoto = new ImageIcon(
-                getClass().getResource("/images/default.png"));
-        JLabel image = new JLabel(ImageUtils.scaleIcon(temporaryPhoto, 0.3));
-
         JPanel informationPanel = new JPanel();
 
         if (collection.containsKey(cardName)) {
+            String imagePath = collection.get(cardName).getImagePath();
+            ImageIcon cardPhoto;
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                cardPhoto = new ImageIcon(imagePath);
+            } else {
+                cardPhoto = new ImageIcon(getClass().getResource("/images/defautt.png"));
+            }
+
+            JLabel image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 0.3));
 
             if (collection.get(cardName).getQuantity() > 0) {
 
