@@ -2,9 +2,9 @@ package com.tradingcards.elements.card;
 
 import java.util.HashMap;
 
-import com.tradingcards.elements.collection.CollectionModel;
+import javax.swing.JPanel;
 
-import javax.swing.*;
+import com.tradingcards.elements.collection.CollectionModel;
 
 /**
  * The {@code CardController} class handles logic for managing cards in the
@@ -105,7 +105,7 @@ public class CardController {
             sharedCollection.getCardCollection().get(name)
                     .setQuantity(sharedCollection.getCardCollection().get(name).getQuantity() - 1);
         } else {
-            view.showWarning(null, "Card does not exist", "Undefined card");
+            view.showError(null, "Card does not exist", "Undefined Card");
         }
     }
 
@@ -113,19 +113,17 @@ public class CardController {
      * Modifies the quantity of a specific card in the collection.
      * Prompts the user to choose a card and input a new valid quantity.
      */
-    public void modifyCardQuantity() {
+    public int modifyCardQuantity() {
         // Get the card collection from the shared collection
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         boolean cancelled = false;
 
-        // Display all cards in the collection
-        displayCollection(0);
-        view.displayMessageNewLine("Enter \"-999\" to cancel");
         String cardKey = view.setCardName();
 
         // Cancel operation if user enters exit code
-        if (cardKey.equals(EXIT_CODE))
+        if (cardKey == null || cardKey.equals(EXIT_CODE)) {
             cancelled = true;
+        }
 
         if (!cancelled) {
             // Check if the card exists in the collection
@@ -135,14 +133,20 @@ public class CardController {
                 // Ask for new quantity until it's valid (not negative and not same as current)
                 do {
                     newQuantity = view.setCardQuantity();
+                    if (newQuantity == -999) {
+                        return -1;
+                    }
+
                 } while (collection.get(cardKey).getQuantity() == newQuantity || newQuantity < 0);
                 // Update the quantity of the card
                 collection.get(cardKey).setQuantity(newQuantity);
+                return newQuantity;
 
             } else {
-                view.displayMessageNewLine("No Card with given name existing in Collection");
+                view.showError(null, "Card does not exist", "Undefined Card");
             }
         }
+        return -1;
     }
 
     /**
@@ -178,7 +182,7 @@ public class CardController {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
-            return(view.displayCollection(collection));
+            return (view.displayCollection(collection));
         } else {
             view.showWarning(null, "No Cards yet...", "Collection Warning");
         }
