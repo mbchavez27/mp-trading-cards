@@ -1,4 +1,5 @@
 package com.tradingcards.elements.menus.mainMenu;//package com.tradingcards.elements.menus.mainMenu;
+
 //
 //import java.awt.event.WindowAdapter;
 //import java.awt.event.WindowEvent;
@@ -28,8 +29,6 @@ import com.tradingcards.elements.deck.DeckController;
 import com.tradingcards.elements.deck.DeckView;
 import com.tradingcards.elements.menus.cardMenu.CardMenuController;
 import com.tradingcards.elements.menus.cardMenu.CardMenuView;
-
-import javax.smartcardio.Card;
 
 //
 // * Controller class for handling the main menu of the Trading Card Inventory
@@ -109,83 +108,82 @@ import javax.smartcardio.Card;
 public class MainMenuController {
     private final CollectionModel sharedCollection = new CollectionModel();
 
-
     public void start() {
         MainFrame mainFrame = new MainFrame();
-        MainMenuView mainMenuView = new MainMenuView();
+        MainMenuView mainMenuView = new MainMenuView(sharedCollection);
 
         CardMenuView cardMenuView = new CardMenuView();
 
         // Setup MVC subcomponents
         CardView cardView = new CardView();
         CardController cardController = new CardController(sharedCollection, cardView);
-        CardMenuController cardMenuController = new CardMenuController(cardMenuView, cardController, mainFrame);
+        CardMenuController cardMenuController = new CardMenuController(cardMenuView, cardController, cardView,
+                mainMenuView,
+                mainFrame);
 
         BinderView binderView = new BinderView();
         BinderController binderController = new BinderController(sharedCollection, binderView);
-//        BinderMenuController binderMenu = new BinderMenuController(...);
+        // BinderMenuController binderMenu = new BinderMenuController(...);
 
         DeckView deckView = new DeckView();
         DeckController deckController = new DeckController(sharedCollection, deckView);
-//        DeckMenuController deckMenu = new DeckMenuController(...);
+        // DeckMenuController deckMenu = new DeckMenuController(...);
 
-        //must list down all possible full menu displays
+        // must list down all possible full menu displays
         mainFrame.addPanel("mainMenu", mainMenuView);
         mainFrame.addPanel("manageCardMenu", cardMenuView);
 
         mainFrame.setVisible(true);
-        //Selects mainMenu panel as initial menu
+        // Selects mainMenu panel as initial menu
         mainFrame.showPanel("mainMenu");
-
 
         // Action for Adding Cards
         mainMenuView.setAddCardAction(e -> {
-            //opens form for adding card
+            // opens form for adding card
             cardController.addCard();
 
             if (!sharedCollection.getCardCollection().isEmpty()) {
-                //enables Manage Card button in mainMenuPanel
+                // enables Manage Card button in mainMenuPanel
                 mainMenuView.showManageCardBtn();
             }
         });
 
         // Action for Adding Binders
-        mainMenuView.setNewBinderAction(e->{
-            //opens form for adding binder
+        mainMenuView.setNewBinderAction(e -> {
+            // opens form for adding binder
             binderController.addBinder();
 
-            if (!sharedCollection.getBinderCollection().isEmpty()){
-                //enables Manage Binders button in mainMenuPanel
+            if (!sharedCollection.getBinderCollection().isEmpty()) {
+                // enables Manage Binders button in mainMenuPanel
                 mainMenuView.showManageBinderBtn();
             }
         });
 
         // Action for adding Decks
-        mainMenuView.setNewDeckAction(e->{
-            //opens form for adding
+        mainMenuView.setNewDeckAction(e -> {
+            // opens form for adding
             deckController.addDeck();
 
-            if (!sharedCollection.getDeckCollection().isEmpty()){
-                //enables Manage Decks button in MainMenuPanel
+            if (!sharedCollection.getDeckCollection().isEmpty()) {
+                // enables Manage Decks button in MainMenuPanel
                 mainMenuView.showManageDeckBtn();
             }
         });
 
-        //Switch panel to Manage Card Menu
+        // Switch panel to Manage Card Menu
         mainMenuView.setManageCardsAction(e -> {
             cardMenuController.start();
             mainFrame.showPanel("manageCardMenu");
         });
 
-        mainMenuView.setManageBindersAction(e->{
+        mainMenuView.setManageBindersAction(e -> {
 
         });
 
-        mainMenuView.setManageDecksAction(e->{
+        mainMenuView.setManageDecksAction(e -> {
 
         });
 
         mainMenuView.setCloseApplicationButton(e -> System.exit(0));
     }
 }
-
