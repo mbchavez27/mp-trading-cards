@@ -129,10 +129,12 @@ public class MainMenuController {
         DeckController deckController = new DeckController(sharedCollection, deckView);
 //        DeckMenuController deckMenu = new DeckMenuController(...);
 
-
+        //must list down all possible full menu displays
         mainFrame.addPanel("mainMenu", mainMenuView);
         mainFrame.addPanel("manageCardMenu", cardMenuView);
+
         mainFrame.setVisible(true);
+        //Selects mainMenu panel as initial menu
         mainFrame.showPanel("mainMenu");
 
 

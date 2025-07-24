@@ -156,12 +156,10 @@ public class CardController {
      * Prompts the user to select a card and displays its details.
      * If the collection is empty, displays an appropriate message.
      */
-    public void displayCard() {
+    public JPanel displayCard() {
         // Get the main card collection
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         boolean cancelled = false;
-        // Display all cards to the user
-        displayCollection();
 
         // Proceed only if there are cards in the collection
         if (!collection.isEmpty()) {
@@ -172,10 +170,12 @@ public class CardController {
                 cancelled = true;
 
             if (!cancelled)
-                view.displayCard(collection, cardName);
+                return(view.displayCard(collection, cardName));
         } else {
+            //TODO, must return a Jpanel
             view.displayMessageNewLine("No Cards yet...");
         }
+        return null;
     }
 
     /**

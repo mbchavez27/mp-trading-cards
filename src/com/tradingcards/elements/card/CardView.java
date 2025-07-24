@@ -1,20 +1,14 @@
 package com.tradingcards.elements.card;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
+import com.tradingcards.elements.card.cardUtils.ImageUtils;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
+import javax.swing.border.Border;
 
 /**
  * Provides methods for user interaction related to trading cards, such as
@@ -246,30 +240,73 @@ public class CardView {
      * @param collection the HashMap of card name to CardModel
      * @param cardName   the name of the card to display
      */
-    public void displayCard(HashMap<String, CardModel> collection, String cardName) {
+    public JPanel displayCard(HashMap<String, CardModel> collection, String cardName) {
         displayMessageNewLine("");
+
+        JPanel displayPanel = new JPanel(new BorderLayout());
+        JPanel imagePanel = new JPanel (new BorderLayout());
+
+        //handles temporary image
+        ImageIcon temporaryPhoto = new ImageIcon(getClass().getResource("cardUtils/buta.png"));
+        JLabel image = new JLabel(ImageUtils.scaleIcon(temporaryPhoto,0.3));
+
+        JPanel informationPanel = new JPanel();
+
         if (collection.containsKey(cardName)) {
+
             if (collection.get(cardName).getQuantity() > 0) {
-                displayMessageNewLine("------------------------------------");
-                displayMessageNewLine("Card Details:");
-                displayMessageNewLine("Card Name: " + collection.get(cardName).getName());
-                displayMessageNewLine("Card Rarity: " + collection.get(cardName).getRarity());
+
+                imagePanel.add(image, BorderLayout.CENTER);
+                informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
+                displayPanel.add(imagePanel, BorderLayout.EAST);
+
+                JLabel cardNameDisplay = new JLabel(collection.get(cardName).getName());
+                cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 35));
+                imagePanel.add(cardNameDisplay, BorderLayout.NORTH);
+
+                JLabel cardRarityDisplay = new JLabel("Rarity: " +collection.get(cardName).getRarity());
+                cardRarityDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                informationPanel.add(cardRarityDisplay);
+
                 if (collection.get(cardName).getVariant() != null) {
-                    displayMessageNewLine("Card Variant: " + collection.get(cardName).getVariant());
+                    JLabel cardVariantDisplay = new JLabel("Variant: " + collection.get(cardName).getVariant());
+                    cardVariantDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                    informationPanel.add(cardVariantDisplay);
                 }
-                displayMessageNewLine("Card Value: " + collection.get(cardName).getValue());
-                displayMessageNewLine("Card Quantity: " + collection.get(cardName).getQuantity());
-                displayMessageNewLine("------------------------------------");
+                JLabel cardValueDisplay = new JLabel("Value: " + String.valueOf(collection.get(cardName).getValue()));
+                cardValueDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                informationPanel.add(cardValueDisplay);
+
+                JLabel cardQuantityDisplay = new JLabel("Current Quanity: " + String.valueOf(collection.get(cardName).getQuantity()));
+                cardQuantityDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                informationPanel.add(cardQuantityDisplay);
+
+                displayPanel.add(imagePanel, BorderLayout.WEST);
+                displayPanel.add(informationPanel, BorderLayout.CENTER);
+
+                return (displayPanel);
+
+
             } else if (collection.get(cardName).getQuantity() == 0) {
-                displayMessageNewLine("-------------------------------");
-                displayMessageNewLine(String.format("Card %s is empty", cardName));
-                displayMessageNewLine("-------------------------------");
+                JLabel cardNameDisplay = new JLabel("Card " + collection.get(cardName).getName() + " has no current copies in collection");
+                cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                informationPanel.add(cardNameDisplay);
+
+                displayPanel.add(informationPanel, BorderLayout.CENTER);
+
+                return displayPanel;
+
             }
         } else {
-            displayMessageNewLine("-------------------------------");
-            displayMessageNewLine(String.format("Card %s does not exist", cardName));
-            displayMessageNewLine("-------------------------------");
+            JLabel cardNameDisplay = new JLabel("Card " + collection.get(cardName).getName() + " does not exist");
+            cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+            informationPanel.add(cardNameDisplay);
+
+            displayPanel.add(informationPanel, BorderLayout.CENTER);
+
+            return displayPanel;
         }
+        return null;
     }
 
     /**

@@ -22,10 +22,14 @@ public class CardMenuController {
         });
 
         view.setDisplayCardAction(e -> {
-            cardController.displayCard();
+            //first displays JPanel Collection
+            view.setDataInPanel(cardController.displayCollection());
+            //gets a JPanel with the information of only 1 card
+            view.setDataInPanel(cardController.displayCard());
         });
 
         view.setDisplayCollectionAction(e -> {
+            //gets a JPanel
             view.setDataInPanel(cardController.displayCollection());
         });
         view.setModifyQuantityAction(e -> {
