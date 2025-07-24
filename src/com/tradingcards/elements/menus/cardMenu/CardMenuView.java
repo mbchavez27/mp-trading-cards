@@ -1,6 +1,7 @@
 package com.tradingcards.elements.menus.cardMenu;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
@@ -13,15 +14,20 @@ public class CardMenuView extends JPanel{
     private final JButton modifyQuantityBtn = new JButton("Modify Card Quantity");
     private final JButton backBtn = new JButton("Back");
     private final JPanel optionPanel = new JPanel();
-    private final JPanel dataPanel = new JPanel();
+    private final JPanel dataPanel = new JPanel(new BorderLayout());
+    private final JScrollPane scrollingPanel = new JScrollPane();
 
     public CardMenuView(){
         setLayout(new BorderLayout());
 
 //        JPanel optionPanel = new JPanel();
 //        JPanel dataPanel = new JPanel();
+        scrollingPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollingPanel.setBackground(Color.white);
+
+        dataPanel.setLayout(new BorderLayout());
+        dataPanel.add(scrollingPanel);
         add(dataPanel, BorderLayout.CENTER);
-        dataPanel.setBackground(Color.white);
 
 
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
@@ -45,11 +51,9 @@ public class CardMenuView extends JPanel{
     }
 
     public void setDataInPanel(JPanel newPanel){
-        dataPanel.removeAll();
-        dataPanel.setLayout(new BorderLayout());
-        dataPanel.add(newPanel, BorderLayout.CENTER);
-        dataPanel.revalidate();
-        dataPanel.repaint();
+        scrollingPanel.setViewportView(newPanel);
+        scrollingPanel.revalidate();
+        scrollingPanel.repaint();
     }
 
 
