@@ -118,8 +118,6 @@ public class CardController {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         boolean cancelled = false;
 
-        // Display all cards in the collection
-        displayCollection(0);
         String cardKey = view.setCardName();
 
         // Cancel operation if user enters exit code
@@ -135,6 +133,10 @@ public class CardController {
                 // Ask for new quantity until it's valid (not negative and not same as current)
                 do {
                     newQuantity = view.setCardQuantity();
+                    if (newQuantity == -999) {
+                        return -1;
+                    }
+
                 } while (collection.get(cardKey).getQuantity() == newQuantity || newQuantity < 0);
                 // Update the quantity of the card
                 collection.get(cardKey).setQuantity(newQuantity);
