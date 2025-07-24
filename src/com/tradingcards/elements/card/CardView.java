@@ -1,12 +1,20 @@
 package com.tradingcards.elements.card;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 /**
  * Provides methods for user interaction related to trading cards, such as
@@ -53,7 +61,7 @@ public class CardView {
      */
     public CardModel showAddCardForm() {
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(300,200));
+        panel.setPreferredSize(new Dimension(300, 200));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JTextField nameField = new JTextField();
@@ -76,7 +84,7 @@ public class CardView {
         panel.add(variantLabel);
         panel.add(variantBox);
 
-        //Initially set these elements to invisible
+        // Initially set these elements to invisible
         variantLabel.setVisible(false);
         variantBox.setVisible(false);
 
@@ -215,10 +223,26 @@ public class CardView {
      * @return the quantity entered by the user as an {@code int}
      */
     public int setCardQuantity() {
-        System.out.print("Give NEW Card Quantity: ");
-        int quantity = scanner.nextInt();
-        scanner.nextLine();
-        return quantity;
+        String input;
+        int quantity;
+
+        do {
+            input = JOptionPane.showInputDialog(null, "Give Card Value (Enter -999 to cancel):");
+
+            if (input == null || input.equals("-999")) {
+                return -999;
+            }
+
+            try {
+                quantity = Integer.parseInt(input);
+                return quantity;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Please enter a valid number.");
+            }
+
+        } while (!input.equals("-999"));
+
+        return -999;
     }
 
     /**
@@ -329,6 +353,7 @@ public class CardView {
 
         return wrapperPanel;
     }
+
 
     /**
      * Prompts the user to confirm whether to increase the card quantity.
