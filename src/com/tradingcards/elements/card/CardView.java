@@ -1,5 +1,7 @@
 package com.tradingcards.elements.card;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -328,19 +330,20 @@ public class CardView {
     public JPanel displayCollection(HashMap<String, CardModel> collection) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);
-//        displayMessageNewLine("------------------------------------");
-//        displayMessageNewLine("Collection:");
-//        displayMessageNewLine("");
+        // displayMessageNewLine("------------------------------------");
+        // displayMessageNewLine("Collection:");
+        // displayMessageNewLine("");
 
-        JPanel displayPanel = new JPanel(new GridLayout(0,3,0,5));
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
 
         for (String name : cardByKey) {
             if (collection.get(name).getQuantity() > 0) {
                 JPanel wrapper = new JPanel();
 
-                JButton tempButton = new JButton(collection.get(name).getName() + " quantity: " + collection.get(name).getQuantity());
-                tempButton.setPreferredSize(new Dimension(190,190));
-                wrapper.setPreferredSize(new Dimension(200,200));
+                JButton tempButton = new JButton(
+                        collection.get(name).getName() + " quantity: " + collection.get(name).getQuantity());
+                tempButton.setPreferredSize(new Dimension(190, 190));
+                wrapper.setPreferredSize(new Dimension(200, 200));
                 wrapper.add(tempButton);
 
                 displayPanel.add(wrapper);
@@ -353,7 +356,6 @@ public class CardView {
 
         return wrapperPanel;
     }
-
 
     /**
      * Prompts the user to confirm whether to increase the card quantity.
