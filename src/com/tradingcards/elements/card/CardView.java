@@ -296,10 +296,10 @@ public class CardView {
             String imagePath = collection.get(cardName).getImagePath();
             ImageIcon cardPhoto;
 
-            if (imagePath != null && !imagePath.isEmpty()) {
+            if (imagePath != null) {
                 cardPhoto = new ImageIcon(imagePath);
             } else {
-                cardPhoto = new ImageIcon(getClass().getResource("/images/defautt.png"));
+                cardPhoto = new ImageIcon(getClass().getResource("/images/default.png"));
             }
 
             JLabel image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 0.3));
