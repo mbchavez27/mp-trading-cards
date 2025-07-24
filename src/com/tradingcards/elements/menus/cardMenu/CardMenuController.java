@@ -24,6 +24,8 @@ public class CardMenuController {
     }
 
     public void start() {
+        // Initial
+        view.setDataInPanel(cardController.displayCollection());
 
         view.setBackAction(e -> {
             mainMenuView.updateMoneyLabel();

@@ -73,10 +73,9 @@ public class CardController {
             if (card.hasCopy(sharedCollection, name, card)) {
                 if (view.allowIncreaseCardCount(name)) {
                     sharedCollection.getCardCollection().get(name).increaseQuantity(1);
-                } else {
-                    DialogUtil.showWarning(null, "Card of the same name already exists", "Duplicate Card");
-
                 }
+            } else {
+                DialogUtil.showError(null, "Card of the same name already exists", "Duplicate Card");
             }
         } else {
             sharedCollection.setCardCollection(card, name);
