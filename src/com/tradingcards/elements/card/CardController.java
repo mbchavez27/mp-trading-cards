@@ -2,9 +2,9 @@ package com.tradingcards.elements.card;
 
 import java.util.HashMap;
 
-import com.tradingcards.elements.collection.CollectionModel;
+import javax.swing.JPanel;
 
-import javax.swing.*;
+import com.tradingcards.elements.collection.CollectionModel;
 
 /**
  * The {@code CardController} class handles logic for managing cards in the
@@ -105,7 +105,7 @@ public class CardController {
             sharedCollection.getCardCollection().get(name)
                     .setQuantity(sharedCollection.getCardCollection().get(name).getQuantity() - 1);
         } else {
-            view.showWarning(null, "Card does not exist", "Undefined card");
+            view.showError(null, "Card does not exist", "Undefined Card");
         }
     }
 
@@ -120,12 +120,12 @@ public class CardController {
 
         // Display all cards in the collection
         displayCollection(0);
-        view.displayMessageNewLine("Enter \"-999\" to cancel");
         String cardKey = view.setCardName();
 
         // Cancel operation if user enters exit code
-        if (cardKey.equals(EXIT_CODE))
+        if (cardKey == null || cardKey.equals(EXIT_CODE)) {
             cancelled = true;
+        }
 
         if (!cancelled) {
             // Check if the card exists in the collection
@@ -138,9 +138,10 @@ public class CardController {
                 } while (collection.get(cardKey).getQuantity() == newQuantity || newQuantity < 0);
                 // Update the quantity of the card
                 collection.get(cardKey).setQuantity(newQuantity);
+                displayCollection();
 
             } else {
-                view.displayMessageNewLine("No Card with given name existing in Collection");
+                view.showError(null, "Card does not exist", "Undefined Card");
             }
         }
     }
@@ -178,7 +179,7 @@ public class CardController {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
-            return(view.displayCollection(collection));
+            return (view.displayCollection(collection));
         } else {
             view.showWarning(null, "No Cards yet...", "Collection Warning");
         }

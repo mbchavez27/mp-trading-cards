@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -23,11 +22,6 @@ import javax.swing.JTextField;
  * creating and viewing card details and collections.
  */
 public class CardView {
-
-    /**
-     * Scanner object for reading user input from the console.
-     */
-    private Scanner scanner = new Scanner(System.in);
 
     /**
      * Displays a modal form dialog that allows the user to input information for a
@@ -229,7 +223,7 @@ public class CardView {
         int quantity;
 
         do {
-            input = JOptionPane.showInputDialog(null, "Give Card Value (Enter -999 to cancel):");
+            input = JOptionPane.showInputDialog(null, "Give New Card Quantity (Enter -999 to cancel):");
 
             if (input == null || input.equals("-999")) {
                 return -999;
