@@ -1,24 +1,40 @@
 package com.tradingcards.elements.binder;
 
-import com.tradingcards.elements.card.CardModel;
 import java.util.HashMap;
+
+import com.tradingcards.elements.card.CardModel;
 
 /**
  * The {@code BinderModel} class represents a binder that holds a collection of
  * trading cards. It maintains the name of the binder and a list of cards stored
  * in it.
  */
-public class BinderModel {
+public abstract class BinderModel {
 
     /**
      * The name of the binder.
      */
-    private String binderName;
+    protected String binderName;
+
+    /**
+     * The type of the binder.
+     */
+    protected String binderType;
 
     /**
      * A map of card names to {@link CardModel} instances stored in this binder.
      */
-    private HashMap<String, CardModel> cardsInBinder = new HashMap<>();
+    protected HashMap<String, CardModel> cardsInBinder = new HashMap<>();
+
+    /**
+     * Constructs a new BinderModel with the specified binder type.
+     *
+     * @param binderType the type of the binder (e.g., "Non-curated", "Pauper",
+     *                   "Rares", etc.)
+     */
+    public BinderModel(String binderType) {
+        this.binderType = binderType;
+    }
 
     /**
      * Sets the name of the binder.
@@ -39,6 +55,25 @@ public class BinderModel {
     }
 
     /**
+     * Sets the type of the binder.
+     *
+     * @param binderType the type of the binder (e.g., "Non-curated", "Pauper",
+     *                   etc.)
+     */
+    public void setType(String binderType) {
+        this.binderType = binderType;
+    }
+
+    /**
+     * Retrieves the type of the binder.
+     *
+     * @return the type of the binder
+     */
+    public String getType() {
+        return this.binderType;
+    }
+
+    /**
      * Retrieves the collection of cards stored in the binder.
      *
      * @return a {@code HashMap} containing card names mapped to {@link CardModel}
@@ -54,7 +89,7 @@ public class BinderModel {
      * @param card the {@link CardModel} object to add
      * @param name the name of the card to use as the key in the binder
      */
-    public void insertInBinder(CardModel card, String name) {
-        cardsInBinder.put(name, card);
-    }
+    public abstract boolean insertInBinder(CardModel card, String name);
+
+    public abstract double getSellingPrice();
 }

@@ -1,13 +1,18 @@
 package com.tradingcards.elements.binder;
 
-import com.tradingcards.elements.card.CardModel;
-
-import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+import com.tradingcards.elements.binder.types.CollectorBinder;
+import com.tradingcards.elements.binder.types.LuxuryBinder;
+import com.tradingcards.elements.binder.types.NonCuratedBinder;
+import com.tradingcards.elements.binder.types.PauperBinder;
+import com.tradingcards.elements.binder.types.RaresBinder;
+import com.tradingcards.elements.card.CardModel;
 
 /**
  * The {@code BinderView} class handles user interaction related to binders,
@@ -26,39 +31,52 @@ public class BinderView {
      * @return the name entered by the user
      */
     public String setBinderName() {
-        System.out.print("Give Binder Name: ");
-        return scanner.nextLine();
+        return JOptionPane.showInputDialog(null, "Give Binder Name (Enter -999 to cancel):");
     }
 
-    public BinderModel showBinderForm(){
-        BinderModel model = new BinderModel();
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(300, 100));
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+    public String setBinderType() {
+        String[] binderTypes = { "Non-curated Binder", "Sellable: Pauper Binder", "Sellable: Rares Binder",
+                "Sellable: Luxury Binder", "Collector Binder" };
 
-        JLabel nameLabel = new JLabel("Binder Name:");
-        JTextField nameField = new JTextField();
-        nameField.setMaximumSize(new Dimension(Integer.MAX_VALUE, 25));
+        String selectedType = (String) JOptionPane.showInputDialog(
+                null,
+                "Select Binder Type:",
+                "Binder Type Selection",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                binderTypes,
+                binderTypes[0]);
 
-        panel.add(nameLabel);
-        panel.add(Box.createVerticalStrut(5));
-        panel.add(nameField);
-
-        int result = JOptionPane.showConfirmDialog(null, panel, "Create New Binder", JOptionPane.OK_CANCEL_OPTION);
-
-        if (result == JOptionPane.OK_OPTION) {
-            String name = nameField.getText().trim();
-            if (!name.isEmpty()) {
-                model.setName(name);
-                return model;
-            }
+        if (selectedType == null) {
+            return null;
         }
 
-        return null;
+        return selectedType;
     }
 
-    public void showWarning(Component parent, String message, String title) {
-        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.WARNING_MESSAGE);
+    public BinderModel showBinderForm() {
+        String name = setBinderName();
+        if (name == null || name.equals("-999"))
+            return null;
+
+        String type = setBinderType();
+        if (type == null || type.equals("-999"))
+            return null;
+
+        BinderModel newBinder = switch (type) {
+            case "Non-curated Binder" -> new NonCuratedBinder("Non-Curated");
+            case "Sellable: Pauper Binder" -> new PauperBinder("Pauper");
+            case "Sellable: Rares Binder" -> new RaresBinder("Rares");
+            case "Sellable: Luxury Binder" -> new LuxuryBinder("Luxury");
+            case "Collector Binder" -> new CollectorBinder("Collector");
+            default -> null;
+        };
+
+        if (newBinder == null)
+            return null;
+
+        newBinder.setName(name);
+        return newBinder;
     }
 
     /**
