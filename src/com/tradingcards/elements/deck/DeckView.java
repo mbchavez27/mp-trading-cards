@@ -1,11 +1,14 @@
 package com.tradingcards.elements.deck;
 
-import com.tradingcards.elements.card.CardModel;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+import com.tradingcards.elements.card.CardModel;
+import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
  * View class responsible for handling user input and displaying output related
@@ -13,7 +16,9 @@ import java.util.Scanner;
  */
 public class DeckView {
 
-    /** Scanner instance used for reading user input from the console. */
+    /**
+     * Scanner object for reading user input from the console.
+     */
     private Scanner scanner = new Scanner(System.in);
 
     /**
@@ -22,8 +27,58 @@ public class DeckView {
      * @return the deck name entered by the user
      */
     public String setDeckName() {
-        System.out.print("Give Deck Name: ");
-        return scanner.nextLine();
+        return JOptionPane.showInputDialog(null, "Give Deck Name (Enter -999 to cancel): ");
+    }
+
+    /**
+     * Displays a dialog for the user to select a deck type from a predefined list.
+     * <p>
+     * The method uses a {@link JOptionPane} input dialog with the following
+     * options:
+     * <ul>
+     * <li>Normal Deck</li>
+     * <li>Sellable Deck</li>
+     * </ul>
+     * The first option ("Normal Deck") is selected by default.
+     * </p>
+     *
+     * @return the selected deck type as a {@code String}, or {@code null} if the
+     *         user
+     *         cancels the dialog or closes it without making a selection.
+     */
+    public String setDeckType() {
+        String[] deckTypes = { "Normal Deck", "Sellable Deck" };
+
+        String selectedType = (String) JOptionPane.showInputDialog(
+                null,
+                "Select Deck Type:",
+                "Deck Type Selection",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                deckTypes,
+                deckTypes[0]);
+
+        if (selectedType == null) {
+            return null;
+        }
+
+        return selectedType;
+    }
+
+    public DeckModel showDeckForm() {
+        DeckModel newDeck = new DeckModel();
+        String name = setDeckName();
+        if (name == null || name.equals("-999"))
+            return null;
+
+        String type = setDeckType();
+        if (type == null)
+            return null;
+
+        newDeck.setName(name);
+        newDeck.setType(type);
+
+        return newDeck;
     }
 
     /**
@@ -32,8 +87,7 @@ public class DeckView {
      * @return the card name entered by the user
      */
     public String setCardName() {
-        System.out.print("Give Card Name in Deck: ");
-        return scanner.nextLine();
+        return JOptionPane.showInputDialog(null, "Give Card Name (Enter -999 to cancel): ");
     }
 
     /**
@@ -42,8 +96,24 @@ public class DeckView {
      * @return the card number entered by the user
      */
     public int setCardNumber() {
-        System.out.print("Give Card Number in Deck: ");
-        return scanner.nextInt();
+        String input;
+        int number;
+        do {
+            input = JOptionPane.showInputDialog(null, "Give Card Number in Deck:");
+
+            if (input == null || input.equals("-999")) {
+                return -999;
+            }
+
+            try {
+                number = Integer.parseInt(input);
+                return number;
+            } catch (NumberFormatException e) {
+                DialogUtil.showError(null, "Please Enter a valid Number", "Error");
+            }
+        } while (!input.equals("-999"));
+
+        return -999;
     }
 
     /**

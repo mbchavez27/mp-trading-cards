@@ -1,11 +1,13 @@
 package com.tradingcards.elements.deck;
 
-import com.tradingcards.elements.card.CardModel;
-import com.tradingcards.elements.card.CardView;
-import com.tradingcards.elements.collection.CollectionModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
+import com.tradingcards.elements.card.CardModel;
+import com.tradingcards.elements.card.CardView;
+import com.tradingcards.elements.collection.CollectionModel;
+import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
  * Controller class responsible for managing operations related to decks. This
@@ -40,28 +42,21 @@ public class DeckController {
      * If the user inputs "-999", the operation is cancelled.
      */
     public void addDeck() {
-        DeckModel deck = new DeckModel();
-        String name;
-        boolean cancelled = false;
+        DeckModel deck = view.showDeckForm();
 
-        // Loop to prompt user for a valid, non-duplicate deck name
-        do {
-            view.displayMessageNewLine("Enter \"-999\" to cancel");
-            name = view.setDeckName();
-            if (name.equals(EXIT_CODE))
-                cancelled = true;
-
-            // If not cancelled, check if deck name already exists
-            if (!cancelled) {
-                if (sharedCollection.getDeckCollection().containsKey(name)) {
-                    System.out.println("Deck already exists choose a new name...");
-                }
+        if (deck == null) {
+            DialogUtil.showWarning(null, "Deck creation cancelled.", "Cancelled");
+        } else {
+            if (sharedCollection.getDeckCollection().containsKey(deck.getName())) {
+                DialogUtil.showWarning(null, "Deck of the same name already exists", "Duplicate Deck");
+            } else {
+                sharedCollection.setDeckCollection(deck, deck.getName());
+                DialogUtil.showInfo(
+                        null,
+                        "New " + deck.getType() + " deck successfully added to collection!",
+                        "New deck");
             }
-            // Repeat loop if deck name is already taken
-        } while (sharedCollection.getDeckCollection().containsKey(name));
-
-        if (!cancelled)
-            sharedCollection.setDeckCollection(deck, name);
+        }
     }
 
     /**
@@ -348,7 +343,7 @@ public class DeckController {
                     view.displayMessageNewLine("Card does not exist in Deck");
                 }
 
-            // If user chooses to select by card number
+                // If user chooses to select by card number
             } else if (selectionOption.equals("number")) {
                 cardNumber = view.setCardNumber();
 

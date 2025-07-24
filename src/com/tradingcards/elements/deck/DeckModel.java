@@ -1,7 +1,8 @@
 package com.tradingcards.elements.deck;
 
-import com.tradingcards.elements.card.CardModel;
 import java.util.HashMap;
+
+import com.tradingcards.elements.card.CardModel;
 
 /**
  * Model class representing a Deck of cards.
@@ -11,6 +12,9 @@ public class DeckModel {
 
     /** The name of the deck. */
     private String deckName;
+
+    /** The type of the deck. */
+    private String deckType;
 
     /** A map of card names to their corresponding CardModel objects in the deck. */
     private HashMap<String, CardModel> cardsInDeck = new HashMap<>();
@@ -31,6 +35,24 @@ public class DeckModel {
      */
     public String getName() {
         return this.deckName;
+    }
+
+    /**
+     * Sets the type of the deck.
+     *
+     * @param deckName the name to assign to the deck
+     */
+    public void setType(String deckType) {
+        this.deckType = deckType;
+    }
+
+    /**
+     * Returns the type of the deck.
+     *
+     * @return the type of the deck
+     */
+    public String getType() {
+        return this.deckType;
     }
 
     /**
@@ -58,4 +80,13 @@ public class DeckModel {
             return false;
         }
     }
+
+    public double getSellingPrice() {
+        if (deckType.equals("Normal")) {
+            return 1;
+        } else {
+            return -1;
+        }
+    }
+
 }
