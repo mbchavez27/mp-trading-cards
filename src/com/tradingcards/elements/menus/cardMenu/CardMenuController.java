@@ -17,22 +17,24 @@ public class CardMenuController {
 
     public void start() {
 
-        view.setBackAction(e->{
+        view.setBackAction(e -> {
             mainFrame.showPanel("mainMenu");
         });
 
-        view.setDisplayCardAction(e->{
+        view.setDisplayCardAction(e -> {
             cardController.displayCard();
         });
 
-        view.setDisplayCollectionAction(e->{
+        view.setDisplayCollectionAction(e -> {
             view.setDataInPanel(cardController.displayCollection());
         });
-        view.setModifyQuantityAction(e->{
-            cardController.modifyCardQuantity();
+        view.setModifyQuantityAction(e -> {
+            int newQuantity = cardController.modifyCardQuantity();
+            if (newQuantity != -1) {
+                view.setDataInPanel(cardController.displayCollection());
+            }
         });
     }
-
 
     public CardMenuView getView() {
         return view;

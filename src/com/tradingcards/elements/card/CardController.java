@@ -113,7 +113,7 @@ public class CardController {
      * Modifies the quantity of a specific card in the collection.
      * Prompts the user to choose a card and input a new valid quantity.
      */
-    public void modifyCardQuantity() {
+    public int modifyCardQuantity() {
         // Get the card collection from the shared collection
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         boolean cancelled = false;
@@ -138,12 +138,13 @@ public class CardController {
                 } while (collection.get(cardKey).getQuantity() == newQuantity || newQuantity < 0);
                 // Update the quantity of the card
                 collection.get(cardKey).setQuantity(newQuantity);
-                displayCollection();
+                return newQuantity;
 
             } else {
                 view.showError(null, "Card does not exist", "Undefined Card");
             }
         }
+        return -1;
     }
 
     /**
