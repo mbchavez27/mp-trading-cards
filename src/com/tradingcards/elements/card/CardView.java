@@ -308,20 +308,26 @@ public class CardView {
 //        displayMessageNewLine("Collection:");
 //        displayMessageNewLine("");
 
-        JPanel displayPanel = new JPanel(new GridLayout(0,3));
+        JPanel displayPanel = new JPanel(new GridLayout(0,3,0,5));
 
         for (String name : cardByKey) {
             if (collection.get(name).getQuantity() > 0) {
-                System.out.println("Hello");
-                displayPanel.add(new JButton(collection.get(name).getName() + " quantity: " + collection.get(name).getQuantity()));
-//                displayPanel.add(new Label(collection.get(name).getName()));
-//                displayMessageNewLine("Card Name: " + collection.get(name).getName());
-//                displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
-//                displayMessageNewLine("");
+                JPanel wrapper = new JPanel();
+
+                JButton tempButton = new JButton(collection.get(name).getName() + " quantity: " + collection.get(name).getQuantity());
+                tempButton.setPreferredSize(new Dimension(190,190));
+                wrapper.setPreferredSize(new Dimension(200,200));
+                wrapper.add(tempButton);
+
+                displayPanel.add(wrapper);
             }
         }
 
-        return displayPanel;
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(displayPanel, BorderLayout.NORTH);
+        wrapperPanel.setBackground(Color.WHITE);
+
+        return wrapperPanel;
     }
 
     /**
