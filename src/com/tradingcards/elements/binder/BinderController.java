@@ -1,8 +1,12 @@
 package com.tradingcards.elements.binder;
 
-import com.tradingcards.elements.card.*;
-import com.tradingcards.elements.collection.CollectionModel;
 import java.util.HashMap;
+
+import com.tradingcards.elements.card.CardController;
+import com.tradingcards.elements.card.CardModel;
+import com.tradingcards.elements.card.CardView;
+import com.tradingcards.elements.collection.CollectionModel;
+import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
  * Controller class for managing binder-related actions within the trading card
@@ -39,38 +43,19 @@ public class BinderController {
     public void addBinder() {
         BinderModel binder = view.showBinderForm();
 
-        if (!sharedCollection.getBinderCollection().containsKey(binder.getName())) {
-            sharedCollection.setBinderCollection(binder, binder.getName());
+        if (binder == null) {
+            DialogUtil.showWarning(null, "Binder creation cancelled.", "Cancelled");
         } else {
-            view.showWarning(null, "Binder of the same name already exists", "Duplicate Binder");
+            if (sharedCollection.getBinderCollection().containsKey(binder.getName())) {
+                DialogUtil.showWarning(null, "Binder of the same name already exists", "Duplicate Binder");
+            } else {
+                sharedCollection.setBinderCollection(binder, binder.getName());
+                DialogUtil.showInfo(
+                        null,
+                        "New " + binder.getType() + " binder successfully added to collection!",
+                        "New Binder");
+            }
         }
-
-//        String name = null;
-//        boolean cancelled = false;
-//
-//        // Proceed only if not cancelled initially
-//        if (!cancelled)
-//            do {
-//                view.displayMessageNewLine("Enter \"-999\" to cancel");
-//                name = view.setBinderName();
-//
-//                // Check if the name already exists in the collection
-//                if (sharedCollection.getBinderCollection().containsKey(name)) {
-//                    view.displayMessageNewLine("Binder already exists choose a new name...");
-//                }
-//
-//                // Check if the input is the exit code (e.g., "-999") to cancel operation
-//                if (name.equals(EXIT_CODE))
-//                    cancelled = true;
-//
-//                // Repeat loop if binder name already exists
-//            } while (sharedCollection.getBinderCollection().containsKey(name));
-//
-//        // If not cancelled, add the new binder to the collection
-//        if (!cancelled) {
-//            view.displayMessageNewLine("Binder successfully added to collection");
-//            sharedCollection.setBinderCollection(binder, name);
-//        }
     }
 
     /**
