@@ -34,6 +34,26 @@ public class BinderView {
         return JOptionPane.showInputDialog(null, "Give Binder Name (Enter -999 to cancel):");
     }
 
+    /**
+     * Displays a dialog for the user to select a binder type from a predefined
+     * list.
+     * <p>
+     * The method shows a {@link JOptionPane} input dialog with the following
+     * options:
+     * <ul>
+     * <li>Non-curated Binder</li>
+     * <li>Sellable: Pauper Binder</li>
+     * <li>Sellable: Rares Binder</li>
+     * <li>Sellable: Luxury Binder</li>
+     * <li>Collector Binder</li>
+     * </ul>
+     * The first item ("Non-curated Binder") is selected by default.
+     * </p>
+     *
+     * @return the selected binder type as a {@code String}, or {@code null} if the
+     *         user
+     *         cancels the dialog or closes it without making a selection.
+     */
     public String setBinderType() {
         String[] binderTypes = { "Non-curated Binder", "Sellable: Pauper Binder", "Sellable: Rares Binder",
                 "Sellable: Luxury Binder", "Collector Binder" };
@@ -54,6 +74,31 @@ public class BinderView {
         return selectedType;
     }
 
+    /**
+     * Displays a form sequence to create a new {@link BinderModel} instance.
+     * <p>
+     * This method prompts the user to enter a binder name and select a binder type.
+     * If the user cancels any of the dialogs or returns a special exit code (e.g.,
+     * "-999"),
+     * the method returns {@code null}.
+     * </p>
+     * <p>
+     * Based on the selected type, it creates an instance of one of the following:
+     * <ul>
+     * <li>{@link NonCuratedBinder}</li>
+     * <li>{@link PauperBinder}</li>
+     * <li>{@link RaresBinder}</li>
+     * <li>{@link LuxuryBinder}</li>
+     * <li>{@link CollectorBinder}</li>
+     * </ul>
+     * The display name used in the constructor is a shortened, internal-friendly
+     * version of the binder type.
+     * </p>
+     *
+     * @return a new {@link BinderModel} instance with the selected name and type,
+     *         or {@code null} if the user cancels any part of the input process or
+     *         if the type is unrecognized.
+     */
     public BinderModel showBinderForm() {
         String name = setBinderName();
         if (name == null || name.equals("-999"))
