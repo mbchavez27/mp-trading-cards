@@ -1,14 +1,24 @@
 package com.tradingcards.elements.card;
 
-import com.tradingcards.elements.card.cardUtils.ImageUtils;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import com.tradingcards.elements.card.cardUtils.ImageUtils;
 
 /**
  * Provides methods for user interaction related to trading cards, such as
@@ -244,11 +254,12 @@ public class CardView {
         displayMessageNewLine("");
 
         JPanel displayPanel = new JPanel(new BorderLayout());
-        JPanel imagePanel = new JPanel (new BorderLayout());
+        JPanel imagePanel = new JPanel(new BorderLayout());
 
-        //handles temporary image
-        ImageIcon temporaryPhoto = new ImageIcon(getClass().getResource("cardUtils/buta.png"));
-        JLabel image = new JLabel(ImageUtils.scaleIcon(temporaryPhoto,0.3));
+        // handles temporary image
+        ImageIcon temporaryPhoto = new ImageIcon(
+                getClass().getResource("/images/default.png"));
+        JLabel image = new JLabel(ImageUtils.scaleIcon(temporaryPhoto, 0.3));
 
         JPanel informationPanel = new JPanel();
 
@@ -264,7 +275,7 @@ public class CardView {
                 cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 35));
                 imagePanel.add(cardNameDisplay, BorderLayout.NORTH);
 
-                JLabel cardRarityDisplay = new JLabel("Rarity: " +collection.get(cardName).getRarity());
+                JLabel cardRarityDisplay = new JLabel("Rarity: " + collection.get(cardName).getRarity());
                 cardRarityDisplay.setFont(new Font("Inter", Font.BOLD, 18));
                 informationPanel.add(cardRarityDisplay);
 
@@ -277,7 +288,8 @@ public class CardView {
                 cardValueDisplay.setFont(new Font("Inter", Font.BOLD, 18));
                 informationPanel.add(cardValueDisplay);
 
-                JLabel cardQuantityDisplay = new JLabel("Current Quanity: " + String.valueOf(collection.get(cardName).getQuantity()));
+                JLabel cardQuantityDisplay = new JLabel(
+                        "Current Quanity: " + String.valueOf(collection.get(cardName).getQuantity()));
                 cardQuantityDisplay.setFont(new Font("Inter", Font.BOLD, 18));
                 informationPanel.add(cardQuantityDisplay);
 
@@ -286,9 +298,9 @@ public class CardView {
 
                 return (displayPanel);
 
-
             } else if (collection.get(cardName).getQuantity() == 0) {
-                JLabel cardNameDisplay = new JLabel("Card " + collection.get(cardName).getName() + " has no current copies in collection");
+                JLabel cardNameDisplay = new JLabel(
+                        "Card " + collection.get(cardName).getName() + " has no current copies in collection");
                 cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 18));
                 informationPanel.add(cardNameDisplay);
 

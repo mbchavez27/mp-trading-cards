@@ -39,6 +39,11 @@ public class CardModel {
     private int cardQuantity;
 
     /**
+     * The image of this card in the collection.
+     */
+    private String cardImagePath;
+
+    /**
      * Sets the name of the card.
      *
      * @param cardName the name to set for the card
@@ -54,6 +59,24 @@ public class CardModel {
      */
     public String getName() {
         return this.cardName;
+    }
+
+    /**
+     * Sets the image of the card.
+     *
+     * @param cardImagePath the image to set for the card
+     */
+    public void setImagePath(String cardImagePath) {
+        this.cardImagePath = cardImagePath;
+    }
+
+    /**
+     * Returns the image of the card.
+     *
+     * @return the card's image
+     */
+    public String getImagePath() {
+        return this.cardImagePath;
     }
 
     /**
