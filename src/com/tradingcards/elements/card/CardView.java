@@ -2,7 +2,6 @@ package com.tradingcards.elements.card;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -375,15 +374,4 @@ public class CardView {
         System.out.println(message);
     }
 
-    public void showWarning(Component parent, String message, String title) {
-        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.WARNING_MESSAGE);
-    }
-
-    public void showInfo(Component parent, String message, String title) {
-        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    public void showError(Component parent, String message, String title) {
-        JOptionPane.showMessageDialog(parent, message, title, JOptionPane.ERROR_MESSAGE);
-    }
 }

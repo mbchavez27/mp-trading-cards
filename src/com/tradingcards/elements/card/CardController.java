@@ -5,6 +5,7 @@ import java.util.HashMap;
 import javax.swing.JPanel;
 
 import com.tradingcards.elements.collection.CollectionModel;
+import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
  * The {@code CardController} class handles logic for managing cards in the
@@ -73,7 +74,8 @@ public class CardController {
                 if (view.allowIncreaseCardCount(name)) {
                     sharedCollection.getCardCollection().get(name).increaseQuantity(1);
                 } else {
-                    view.showWarning(null, "Card of the same name already exists", "Duplicate Card");
+                    DialogUtil.showWarning(null, "Card of the same name already exists", "Duplicate Card");
+
                 }
             }
         } else {
@@ -105,7 +107,7 @@ public class CardController {
             sharedCollection.getCardCollection().get(name)
                     .setQuantity(sharedCollection.getCardCollection().get(name).getQuantity() - 1);
         } else {
-            view.showError(null, "Card does not exist", "Undefined Card");
+            DialogUtil.showError(null, "Card does not exist", "Undefined Card");
         }
     }
 
@@ -143,7 +145,8 @@ public class CardController {
                 return newQuantity;
 
             } else {
-                view.showError(null, "Card does not exist", "Undefined Card");
+                DialogUtil.showError(null, "Card does not exist", "Undefined Card");
+
             }
         }
         return -1;
@@ -184,7 +187,7 @@ public class CardController {
         if (!collection.isEmpty()) {
             return (view.displayCollection(collection));
         } else {
-            view.showWarning(null, "No Cards yet...", "Collection Warning");
+            DialogUtil.showWarning(null, "No Cards yet...", "Collection Warning");
         }
         return null;
     }
