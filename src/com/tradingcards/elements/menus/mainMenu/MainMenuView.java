@@ -1,8 +1,19 @@
 package com.tradingcards.elements.menus.mainMenu;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import com.tradingcards.elements.collection.CollectionModel;
 
 public class MainMenuView extends JPanel {
 
@@ -15,13 +26,26 @@ public class MainMenuView extends JPanel {
     private final JButton placeHolderBtn = new JButton("");
     private final JButton closeApplicationBtn = new JButton("Exit");
 
-    public MainMenuView() {
+    public MainMenuView(CollectionModel sharedCollection) {
         setLayout(new BorderLayout());
 
+        JPanel northPanel = new JPanel();
+        northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
+
         JLabel titleLabel = new JLabel("Trading Card Inventory System", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        add(titleLabel, BorderLayout.NORTH);
+        titleLabel.setFont(new Font("Inter", Font.BOLD, 16));
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 5, 0));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JLabel moneyLabel = new JLabel("Cash: " + sharedCollection.getMoney(), SwingConstants.CENTER);
+        moneyLabel.setFont(new Font("Inter", Font.BOLD, 16));
+        moneyLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 20, 0));
+        moneyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        northPanel.add(titleLabel);
+        northPanel.add(moneyLabel);
+
+        add(northPanel, BorderLayout.NORTH);
 
         JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 10, 10));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
