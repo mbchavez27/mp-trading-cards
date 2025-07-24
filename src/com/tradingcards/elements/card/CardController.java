@@ -97,7 +97,7 @@ public class CardController {
      *
      * @param name the name of the card to sell
      */
-    public void sellCard(String name) {
+    public boolean sellCard(String name) {
 
         if (sharedCollection.getCardCollection().containsKey(name)
                 && sharedCollection.getCardCollection().get(name).getQuantity() > 0) {
@@ -106,9 +106,15 @@ public class CardController {
 
             sharedCollection.getCardCollection().get(name)
                     .setQuantity(sharedCollection.getCardCollection().get(name).getQuantity() - 1);
+
+            DialogUtil.showInfo(null, "Your updated cash is now " + sharedCollection.getMoney(), "Sold card");
+
         } else {
             DialogUtil.showError(null, "Card does not exist", "Undefined Card");
+
+            return false;
         }
+        return true;
     }
 
     /**
@@ -170,9 +176,9 @@ public class CardController {
                 cancelled = true;
 
             if (!cancelled)
-                return(view.displayCard(collection, cardName));
+                return (view.displayCard(collection, cardName));
         } else {
-            //TODO, must return a Jpanel
+            // TODO, must return a Jpanel
             view.displayMessageNewLine("No Cards yet...");
         }
         return null;

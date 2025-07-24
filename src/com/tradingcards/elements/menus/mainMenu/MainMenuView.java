@@ -26,7 +26,11 @@ public class MainMenuView extends JPanel {
     private final JButton placeHolderBtn = new JButton("");
     private final JButton closeApplicationBtn = new JButton("Exit");
 
+    private final JLabel moneyLabel;
+    private final CollectionModel sharedCollection;
+
     public MainMenuView(CollectionModel sharedCollection) {
+        this.sharedCollection = sharedCollection;
         setLayout(new BorderLayout());
 
         JPanel northPanel = new JPanel();
@@ -37,7 +41,7 @@ public class MainMenuView extends JPanel {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 5, 0));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel moneyLabel = new JLabel("Cash: " + sharedCollection.getMoney(), SwingConstants.CENTER);
+        moneyLabel = new JLabel("Cash: " + sharedCollection.getMoney(), SwingConstants.CENTER);
         moneyLabel.setFont(new Font("Inter", Font.BOLD, 16));
         moneyLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 20, 0));
         moneyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -115,5 +119,9 @@ public class MainMenuView extends JPanel {
 
     public void showManageDeckBtn() {
         manageDecksBtn.setEnabled(true);
+    }
+
+    public void updateMoneyLabel() {
+        moneyLabel.setText("Cash: " + sharedCollection.getMoney());
     }
 }

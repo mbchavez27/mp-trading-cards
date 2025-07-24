@@ -117,7 +117,9 @@ public class MainMenuController {
         // Setup MVC subcomponents
         CardView cardView = new CardView();
         CardController cardController = new CardController(sharedCollection, cardView);
-        CardMenuController cardMenuController = new CardMenuController(cardMenuView, cardController, mainFrame);
+        CardMenuController cardMenuController = new CardMenuController(cardMenuView, cardController, cardView,
+                mainMenuView,
+                mainFrame);
 
         BinderView binderView = new BinderView();
         BinderController binderController = new BinderController(sharedCollection, binderView);
