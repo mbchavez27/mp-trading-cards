@@ -27,6 +27,7 @@ import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.deck.DeckController;
 import com.tradingcards.elements.deck.DeckView;
+import com.tradingcards.elements.menus.binderMenu.BinderMenuView;
 import com.tradingcards.elements.menus.cardMenu.CardMenuController;
 import com.tradingcards.elements.menus.cardMenu.CardMenuView;
 
@@ -110,9 +111,12 @@ public class MainMenuController {
 
     public void start() {
         MainFrame mainFrame = new MainFrame();
+
         MainMenuView mainMenuView = new MainMenuView(sharedCollection);
 
         CardMenuView cardMenuView = new CardMenuView();
+
+        BinderMenuView binderMenuView = new BinderMenuView();
 
         // Setup MVC subcomponents
         CardView cardView = new CardView();
@@ -132,6 +136,7 @@ public class MainMenuController {
         // must list down all possible full menu displays
         mainFrame.addPanel("mainMenu", mainMenuView);
         mainFrame.addPanel("manageCardMenu", cardMenuView);
+        mainFrame.addPanel("manageBinderMenu", binderMenuView);
 
         mainFrame.setVisible(true);
         // Selects mainMenu panel as initial menu
