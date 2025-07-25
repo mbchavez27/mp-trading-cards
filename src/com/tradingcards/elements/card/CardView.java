@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.io.File;
@@ -25,6 +26,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import com.tradingcards.elements.card.cardUtils.ImageUtils;
+import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
  * Provides methods for user interaction related to trading cards, such as
@@ -69,11 +71,20 @@ public class CardView {
         panel.setPreferredSize(new Dimension(300, 350));
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
+        // Components
         JTextField nameField = new JTextField();
+        nameField.setMaximumSize(new Dimension(250, 30));
+
         JComboBox<String> rarityBox = new JComboBox<>(new String[] { "Common", "Uncommon", "Rare", "Legendary" });
+        rarityBox.setMaximumSize(new Dimension(250, 30));
+
         JComboBox<String> variantBox = new JComboBox<>(
                 new String[] { "Normal", "Extended-art", "Full-art", "Alt-art" });
+        variantBox.setMaximumSize(new Dimension(250, 30));
+
         JTextField valueField = new JTextField();
+        valueField.setMaximumSize(new Dimension(250, 30));
+
         JButton uploadImageButton = new JButton("Upload Image");
         JLabel selectedImageLabel = new JLabel("No image selected");
 
@@ -82,6 +93,27 @@ public class CardView {
         JLabel variantLabel = new JLabel("Variant:");
         JLabel valueLabel = new JLabel("Card Value:");
 
+        // Set alignment to center
+        nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nameField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rarityLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rarityBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        variantLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        variantBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+        valueLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        valueField.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Upload panel
+        JPanel uploadPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        uploadPanel.add(uploadImageButton);
+        uploadPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Image label panel
+        JPanel imageLabelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        imageLabelPanel.add(selectedImageLabel);
+        imageLabelPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Add to panel
         panel.add(nameLabel);
         panel.add(nameField);
         panel.add(Box.createVerticalStrut(5));
@@ -94,7 +126,7 @@ public class CardView {
         panel.add(variantBox);
         panel.add(Box.createVerticalStrut(5));
 
-        // Initially set these elements to invisible
+        // Initially hide variant
         variantLabel.setVisible(false);
         variantBox.setVisible(false);
         panel.add(Box.createVerticalStrut(5));
@@ -103,9 +135,9 @@ public class CardView {
         panel.add(valueField);
         panel.add(Box.createVerticalStrut(10));
 
-        panel.add(uploadImageButton);
+        panel.add(uploadPanel);
         panel.add(Box.createVerticalStrut(5));
-        panel.add(selectedImageLabel);
+        panel.add(imageLabelPanel);
 
         final String[] imagePath = { null };
 
@@ -148,7 +180,7 @@ public class CardView {
             try {
                 double value = Double.parseDouble(valueText);
                 if (value < 0) {
-                    JOptionPane.showMessageDialog(null, "Value must be non-negative.");
+                    DialogUtil.showWarning(panel, "Value must be non-negative", "Wrong input");
                     return null;
                 }
 
@@ -170,7 +202,7 @@ public class CardView {
                 return card;
 
             } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Invalid value entered.");
+                DialogUtil.showWarning(panel, "Invalid input entered", "Wrong input");
             }
         }
 

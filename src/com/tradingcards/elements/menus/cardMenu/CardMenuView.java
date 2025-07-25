@@ -11,8 +11,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import com.tradingcards.elements.menus.menuUtils.ComponentUtil;
-
 /**
  * GUI View for managing cards, similar in style to MainMenuView.
  */

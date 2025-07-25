@@ -64,8 +64,10 @@ public class CardController {
     public String addCard() {
         CardModel card = view.showAddCardForm();
 
-        if (card == null)
+        if (card == null) {
+            DialogUtil.showError(null, "Add card operation cancelled", "Operation Cancelled");
             return null; // cancel
+        }
 
         String name = card.getName();
 
