@@ -14,6 +14,7 @@ import com.tradingcards.elements.binder.types.NonCuratedBinder;
 import com.tradingcards.elements.binder.types.PauperBinder;
 import com.tradingcards.elements.binder.types.RaresBinder;
 import com.tradingcards.elements.card.CardModel;
+import com.tradingcards.elements.card.CardView;
 
 /**
  * The {@code BinderView} class handles user interaction related to binders,
@@ -33,6 +34,40 @@ public class BinderView {
      */
     public String setBinderName() {
         return JOptionPane.showInputDialog(null, "Give Binder Name (Enter -999 to cancel):");
+    }
+
+    public String setBinderName(String message) {
+        return JOptionPane.showInputDialog(null, message + " (Enter -999 to cancel):");
+    }
+
+
+    public void showWarning(String warning){
+        JOptionPane.showMessageDialog(null, warning, "Warning", JOptionPane.WARNING_MESSAGE);
+    }
+
+
+    public String setCardName() {
+        return JOptionPane.showInputDialog(null, "Give Card Name (Enter -999 to cancel):");
+    }
+
+    public JPanel showMainCardDisplay(HashMap<String, CardModel> collection, String outgoingCard, String incomingCard, double difference){
+        CardView cardView = new CardView();
+
+        JPanel tradeDisplay = new JPanel(new BorderLayout());
+        JPanel leftDisplay = new JPanel();
+        JPanel rightDisplay = new JPanel();
+        JPanel centerDisplay = new JPanel();
+        centerDisplay.setLayout(new BoxLayout(centerDisplay, BoxLayout.Y_AXIS));
+
+        leftDisplay.add(cardView.displayCard(collection, outgoingCard));
+        rightDisplay.add(cardView.displayCard(collection, incomingCard));
+        JLabel differenceLabel = new JLabel("Difference is " + difference);
+
+        centerDisplay.add(differenceLabel);
+        tradeDisplay.add(leftDisplay, BorderLayout.WEST);
+        tradeDisplay.add(rightDisplay, BorderLayout.EAST);
+        tradeDisplay.add(centerDisplay, BorderLayout.SOUTH);
+        return tradeDisplay;
     }
 
     /**
@@ -185,26 +220,41 @@ public class BinderView {
      *
      * @param binder a map containing card names and their models
      */
-    public void displayBinderContent(HashMap<String, CardModel> binder) {
+    public JPanel displayBinderContent(HashMap<String, CardModel> binder) {
         ArrayList<String> cardByKey = new ArrayList<>(binder.keySet());
         Collections.sort(cardByKey);
 
-        System.out.println("------------------------------------");
-        System.out.println("Binder Contents:");
-        System.out.println("");
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
+        boolean hasCards = false;
 
         for (String name : cardByKey) {
-            // If there are multiple copies of the card
-            if (binder.get(name).getQuantity() > 1) {
-                // Print the card name once per copy
+            if (binder.get(name).getQuantity() >= 1) {
+                hasCards = true;
+
                 for (int i = 1; i <= binder.get(name).getQuantity(); i++) {
+                    JPanel wrapper = new JPanel();
+                    JButton tempButton = new JButton(binder.get(name).getName());
+                    tempButton.setPreferredSize(new Dimension(190, 190));
+                    wrapper.setPreferredSize(new Dimension(200, 200));
+                    wrapper.add(tempButton);
+                    displayPanel.add(wrapper);
+
                     System.out.println("Card Name: " + binder.get(name).getName());
                 }
-            } else {
-                // If only one copy, print once
-                System.out.println("Card Name: " + binder.get(name).getName());
             }
         }
-        System.out.println("");
+
+        if (hasCards) {
+            JPanel wrapperPanel = new JPanel(new BorderLayout());
+            wrapperPanel.add(displayPanel, BorderLayout.NORTH);
+            wrapperPanel.setBackground(Color.WHITE);
+            return wrapperPanel;
+        } else {
+            JPanel emptyPanel = new JPanel(new BorderLayout());
+            JLabel emptyMessage = new JLabel("Binder is empty");
+            emptyMessage.setFont(new Font("inter", Font.PLAIN, 20));
+            emptyPanel.add(emptyMessage, BorderLayout.CENTER);
+            return emptyPanel;
+        }
     }
 }

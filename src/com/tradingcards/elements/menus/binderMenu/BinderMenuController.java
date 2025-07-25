@@ -5,6 +5,8 @@ import com.tradingcards.elements.binder.BinderController;
 import com.tradingcards.elements.binder.BinderView;
 import com.tradingcards.elements.menus.mainMenu.MainMenuView;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.Scanner;
 
 /**
@@ -37,19 +39,25 @@ public class BinderMenuController {
         });
 
         view.setDeleteBinderAction(e->{
-
+            binderController.removeBinder();
         });
 
         view.setAddCardToBinderAction(e->{
-
+            binderController.addCard();
         });
 
         view.setRemoveCardFromBinderAction(e->{
-
+            binderController.removeCard();
         });
 
         view.setTradeCardAction(e->{
+            JPanel tradingPanel = new JPanel();
+            tradingPanel.setLayout(new BorderLayout());
 
+            view.setDataInPanel(tradingPanel);
+
+            binderController.tradeCard(tradingPanel);
+//            binderController.tradeCard();
         });
 
         view.setSellBinderBtn(e->{
@@ -57,7 +65,7 @@ public class BinderMenuController {
         });
 
         view.setViewBinderAction(e->{
-
+            view.setDataInPanel(binderController.displaySingleBinder());
         });
 
     }
