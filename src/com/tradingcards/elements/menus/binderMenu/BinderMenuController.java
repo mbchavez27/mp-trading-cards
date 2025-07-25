@@ -61,7 +61,7 @@ public class BinderMenuController {
         });
 
         view.setSellBinderBtn(e -> {
-
+            binderController.sellBinder();
         });
 
         view.setViewBinderAction(e -> {

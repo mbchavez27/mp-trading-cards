@@ -304,7 +304,7 @@ public class BinderController {
                                         DialogUtil.showError(null, "Cannot accomodate slots", "Binder full");
                                     }
                                 } else {
-                                    DialogUtil.showError(null, "Cannot add card", "Card quantity is current;y empty");
+                                    DialogUtil.showError(null, "Cannot add card", "Card quantity is currently empty");
                                 }
                             } else {
                                 DialogUtil.showError(null, "Cannot add card", "Undefined card");
@@ -312,7 +312,7 @@ public class BinderController {
 
                         } while (!collection.containsKey(cardName) && !taskDone);
                     } else {
-                        DialogUtil.showError(null, "Cannot add binder", "Undefined binder");
+                        DialogUtil.showError(null, "Cannot add card", "Undefined card");
                     }
                 }
             }
@@ -568,6 +568,23 @@ public class BinderController {
             } else {
                 view.displayMessageNewLine("No Binder with given name exists");
             }
+        }
+    }
+
+    public void sellBinder() {
+        String binderName = view.setBinderName();
+        if (sharedCollection.getBinderCollection().containsKey(binderName)) {
+            BinderModel binder = sharedCollection.getBinderCollection().get(binderName);
+
+            if (binder.getSellingPrice() == -1) {
+                DialogUtil.showError(null, "Binder not sellable", "Wrong Binder Type");
+            } else {
+                if (binder.cardsInBinder.isEmpty()) {
+                    DialogUtil.showError(null, "Binder Empty", "Binder Empty");
+                }
+            }
+        } else {
+            DialogUtil.showError(null, "Binder not found", "Undefined Binder");
         }
     }
 
