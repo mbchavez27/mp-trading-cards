@@ -3,8 +3,10 @@ package com.tradingcards.elements.menus.cardMenu;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -49,14 +51,19 @@ public class CardMenuView extends JPanel {
         backBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, backBtn.getPreferredSize().height));
 
         optionPanel.add(Box.createVerticalStrut(100));
+        styleButton(displayCardBtn);
         optionPanel.add(displayCardBtn);
         optionPanel.add(Box.createVerticalStrut(10));
+        styleButton(displayCollectionBtn);
         optionPanel.add(displayCollectionBtn);
         optionPanel.add(Box.createVerticalStrut(10));
+        styleButton(modifyQuantityBtn);
         optionPanel.add(modifyQuantityBtn);
         optionPanel.add(Box.createVerticalStrut(10));
+        styleButton(sellCardBtn);
         optionPanel.add(sellCardBtn);
         optionPanel.add(Box.createVerticalStrut(10));
+        styleButton(backBtn);
         optionPanel.add(backBtn);
     }
 
@@ -64,6 +71,16 @@ public class CardMenuView extends JPanel {
         scrollingPanel.setViewportView(newPanel);
         scrollingPanel.revalidate();
         scrollingPanel.repaint();
+    }
+
+    private void styleButton(JButton button) {
+        button.setBackground(Color.WHITE);
+        button.setForeground(Color.BLACK);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        button.setFont(new Font("Inter", Font.PLAIN, 14));
+        button.setContentAreaFilled(true);
+        button.setOpaque(true);
     }
 
     // public class CardMenuView extends JFrame {
