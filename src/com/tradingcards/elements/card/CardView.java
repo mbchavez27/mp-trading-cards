@@ -2,6 +2,7 @@ package com.tradingcards.elements.card;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -20,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import com.tradingcards.elements.card.cardUtils.ImageUtils;
 
@@ -306,34 +309,106 @@ public class CardView {
 
             if (collection.get(cardName).getQuantity() > 0) {
 
-                imagePanel.add(image, BorderLayout.CENTER);
-                informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
-                displayPanel.add(imagePanel, BorderLayout.EAST);
+                // Main container
+                displayPanel = new JPanel(new BorderLayout());
+                displayPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-                JLabel cardNameDisplay = new JLabel(collection.get(cardName).getName());
+                // Rarity Color Mapping
+                Color rarityColor;
+                switch (collection.get(cardName).getRarity()) {
+                    case "Common" -> rarityColor = Color.decode("#A0A0A0"); // Gray
+                    case "Uncommon" -> rarityColor = Color.decode("#3CB371"); // Green
+                    case "Rare" -> rarityColor = Color.decode("#4169E1"); // Blue
+                    case "Legendary" -> rarityColor = Color.decode("#FFD700"); // Gold
+                    default -> rarityColor = Color.BLACK;
+                }
+
+                // Variant Color Mapping
+                Color variantColor;
+                String variant = collection.get(cardName).getVariant();
+                if (variant == null)
+                    variant = "Normal";
+
+                switch (variant) {
+                    case "Extended-Art" -> variantColor = Color.decode("#D8BFD8"); // Light Purple
+                    case "Full-Art" -> variantColor = Color.decode("#ADD8E6"); // Light Blue
+                    case "Alt-Art" -> variantColor = Color.decode("#DC143C"); // Crimson
+                    default -> variantColor = Color.decode("#FFFFFF"); // White (Normal)
+                }
+
+                // Panel to hold image and info side by side
+                JPanel contentPanel = new JPanel();
+                contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.X_AXIS));
+                contentPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // Image Panel
+                imagePanel = new JPanel(new BorderLayout());
+                imagePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20)); // Right padding
+
+                // Card name at top
+                JLabel cardNameDisplay = new JLabel(collection.get(cardName).getName(), SwingConstants.CENTER);
                 cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 35));
+                cardNameDisplay.setHorizontalAlignment(SwingConstants.CENTER);
                 imagePanel.add(cardNameDisplay, BorderLayout.NORTH);
 
+                // Image centered
+                image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 0.3));
+                image.setHorizontalAlignment(SwingConstants.CENTER);
+                imagePanel.add(image, BorderLayout.CENTER);
+
+                // Information Panel
+                informationPanel = new JPanel();
+                informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
+                informationPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+
+                // Rarity
                 JLabel cardRarityDisplay = new JLabel("Rarity: " + collection.get(cardName).getRarity());
                 cardRarityDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                cardRarityDisplay.setAlignmentX(Component.LEFT_ALIGNMENT);
+                cardRarityDisplay.setBorder(BorderFactory.createLineBorder(rarityColor, 6));
+                cardRarityDisplay.setBackground(rarityColor);
+                cardRarityDisplay.setOpaque(true);
+                cardRarityDisplay.setForeground(Color.WHITE);
+                informationPanel.add(Box.createVerticalStrut(15));
                 informationPanel.add(cardRarityDisplay);
 
+                // Variant (if present)
                 if (collection.get(cardName).getVariant() != null) {
                     JLabel cardVariantDisplay = new JLabel("Variant: " + collection.get(cardName).getVariant());
                     cardVariantDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                    cardVariantDisplay.setAlignmentX(Component.LEFT_ALIGNMENT);
+                    cardVariantDisplay.setBorder(BorderFactory.createLineBorder(variantColor, 6));
+                    cardVariantDisplay.setBackground(variantColor);
+                    cardVariantDisplay.setOpaque(true);
+                    if (variantColor.equals(Color.decode("#FFFFFF"))) {
+                        cardVariantDisplay.setForeground(Color.BLACK);
+                    } else {
+                        cardVariantDisplay.setForeground(Color.WHITE);
+                    }
+                    informationPanel.add(Box.createVerticalStrut(15));
                     informationPanel.add(cardVariantDisplay);
                 }
-                JLabel cardValueDisplay = new JLabel("Value: " + String.valueOf(collection.get(cardName).getValue()));
+
+                // Value
+                JLabel cardValueDisplay = new JLabel("Value: " + collection.get(cardName).getValue());
                 cardValueDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                cardValueDisplay.setAlignmentX(Component.LEFT_ALIGNMENT);
+                informationPanel.add(Box.createVerticalStrut(15));
                 informationPanel.add(cardValueDisplay);
 
-                JLabel cardQuantityDisplay = new JLabel(
-                        "Current Quanity: " + String.valueOf(collection.get(cardName).getQuantity()));
+                // Quantity
+                JLabel cardQuantityDisplay = new JLabel("Current Quantity: " + collection.get(cardName).getQuantity());
                 cardQuantityDisplay.setFont(new Font("Inter", Font.BOLD, 18));
+                cardQuantityDisplay.setAlignmentX(Component.LEFT_ALIGNMENT);
+                informationPanel.add(Box.createVerticalStrut(15));
                 informationPanel.add(cardQuantityDisplay);
 
-                displayPanel.add(imagePanel, BorderLayout.WEST);
-                displayPanel.add(informationPanel, BorderLayout.CENTER);
+                // Add panels
+                contentPanel.add(imagePanel);
+                contentPanel.add(informationPanel);
+
+                // Center the whole content
+                displayPanel.add(contentPanel, BorderLayout.CENTER);
 
                 return (displayPanel);
 
