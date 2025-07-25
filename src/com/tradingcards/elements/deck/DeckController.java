@@ -9,6 +9,8 @@ import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
+import javax.swing.*;
+
 /**
  * Controller class responsible for managing operations related to decks. This
  * includes adding new decks, removing existing ones, and manipulating cards
@@ -369,13 +371,14 @@ public class DeckController {
      * Displays all available decks in the shared collection.
      * If there are no decks, an appropriate message is shown.
      */
-    public void displayDecks() {
+    public JPanel displayDecks() {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
 
         if (!deckCollection.isEmpty()) {
-            view.displayDecks(deckCollection);
+            return(view.displayDecks(deckCollection));
         } else {
-            view.displayMessageNewLine("No Decks made yet");
+            DialogUtil.showWarning(null, "No Decks yet...",  "Decks Warning");
         }
+        return null;
     }
 }

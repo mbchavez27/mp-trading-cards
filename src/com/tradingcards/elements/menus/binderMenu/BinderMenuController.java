@@ -62,6 +62,8 @@ public class BinderMenuController {
 
     }
 
+    public BinderMenuView getView(){return view;}
+
 //    /**
 //     * Constructs a BinderMenu with the given BinderController.
 //     *
@@ -119,6 +121,4 @@ public class BinderMenuController {
 //        System.out.println("[5] View Binder");
 //        System.out.println("[0] Exit Menu");
 //    }
-
-    public BinderMenuView getView(){return view;}
 }
