@@ -1,20 +1,21 @@
 package com.tradingcards.elements.card.cardUtils;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
 
 public class ImageUtils {
 
-    public static ImageIcon scaleIcon(ImageIcon icon, double scaleFactor){
-        if (icon == null || icon.getIconWidth() <= 0 || icon.getIconHeight() <= 0){
-            System.out.println("Icon is null or empty");
+    private static final int TARGET_WIDTH = 300;
+    private static final int TARGET_HEIGHT = 380;
+
+    public static ImageIcon scaleIcon(ImageIcon icon) {
+        if (icon == null || icon.getIconWidth() <= 0 || icon.getIconHeight() <= 0) {
+            System.out.println("Icon is null or has invalid dimensions");
+            return null;
         }
 
-        int newWidth = (int) (icon.getIconWidth() * scaleFactor);
-        int newHeight = (int) (icon.getIconHeight() * scaleFactor);
-
-        Image scaledImage = icon.getImage().getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+        Image scaledImage = icon.getImage().getScaledInstance(TARGET_WIDTH, TARGET_HEIGHT, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
-
     }
 }

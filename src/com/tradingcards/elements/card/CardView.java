@@ -337,7 +337,7 @@ public class CardView {
                 cardPhoto = new ImageIcon(getClass().getResource("/images/default.png"));
             }
 
-            JLabel image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 0.3));
+            JLabel image = new JLabel(ImageUtils.scaleIcon(cardPhoto));
 
             if (collection.get(cardName).getQuantity() > 0) {
 
@@ -384,7 +384,7 @@ public class CardView {
                 imagePanel.add(cardNameDisplay, BorderLayout.NORTH);
 
                 // Image centered
-                image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 0.3));
+                image = new JLabel(ImageUtils.scaleIcon(cardPhoto));
                 image.setHorizontalAlignment(SwingConstants.CENTER);
                 imagePanel.add(image, BorderLayout.CENTER);
 
