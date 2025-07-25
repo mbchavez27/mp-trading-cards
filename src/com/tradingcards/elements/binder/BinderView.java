@@ -1,11 +1,12 @@
 package com.tradingcards.elements.binder;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import com.tradingcards.elements.binder.types.CollectorBinder;
 import com.tradingcards.elements.binder.types.LuxuryBinder;
@@ -149,18 +150,33 @@ public class BinderView {
      *
      * @param binderCollection a map containing binder names and their models
      */
-    public void displayBinders(HashMap<String, BinderModel> binderCollection) {
+    public JPanel displayBinders(HashMap<String, BinderModel> binderCollection) {
         ArrayList<String> binderKeys = new ArrayList<>(binderCollection.keySet());
         Collections.sort(binderKeys);
 
-        System.out.println("------------------------------------");
-        System.out.println("Current Binders:");
-        System.out.println("");
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
+
+//
+//        System.out.println("------------------------------------");
+//        System.out.println("Current Binders:");
+//        System.out.println("");
 
         for (String binderNames : binderKeys) {
-            System.out.println(binderNames);
+
+            JPanel wrapper = new JPanel();
+
+            JButton tempButton = new JButton(binderNames);
+            tempButton.setPreferredSize(new Dimension(190, 190));
+            wrapper.setPreferredSize(new Dimension(200, 200));
+            wrapper.add(tempButton);
+
+            displayPanel.add(wrapper);
         }
-        System.out.println("");
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(displayPanel, BorderLayout.NORTH);
+        wrapperPanel.setBackground(Color.WHITE);
+
+        return wrapperPanel;
     }
 
     /**

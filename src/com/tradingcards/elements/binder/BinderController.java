@@ -8,6 +8,8 @@ import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
+import javax.swing.*;
+
 /**
  * Controller class for managing binder-related actions within the trading card
  * collection application. Handles logic for adding/removing binders and cards,
@@ -104,14 +106,16 @@ public class BinderController {
     /**
      * Displays all binders currently stored in the collection.
      */
-    public void displayBinders() {
+    public JPanel displayBinders() {
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
 
         if (!binderCollection.isEmpty()) {
-            view.displayBinders(binderCollection);
+            return(view.displayBinders(binderCollection));
         } else {
-            view.displayMessageNewLine("No Binders made yet");
+            DialogUtil.showWarning(null, "No Cards yet...", "Collection Warning");
         }
+
+        return null;
     }
 
     /**
