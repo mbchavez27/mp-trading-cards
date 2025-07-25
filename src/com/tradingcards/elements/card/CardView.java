@@ -391,7 +391,7 @@ public class CardView {
                 // Information Panel
                 informationPanel = new JPanel();
                 informationPanel.setLayout(new BoxLayout(informationPanel, BoxLayout.Y_AXIS));
-                informationPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+                informationPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
                 // Rarity
                 JLabel cardRarityDisplay = new JLabel("Rarity: " + collection.get(cardName).getRarity());
