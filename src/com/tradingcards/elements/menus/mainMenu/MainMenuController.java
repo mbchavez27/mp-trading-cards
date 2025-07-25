@@ -27,6 +27,8 @@ import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.deck.DeckController;
 import com.tradingcards.elements.deck.DeckView;
+import com.tradingcards.elements.menus.binderMenu.BinderMenuController;
+import com.tradingcards.elements.menus.binderMenu.BinderMenuView;
 import com.tradingcards.elements.menus.cardMenu.CardMenuController;
 import com.tradingcards.elements.menus.cardMenu.CardMenuView;
 
@@ -113,6 +115,7 @@ public class MainMenuController {
         MainMenuView mainMenuView = new MainMenuView(sharedCollection);
 
         CardMenuView cardMenuView = new CardMenuView();
+        BinderMenuView binderMenuView = new BinderMenuView();
 
         // Setup MVC subcomponents
         CardView cardView = new CardView();
@@ -123,7 +126,7 @@ public class MainMenuController {
 
         BinderView binderView = new BinderView();
         BinderController binderController = new BinderController(sharedCollection, binderView);
-        // BinderMenuController binderMenu = new BinderMenuController(...);
+        BinderMenuController binderMenuController = new BinderMenuController(binderMenuView, binderController, binderView, mainMenuView, mainFrame);
 
         DeckView deckView = new DeckView();
         DeckController deckController = new DeckController(sharedCollection, deckView);
@@ -132,6 +135,7 @@ public class MainMenuController {
         // must list down all possible full menu displays
         mainFrame.addPanel("mainMenu", mainMenuView);
         mainFrame.addPanel("manageCardMenu", cardMenuView);
+        mainFrame.addPanel("manageBinderMenu", binderMenuView);
 
         mainFrame.setVisible(true);
         // Selects mainMenu panel as initial menu
@@ -176,8 +180,10 @@ public class MainMenuController {
             mainFrame.showPanel("manageCardMenu");
         });
 
+        // Switch panel to Mange Binder Menu
         mainMenuView.setManageBindersAction(e -> {
-
+            binderMenuController.start();
+            mainFrame.showPanel("manageBinderMenu");
         });
 
         mainMenuView.setManageDecksAction(e -> {

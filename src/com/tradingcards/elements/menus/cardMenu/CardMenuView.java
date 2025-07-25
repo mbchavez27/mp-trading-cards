@@ -34,13 +34,16 @@ public class CardMenuView extends JPanel {
 
         dataPanel.setLayout(new BorderLayout());
         dataPanel.add(scrollingPanel);
+        //adds DataPanel to center of window
         add(dataPanel, BorderLayout.CENTER);
 
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
 
+        //adds OptionPanel to the LHS of window
         add(optionPanel, BorderLayout.WEST);
         optionPanel.setBackground(Color.darkGray);
 
+        //Setting button dimensions
         displayCardBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, displayCardBtn.getPreferredSize().height));
         displayCollectionBtn
                 .setMaximumSize(new Dimension(Integer.MAX_VALUE, displayCollectionBtn.getPreferredSize().height));
