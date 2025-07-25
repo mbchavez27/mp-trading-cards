@@ -1,11 +1,12 @@
 package com.tradingcards.elements.deck;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
@@ -142,18 +143,29 @@ public class DeckView {
      *
      * @param deckCollection the collection of all existing decks
      */
-    public void displayDecks(HashMap<String, DeckModel> deckCollection) {
+    public JPanel displayDecks(HashMap<String, DeckModel> deckCollection) {
         ArrayList<String> deckKeys = new ArrayList<>(deckCollection.keySet());
         Collections.sort(deckKeys);
 
-        System.out.println("------------------------------------");
-        System.out.println("Current Decks:");
-        System.out.println("");
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
+
 
         for (String deckNames : deckKeys) {
-            System.out.println(deckNames);
+
+            JPanel wrapper = new JPanel();
+
+            JButton tempButton = new JButton(deckNames);
+            tempButton.setPreferredSize(new Dimension(190, 190));
+            wrapper.setPreferredSize(new Dimension(200, 200));
+            wrapper.add(tempButton);
+
+            displayPanel.add(wrapper);
         }
-        System.out.println("");
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(displayPanel, BorderLayout.NORTH);
+        wrapperPanel.setBackground(Color.WHITE);
+
+        return wrapperPanel;
     }
 
     /**

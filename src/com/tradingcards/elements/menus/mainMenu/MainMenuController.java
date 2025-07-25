@@ -31,6 +31,8 @@ import com.tradingcards.elements.menus.binderMenu.BinderMenuController;
 import com.tradingcards.elements.menus.binderMenu.BinderMenuView;
 import com.tradingcards.elements.menus.cardMenu.CardMenuController;
 import com.tradingcards.elements.menus.cardMenu.CardMenuView;
+import com.tradingcards.elements.menus.deckMenu.DeckMenuController;
+import com.tradingcards.elements.menus.deckMenu.DeckMenuView;
 
 //
 // * Controller class for handling the main menu of the Trading Card Inventory
@@ -116,6 +118,7 @@ public class MainMenuController {
 
         CardMenuView cardMenuView = new CardMenuView();
         BinderMenuView binderMenuView = new BinderMenuView();
+        DeckMenuView deckMenuView = new DeckMenuView();
 
         // Setup MVC subcomponents
         CardView cardView = new CardView();
@@ -130,12 +133,13 @@ public class MainMenuController {
 
         DeckView deckView = new DeckView();
         DeckController deckController = new DeckController(sharedCollection, deckView);
-        // DeckMenuController deckMenu = new DeckMenuController(...);
+        DeckMenuController deckMenuController = new DeckMenuController(deckMenuView, deckController,deckView, mainMenuView, mainFrame);
 
         // must list down all possible full menu displays
         mainFrame.addPanel("mainMenu", mainMenuView);
         mainFrame.addPanel("manageCardMenu", cardMenuView);
         mainFrame.addPanel("manageBinderMenu", binderMenuView);
+        mainFrame.addPanel("manageDeckMenu", deckMenuView);
 
         mainFrame.setVisible(true);
         // Selects mainMenu panel as initial menu
@@ -187,7 +191,8 @@ public class MainMenuController {
         });
 
         mainMenuView.setManageDecksAction(e -> {
-
+            deckMenuController.start();
+            mainFrame.showPanel("manageDeckMenu");
         });
 
         mainMenuView.setCloseApplicationButton(e -> System.exit(0));

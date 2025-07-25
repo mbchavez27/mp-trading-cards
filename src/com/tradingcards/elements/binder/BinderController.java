@@ -112,7 +112,7 @@ public class BinderController {
         if (!binderCollection.isEmpty()) {
             return(view.displayBinders(binderCollection));
         } else {
-            DialogUtil.showWarning(null, "No Cards yet...", "Collection Warning");
+            DialogUtil.showWarning(null, "No Binders yet...", "Binders Warning");
         }
 
         return null;
