@@ -37,12 +37,12 @@ public class MainMenuView extends JPanel {
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
 
         JLabel titleLabel = new JLabel("Trading Card Inventory System", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Inter", Font.BOLD, 16));
+        titleLabel.setFont(new Font("Inter", Font.BOLD, 32));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 5, 0));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         moneyLabel = new JLabel("Cash: " + sharedCollection.getMoney(), SwingConstants.CENTER);
-        moneyLabel.setFont(new Font("Inter", Font.BOLD, 16));
+        moneyLabel.setFont(new Font("Inter", Font.PLAIN, 16));
         moneyLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 20, 0));
         moneyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
