@@ -12,9 +12,11 @@ public class LuxuryBinder extends BinderModel {
 
     @Override
     public boolean insertInBinder(CardModel card, String name) {
-        if (!card.getVariant().equals("Normal")) {
-            cardsInBinder.put(name, card);
-            return true;
+        if (card.getVariant() != null) {
+            if (!card.getVariant().equals("Normal")) {
+                cardsInBinder.put(name, card);
+                return true;
+            }
         }
         return false;
     }
