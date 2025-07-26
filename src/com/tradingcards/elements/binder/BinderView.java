@@ -50,23 +50,37 @@ public class BinderView {
         return JOptionPane.showInputDialog(null, "Give Card Name (Enter -999 to cancel):");
     }
 
-    public JPanel showMainCardDisplay(HashMap<String, CardModel> collection, String outgoingCard, String incomingCard, double difference){
+    public JPanel showMainCardDisplay(HashMap<String, CardModel> collection, String outgoingCard, String incomingCard, double difference) {
         CardView cardView = new CardView();
 
         JPanel tradeDisplay = new JPanel(new BorderLayout());
-        JPanel leftDisplay = new JPanel();
-        JPanel rightDisplay = new JPanel();
-        JPanel centerDisplay = new JPanel();
-        centerDisplay.setLayout(new BoxLayout(centerDisplay, BoxLayout.Y_AXIS));
 
-        leftDisplay.add(cardView.displayCard(collection, outgoingCard));
-        rightDisplay.add(cardView.displayCard(collection, incomingCard));
-        JLabel differenceLabel = new JLabel("Difference is " + difference);
+        JPanel centerPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        centerDisplay.add(differenceLabel);
-        tradeDisplay.add(leftDisplay, BorderLayout.WEST);
-        tradeDisplay.add(rightDisplay, BorderLayout.EAST);
-        tradeDisplay.add(centerDisplay, BorderLayout.SOUTH);
+        JPanel card1Panel = cardView.displayCard(collection, outgoingCard);
+        JPanel card2Panel = cardView.displayCard(collection, incomingCard);
+        JLabel differenceLabel = new JLabel("Difference: " + difference, SwingConstants.CENTER);
+        differenceLabel.setFont(new Font("Inter", Font.BOLD, 16));
+
+        // Left card
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.CENTER;
+        centerPanel.add(card1Panel, gbc);
+
+        // Difference in middle
+        gbc.gridx = 1;
+        centerPanel.add(differenceLabel, gbc);
+
+        // Right card
+        gbc.gridx = 2;
+        centerPanel.add(card2Panel, gbc);
+
+        // Add to main panel
+        tradeDisplay.add(centerPanel, BorderLayout.CENTER);
+
         return tradeDisplay;
     }
 
