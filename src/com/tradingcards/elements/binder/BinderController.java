@@ -66,9 +66,9 @@ public class BinderController {
      * Removes a binder from the shared collection based on user input.
      * All cards in the binder are returned to the main card collection.
      */
-    public void removeBinder() {
+    public void removeBinder(JPanel panel) {
         // Display the list of binders to the user
-        displayBinders();
+        refreshPanel(panel, displayBinders());
         boolean cancelled = false;
 
         view.displayMessageNewLine("Enter \"-999\" to cancel");
@@ -98,9 +98,12 @@ public class BinderController {
 
                 // Remove the binder from the shared collection
                 sharedCollection.removeBinderCollection(name);
-                view.displayMessageNewLine("Binder \"" + name + "\" removed and cards returned.");
+                view.showMessage("Binder \"" + name + "\" removed and cards returned.");
+//                view.displayMessageNewLine("Binder \"" + name + "\" removed and cards returned.");
+                refreshPanel(panel, displayBinders());
             } else {
-                view.displayMessageNewLine("Binder \"" + name + "\" not found.");
+                view.showWarning("Binder \"" + name + "\" not found.");
+//                view.displayMessageNewLine("Binder \"" + name + "\" not found.");
             }
         }
     }
@@ -117,7 +120,7 @@ public class BinderController {
             DialogUtil.showWarning(null, "No Binders yet...", "Binders Warning");
         }
 
-        return null;
+        return view.basicPanel("Currently no binders");
     }
 
     /**
