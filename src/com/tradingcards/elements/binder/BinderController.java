@@ -274,9 +274,12 @@ public class BinderController {
                         cardView.displayCollection(collection);
 
                         do {
+
                             cardName = cardView.setCardName();
+                            if (cardName.equals(EXIT_CODE))
+                                cancelled = true;
                             // checks if the collection has the card
-                            if (collection.containsKey(cardName)) {
+                            if (collection.containsKey(cardName) && !cancelled) {
                                 // checks if the collection has a positive number of card copies
                                 cardInCollection = collection.get(cardName);
                                 System.out.println(cardInCollection.getQuantity());
@@ -310,7 +313,7 @@ public class BinderController {
                                 view.displayMessageNewLine("Please re-input Card name");
                             }
 
-                        } while (!collection.containsKey(cardName) && !taskDone);
+                        } while (!collection.containsKey(cardName) && !taskDone && !cancelled);
                     } else {
                         view.displayMessageNewLine("No Binder with given name exists");
                     }
