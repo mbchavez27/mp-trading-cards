@@ -205,13 +205,14 @@ public class CardController {
      * @param mode display mode (0 = include zero-quantity cards, 1 = exclude
      *             zeroes)
      */
-    public void displayCollection(int mode) {
+    public JPanel displayCollection(int mode) {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
-            view.displayCollection(collection, mode);
+            return(view.displayCollection(collection, mode));
         } else {
-            view.displayMessageNewLine("No Cards yet...");
-        }
+            DialogUtil.showWarning(null, "No Cards yet...", "Collection Warning");
+         }
+        return null;
     }
 }

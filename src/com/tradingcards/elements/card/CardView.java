@@ -494,20 +494,30 @@ public class CardView {
      * @param collection the card collection to display
      * @param mode       display mode; mode 0 displays all including zeroes
      */
-    public void displayCollection(HashMap<String, CardModel> collection, int mode) {
+    public JPanel displayCollection(HashMap<String, CardModel> collection, int mode) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);
-        displayMessageNewLine("------------------------------------");
-        displayMessageNewLine("Collection:");
-        displayMessageNewLine("");
+
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
 
         for (String name : cardByKey) {
             if (mode == 0) {
-                displayMessageNewLine("Card Name: " + collection.get(name).getName());
-                displayMessageNewLine("Card Quantity: " + collection.get(name).getQuantity());
-                displayMessageNewLine("");
+                JPanel wrapper = new JPanel();
+
+                JButton tempButton = new JButton(
+                        collection.get(name).getName() + " quantity: " + collection.get(name).getQuantity());
+                tempButton.setPreferredSize(new Dimension(190, 190));
+                wrapper.setPreferredSize(new Dimension(200, 200));
+                wrapper.add(tempButton);
+
+                displayPanel.add(wrapper);
             }
         }
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(displayPanel, BorderLayout.NORTH);
+        wrapperPanel.setBackground(Color.WHITE);
+
+        return wrapperPanel;
     }
 
     /**
@@ -518,9 +528,6 @@ public class CardView {
     public JPanel displayCollection(HashMap<String, CardModel> collection) {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);
-        // displayMessageNewLine("------------------------------------");
-        // displayMessageNewLine("Collection:");
-        // displayMessageNewLine("");
 
         JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
 

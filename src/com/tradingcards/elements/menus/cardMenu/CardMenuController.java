@@ -5,6 +5,8 @@ import com.tradingcards.elements.card.CardController;
 import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.menus.mainMenu.MainMenuView;
 
+import javax.smartcardio.Card;
+
 public class CardMenuController {
 
     private final CardController cardController;
@@ -45,6 +47,7 @@ public class CardMenuController {
         });
 
         view.setModifyQuantityAction(e -> {
+            view.setDataInPanel(cardController.displayCollection(0));
             int newQuantity = cardController.modifyCardQuantity();
             if (newQuantity != -1) {
                 view.setDataInPanel(cardController.displayCollection());
