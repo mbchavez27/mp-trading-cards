@@ -39,7 +39,12 @@ public class BinderMenuController {
         });
 
         view.setDeleteBinderAction(e->{
-            binderController.removeBinder();
+            JPanel removeBinderPanel = new JPanel();
+            removeBinderPanel.setLayout(new BorderLayout());
+
+            view.setDataInPanel(removeBinderPanel);
+
+            binderController.removeBinder(removeBinderPanel);
         });
 
         view.setAddCardToBinderAction(e->{

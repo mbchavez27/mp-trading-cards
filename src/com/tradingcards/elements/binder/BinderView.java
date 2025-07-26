@@ -45,6 +45,18 @@ public class BinderView {
         JOptionPane.showMessageDialog(null, warning, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 
+    public void showMessage(String message){
+        JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public JPanel basicPanel(String message){
+        JPanel messagePanel = new JPanel();
+        JLabel text = new JLabel(message);
+        messagePanel.add(text);
+
+        return messagePanel;
+    }
+
 
     public String setCardName() {
         return JOptionPane.showInputDialog(null, "Give Card Name (Enter -999 to cancel):");
