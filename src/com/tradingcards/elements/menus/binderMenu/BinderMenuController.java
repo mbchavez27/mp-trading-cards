@@ -37,6 +37,7 @@ public class BinderMenuController {
 
         view.setBackAction(e -> {
             mainMenuView.updateMoneyLabel();
+            mainMenuView.updateButtonStatus();
             mainFrame.showPanel("mainMenu");
         });
 

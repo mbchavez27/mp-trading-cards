@@ -121,6 +121,17 @@ public class MainMenuView extends JPanel {
         manageDecksBtn.setEnabled(true);
     }
 
+    public void updateButtonStatus() {
+        if (sharedCollection.getBinderCollection().isEmpty())
+            manageBindersBtn.setEnabled(false);
+
+        if (sharedCollection.getCardCollection().isEmpty())
+            manageCardsBtn.setEnabled(false);
+
+        if (sharedCollection.getDeckCollection().isEmpty())
+            manageDecksBtn.setEnabled(false);
+    }
+
     public void updateMoneyLabel() {
         moneyLabel.setText("Cash: " + sharedCollection.getMoney());
     }

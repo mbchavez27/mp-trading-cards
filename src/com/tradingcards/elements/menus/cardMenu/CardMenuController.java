@@ -5,8 +5,6 @@ import com.tradingcards.elements.card.CardController;
 import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.menus.mainMenu.MainMenuView;
 
-import javax.smartcardio.Card;
-
 public class CardMenuController {
 
     private final CardController cardController;
@@ -31,6 +29,7 @@ public class CardMenuController {
 
         view.setBackAction(e -> {
             mainMenuView.updateMoneyLabel();
+            mainMenuView.updateButtonStatus();
             mainFrame.showPanel("mainMenu");
         });
 
