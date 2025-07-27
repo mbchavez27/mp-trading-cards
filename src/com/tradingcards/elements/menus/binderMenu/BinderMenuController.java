@@ -36,6 +36,7 @@ public class BinderMenuController {
         JPanel displayPanel = new JPanel();
 
         view.setBackAction(e -> {
+            mainMenuView.updateMoneyLabel();
             mainFrame.showPanel("mainMenu");
         });
 

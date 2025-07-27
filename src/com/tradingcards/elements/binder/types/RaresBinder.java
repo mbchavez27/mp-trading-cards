@@ -25,7 +25,6 @@ public class RaresBinder extends BinderModel {
         for (CardModel card : cardsInBinder.values()) {
             if (card.getQuantity() > 0) {
                 double cardTotal = card.getValue() * card.getQuantity();
-                System.out.println(card.getName() + " (" + card.getQuantity() + "x): " + cardTotal);
                 total += cardTotal;
             }
         }

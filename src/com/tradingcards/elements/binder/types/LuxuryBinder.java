@@ -1,10 +1,12 @@
 package com.tradingcards.elements.binder.types;
 
 import com.tradingcards.elements.binder.BinderModel;
+import com.tradingcards.elements.binder.BinderView;
 import com.tradingcards.elements.card.CardModel;
+import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 public class LuxuryBinder extends BinderModel {
-    private double customPrice = -1;
+    BinderView view = new BinderView();
 
     public LuxuryBinder(String binderType) {
         super(binderType);
@@ -21,10 +23,6 @@ public class LuxuryBinder extends BinderModel {
         return false;
     }
 
-    public boolean setCustomPrice(double price) {
-        return true;
-    }
-
     @Override
     public double getSellingPrice() {
         double total = 0.0;
@@ -32,11 +30,17 @@ public class LuxuryBinder extends BinderModel {
         for (CardModel card : cardsInBinder.values()) {
             if (card.getQuantity() > 0) {
                 double cardTotal = card.getValue() * card.getQuantity();
-                System.out.println(card.getName() + " (" + card.getQuantity() + "x): " + cardTotal);
                 total += cardTotal;
             }
         }
+        Double newPrice = view.setBinderPrice();
 
-        return total;
+        if (newPrice == null || newPrice < total) {
+            DialogUtil.showError(null, "New price is lower than current price", "Error");
+            return total;
+        } else {
+            DialogUtil.showInfo(null, "New price is now " + newPrice, "Success");
+            return newPrice;
+        }
     }
 }
