@@ -269,15 +269,12 @@ public class BinderController {
 
             if (!cancelled) {
                 if (binderCollection.isEmpty()) {
-                    view.displayMessageNewLine("No cards in collection yet");
-                    view.displayMessageNewLine("Input cards in collection first");
+                    view.showWarning("No Binders in collection yet, make binders first");
                 } else {
                     if (binderCollection.containsKey(binderName)) {
                         binder = binderCollection.get(binderName);
                         cardView.displayCollection(collection);
-
                         do {
-
                             cardName = cardView.setCardName();
                             if (cardName.equals(EXIT_CODE))
                                 cancelled = true;
@@ -293,40 +290,47 @@ public class BinderController {
 
                                         // checks if binder already contains the specified card
                                         if (binder.getBinder().containsKey(cardName)) {
+
                                             cardInBinder = binder.getBinder().get(cardName);
                                             cardInBinder.setQuantity(cardInBinder.getQuantity() + 1);
+                                            cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+                                            view.showMessage("Successfully transferred card into binder");
                                         } else {
                                             // create a new card object to store details
                                             cardCopy = createCardCopy(cardInCollection);
-                                            binder.insertInBinder(cardCopy, cardName);
-                                        }
-                                        cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
-                                        view.displayMessageNewLine("Successfully transferred card into binder");
-                                        taskDone = true;
 
+                                            //checks if the card is compatible with the binder
+                                            if (binder.insertInBinder(cardCopy, cardName)){
+                                                cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
+                                                view.showMessage("Successfully transferred card into binder");
+                                            } else {
+                                                view.showWarning("Incompatible binder and card types");
+                                            }
+                                        }
+                                        taskDone = true;
                                     } else {
-                                        view.displayMessageNewLine("Binder is already full");
+                                        view.showWarning("Binder is already full");
+                                        taskDone = true;
                                     }
                                 } else {
-                                    view.displayMessageNewLine(
-                                            "Collection currently has zero copies of specified card");
+                                    view.showMessage("Collection currently has zero copies of specified card");
                                 }
                             } else {
-                                view.displayMessageNewLine("No Card with given name exists in Collection");
-                                view.displayMessageNewLine("Please re-input Card name");
+                                view.showMessage("No Card with given name exists in Collection, please re-input Card name");
                             }
 
                         } while (!collection.containsKey(cardName) && !taskDone && !cancelled);
                     } else {
-                        view.displayMessageNewLine("No Binder with given name exists");
+                        view.showWarning("No Binder with given name exists");
                     }
                 }
             }
         } else {
-            view.displayMessageNewLine("\nCard collection is empty\n");
+            view.showWarning("Card collection is empty");
         }
 
     }
+
 
     private void refreshPanel(JPanel uiPanel, JPanel element) {
         uiPanel.removeAll();

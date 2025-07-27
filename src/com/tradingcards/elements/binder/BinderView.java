@@ -103,6 +103,7 @@ public class BinderView {
      * The method shows a {@link JOptionPane} input dialog with the following
      * options:
      * <ul>
+     *
      * <li>Non-curated Binder</li>
      * <li>Sellable: Pauper Binder</li>
      * <li>Sellable: Rares Binder</li>
