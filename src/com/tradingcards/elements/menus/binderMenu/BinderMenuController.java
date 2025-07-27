@@ -57,7 +57,11 @@ public class BinderMenuController {
         });
 
         view.setRemoveCardFromBinderAction(e->{
-            binderController.removeCard();
+            displayPanel.setLayout(new BorderLayout());
+
+            view.setDataInPanel(displayPanel);
+
+            binderController.removeCard(displayPanel);
         });
 
         view.setTradeCardAction(e->{
@@ -80,8 +84,6 @@ public class BinderMenuController {
             view.setDataInPanel(displayPanel);
 
             binderController.displaySingleBinder(displayPanel);
-
-            view.setDataInPanel(displayPanel);
         });
 
     }
