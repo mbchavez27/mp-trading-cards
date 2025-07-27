@@ -20,6 +20,6 @@ public class PauperBinder extends BinderModel {
 
     @Override
     public double getSellingPrice() {
-        return 1;
+        return cardsInBinder.values().stream().mapToDouble(CardModel::getValue).sum();
     }
 }
