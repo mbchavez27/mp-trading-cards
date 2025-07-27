@@ -27,6 +27,10 @@ public class BinderView {
      */
     private Scanner scanner = new Scanner(System.in);
 
+    private final JButton buttonConfirm = new JButton("Confirm Trade");
+    private final JButton buttonDecline = new JButton("Decline Trade");
+
+
     /**
      * Prompts the user to input a name for a binder and returns it.
      *
@@ -57,9 +61,51 @@ public class BinderView {
         return messagePanel;
     }
 
+    public JButton getButtonConfirm(){
+        return buttonConfirm;
+    }
+
+    public JButton getButtonDecline(){
+        return buttonDecline;
+    }
+
 
     public String setCardName() {
         return JOptionPane.showInputDialog(null, "Give Card Name (Enter -999 to cancel):");
+    }
+
+
+    public JPanel showTradeConfirmation(){
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JPanel panel1 = new JPanel();
+        JPanel panel2 = new JPanel();
+        JPanel panel3 = new JPanel();
+        JPanel panel4 = new JPanel();
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(panel1, gbc);
+
+        gbc.gridx = 1;
+        buttonConfirm.setBackground(Color.GREEN);
+        panel2.add(buttonConfirm);
+        mainPanel.add(panel2, gbc);
+
+
+        gbc.gridx = 2;
+        buttonDecline.setBackground(Color.RED);
+        panel3.add(buttonDecline);
+        mainPanel.add(panel3, gbc);
+
+
+        gbc.gridx = 3;
+        mainPanel.add(panel4, gbc);
+
+        return mainPanel;
     }
 
     public JPanel showMainCardDisplay(HashMap<String, CardModel> collection, String outgoingCard, String incomingCard, double difference) {
@@ -70,8 +116,8 @@ public class BinderView {
         JPanel centerPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JPanel card1Panel = cardView.displayCard(collection, outgoingCard);
-        JPanel card2Panel = cardView.displayCard(collection, incomingCard);
+        JPanel card1Panel = cardView.displayCardWithZero(collection, outgoingCard);
+        JPanel card2Panel = cardView.displayCardWithZero(collection, incomingCard);
         JLabel differenceLabel = new JLabel("Difference: " + difference, SwingConstants.CENTER);
         differenceLabel.setFont(new Font("Inter", Font.BOLD, 16));
 
