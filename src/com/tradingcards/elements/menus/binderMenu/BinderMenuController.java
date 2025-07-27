@@ -6,6 +6,7 @@ import com.tradingcards.elements.binder.BinderView;
 import com.tradingcards.elements.menus.mainMenu.MainMenuView;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.util.Scanner;
 
@@ -33,22 +34,26 @@ public class BinderMenuController {
 
     public void start(){
         view.setDataInPanel(binderController.displayBinders());
+        JPanel displayPanel = new JPanel();
 
         view.setBackAction(e->{
             mainFrame.showPanel("mainMenu");
         });
 
         view.setDeleteBinderAction(e->{
-            JPanel removeBinderPanel = new JPanel();
-            removeBinderPanel.setLayout(new BorderLayout());
+            //JPanel removeBinderPanel = new JPanel();
+            displayPanel.setLayout(new BorderLayout());
 
-            view.setDataInPanel(removeBinderPanel);
+            view.setDataInPanel(displayPanel);
 
-            binderController.removeBinder(removeBinderPanel);
+            binderController.removeBinder(displayPanel);
         });
 
         view.setAddCardToBinderAction(e->{
-            binderController.addCard();
+            displayPanel.setLayout(new BorderLayout());
+
+            view.setDataInPanel(displayPanel);
+            binderController.addCard(displayPanel);
         });
 
         view.setRemoveCardFromBinderAction(e->{
@@ -56,12 +61,12 @@ public class BinderMenuController {
         });
 
         view.setTradeCardAction(e->{
-            JPanel tradingPanel = new JPanel();
-            tradingPanel.setLayout(new BorderLayout());
+            //JPanel tradingPanel = new JPanel();
+            displayPanel.setLayout(new BorderLayout());
 
-            view.setDataInPanel(tradingPanel);
+            view.setDataInPanel(displayPanel);
 
-            binderController.tradeCard(tradingPanel);
+            binderController.tradeCard(displayPanel);
 //            binderController.tradeCard();
         });
 
@@ -70,7 +75,13 @@ public class BinderMenuController {
         });
 
         view.setViewBinderAction(e->{
-            view.setDataInPanel(binderController.displaySingleBinder());
+            displayPanel.setLayout(new BorderLayout());
+
+            view.setDataInPanel(displayPanel);
+
+            binderController.displaySingleBinder(displayPanel);
+
+            view.setDataInPanel(displayPanel);
         });
 
     }

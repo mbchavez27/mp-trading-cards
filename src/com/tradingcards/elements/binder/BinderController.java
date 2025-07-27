@@ -126,17 +126,15 @@ public class BinderController {
     /**
      * Displays the contents of a single binder selected by the user.
      */
-    public JPanel displaySingleBinder() {
+    public void displaySingleBinder(JPanel panel) {
         // Get the collection of binders
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         boolean cancelled = false;
-        displayBinders();
+        refreshPanel(panel, displayBinders());
 
         // Proceed only if there are binders to display
         if (!binderCollection.isEmpty()) {
 
-            view.displayMessageNewLine("Enter \"-999\" to cancel");
-            view.displayMessageNewLine("Indicate binder to view");
 
             // Get the name of the binder to display
             String binderName = view.setBinderName();
@@ -146,15 +144,16 @@ public class BinderController {
             // Proceed only if not cancelled
             if (!cancelled) {
                 if (binderCollection.containsKey(binderName)) {
-                    return(displayBinderContent(binderCollection.get(binderName).getBinder()));
+                    refreshPanel(panel, displayBinderContent(binderCollection.get(binderName).getBinder()));
                 } else {
                     view.displayMessageNewLine("No Binder with given name exists");
                 }
-                return null;
+            } else {
+                view.showWarning("Operation cancelled");
             }
-            return null;
+
         }
-        return null;
+        view.showWarning("Currently no binders in collection");
     }
 
     /**
@@ -166,9 +165,8 @@ public class BinderController {
         if (!binder.isEmpty()) {
             return(view.displayBinderContent(binder));
         } else {
-            view.displayMessageNewLine("No Cards in Binder");
+            return(new JPanel());
         }
-        return null;
     }
 
     /**
@@ -244,7 +242,7 @@ public class BinderController {
      * Transfers a card from the shared collection into a specific binder.
      * Constraints: A binder can only hold up to 20 unique cards.
      */
-    public void addCard() {
+    public void addCard(JPanel panel) {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, BinderModel> binderCollection = sharedCollection.getBinderCollection();
         CardView cardView = new CardView();
@@ -259,7 +257,7 @@ public class BinderController {
         boolean cancelled = false;
 
         if (!collection.isEmpty()) {
-            displayBinders();
+            refreshPanel(panel, displayBinders());
 
             view.displayMessageNewLine("Enter \"-999\" to cancel");
             String binderName = view.setBinderName();
@@ -273,7 +271,7 @@ public class BinderController {
                 } else {
                     if (binderCollection.containsKey(binderName)) {
                         binder = binderCollection.get(binderName);
-                        cardView.displayCollection(collection);
+                        refreshPanel(panel, cardView.displayCollection(collection));
                         do {
                             cardName = cardView.setCardName();
                             if (cardName.equals(EXIT_CODE))
