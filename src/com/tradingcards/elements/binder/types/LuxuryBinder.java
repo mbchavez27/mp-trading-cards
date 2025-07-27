@@ -12,7 +12,7 @@ public class LuxuryBinder extends BinderModel {
 
     @Override
     public boolean insertInBinder(CardModel card, String name) {
-        if (card.getVariant() == null){
+        if (card.getVariant() == null) {
             return false;
         } else if (!card.getVariant().equals("Normal")) {
             cardsInBinder.put(name, card);
@@ -27,6 +27,16 @@ public class LuxuryBinder extends BinderModel {
 
     @Override
     public double getSellingPrice() {
-        return 1;
+        double total = 0.0;
+
+        for (CardModel card : cardsInBinder.values()) {
+            if (card.getQuantity() > 0) {
+                double cardTotal = card.getValue() * card.getQuantity();
+                System.out.println(card.getName() + " (" + card.getQuantity() + "x): " + cardTotal);
+                total += cardTotal;
+            }
+        }
+
+        return total;
     }
 }
