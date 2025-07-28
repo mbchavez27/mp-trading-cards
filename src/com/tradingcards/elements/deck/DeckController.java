@@ -294,7 +294,7 @@ public class DeckController {
                     if (!selectedDeck.isEmpty()) {
 
                         refreshPanel(panel, displayDeckContent(selectedDeck));
-                        ;
+
                         chooseCardFromDeck(selectedDeck);
                     } else {
                         view.displayMessageNewLine("No Cards in Deck");
