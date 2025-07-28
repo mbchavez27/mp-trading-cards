@@ -70,9 +70,9 @@ public class DeckController {
         // Display the list of decks to the user
         displayDecks();
         boolean cancelled = false;
-        view.displayMessageNewLine("Enter \"-999\" to cancel");
+
         String name = view.setDeckName();
-        if (name.equals(EXIT_CODE))
+        if (name.equals(EXIT_CODE) || name == null)
             cancelled = true;
 
         // Proceed only if not cancelled
@@ -317,6 +317,24 @@ public class DeckController {
         }
     }
 
+    public void sellDeck(String name) {
+        if (name == null || name.equals("-999")) {
+            DialogUtil.showError(null, "Sell Deck Cancelled", "Cancelled");
+        } else {
+            DeckModel deck = sharedCollection.getDeckCollection().get(name);
+
+            if (deck.getSellingPrice() == -1) {
+                DialogUtil.showError(null, "Deck is not sellable", "Cancelled");
+            } else {
+                sharedCollection.setMoney(sharedCollection.getMoney() + deck.getSellingPrice());
+                DialogUtil.showInfo(null, "Binder sold, you now have cash total of " + sharedCollection.getMoney(),
+                        "Success");
+                sharedCollection.removeDeckCollection(name);
+                ;
+            }
+        }
+    }
+
     /**
      * Allows the user to view a card in the deck by name or number.
      *
@@ -375,9 +393,9 @@ public class DeckController {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
 
         if (!deckCollection.isEmpty()) {
-            return(view.displayDecks(deckCollection));
+            return (view.displayDecks(deckCollection));
         } else {
-            DialogUtil.showWarning(null, "No Decks yet...",  "Decks Warning");
+            DialogUtil.showWarning(null, "No Decks yet...", "Decks Warning");
         }
         return null;
     }

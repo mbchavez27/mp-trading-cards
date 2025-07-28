@@ -36,19 +36,20 @@ public class DeckMenuController {
         });
 
         view.setDeleteDeckBtn(e -> {
-
+            deckController.removeDeck();
         });
 
         view.setAddCardToDeckBtn(e -> {
-
+            deckController.addCard();
         });
 
         view.setRemoveCardFromDeckBtn(e -> {
-
+            deckController.removeCard();
         });
 
         view.setSellDeckBtn(e -> {
-
+            String name = deckView.setDeckName();
+            deckController.sellDeck(name);
         });
 
         view.setViewDeckBtn(e -> {
