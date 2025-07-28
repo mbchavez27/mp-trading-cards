@@ -468,7 +468,7 @@ public class CardView {
     }
 
 
-    public JPanel displayCardWithZero(HashMap<String, CardModel> collection, String cardName) {
+    public JPanel displayCardForBinder(HashMap<String, CardModel> collection, String cardName) {
         displayMessageNewLine("");
 
         JPanel displayPanel = new JPanel(new BorderLayout());
@@ -574,13 +574,6 @@ public class CardView {
             cardValueDisplay.setAlignmentX(Component.LEFT_ALIGNMENT);
             informationPanel.add(Box.createVerticalStrut(15));
             informationPanel.add(cardValueDisplay);
-
-            // Quantity
-            JLabel cardQuantityDisplay = new JLabel("Current Quantity: " + collection.get(cardName).getQuantity());
-            cardQuantityDisplay.setFont(new Font("Inter", Font.BOLD, 18));
-            cardQuantityDisplay.setAlignmentX(Component.LEFT_ALIGNMENT);
-            informationPanel.add(Box.createVerticalStrut(15));
-            informationPanel.add(cardQuantityDisplay);
 
             // Add panels
             contentPanel.add(imagePanel);
