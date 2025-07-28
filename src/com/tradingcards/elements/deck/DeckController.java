@@ -120,11 +120,10 @@ public class DeckController {
         // Proceed only if at least one deck exists
         if (!deckCollection.isEmpty()) {
             CardView cardView = new CardView();
-            displayDecks();
+            refreshPanel(panel, displayDecks());
 
-            view.displayMessageNewLine("Enter \"-999\" to cancel");
             String deckName = view.setDeckName();
-            if (deckName.equals(EXIT_CODE))
+            if (deckName == null || deckName.equals(EXIT_CODE))
                 cancelled = true;
 
             // Proceed only if user didn't cancel
@@ -133,40 +132,46 @@ public class DeckController {
                     deck = deckCollection.get(deckName).getDeck();
 
                     if (deck.isEmpty()) {
-                        view.displayMessageNewLine("Deck is currently empty");
-                        view.displayMessageNewLine("Add cards to the Deck first");
+                        DialogUtil.showWarning(null, "Deck is currently empty, add cards to the Deck first", "Warning");
+
                     } else {
-                        displayDeckContent(deck);
+                        // Show deck contents
+                        refreshPanel(panel, displayDeckContent(deck));
 
                         // Repeat until a valid card is removed
                         do {
-                            view.displayMessageNewLine("Indicate card to be deleted");
+                            DialogUtil.showMessage(null, "Indicate card to be deleted", "Information",1 );
                             cardToRemove = cardView.setCardName();
 
+                            if (cardToRemove == null || cardToRemove.equals(EXIT_CODE)){
+                                taskDone = true;
+                            }
+
                             // Check if the card exists in the deck
-                            if (deck.containsKey(cardToRemove)) {
+                            if (deck.containsKey(cardToRemove) && !taskDone) {
                                 // Increase quantity back to main collection
                                 collection.get(cardToRemove)
                                         .setQuantity(collection.get(cardToRemove).getQuantity() + 1);
                                 // Remove card from deck
                                 deck.remove(cardToRemove);
-                                view.displayMessageNewLine("Sucessfully transferred Card into Collection");
+                                refreshPanel(panel, displayDeckContent(deck));
+                                DialogUtil.showMessage(null,"Sucessfully transferred Card into Collection", "Information", 1);
                                 taskDone = true;
                             } else {
                                 // Invalid input; prompt again
-                                view.displayMessageNewLine("No Card with given name exists in Deck");
-                                view.displayMessageNewLine("Please re-input Card name");
+                                DialogUtil.showWarning(null, "No Card with given name exists in Deck, please re-input Card name", "Warning");
                             }
 
                         } while (!deck.containsKey(cardToRemove) && !taskDone);
                     }
                 } else {
                     // If deck name is invalid
-                    view.displayMessageNewLine("No Deck with given name exists");
+                    DialogUtil.showWarning(null, "No Deck with given name exists", "Warning");
                 }
             } else {
                 // If there are no decks created
-                view.displayMessageNewLine("No decks made yet");
+                DialogUtil.showWarning(null, "No decks made yet", "Warning");
+
             }
         }
     }

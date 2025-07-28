@@ -185,7 +185,6 @@ public class BinderController {
 
         if (!binderCollection.isEmpty()) {
             CardView cardView = new CardView();
-
             refreshPanel(panel, displayBinders());
 
             String binderName = view.setBinderName();
@@ -210,26 +209,26 @@ public class BinderController {
 
                             if (cardName == null || cardName.equals(EXIT_CODE)) {
                                 taskDone = true;
-                            } else {
-                                // Check if card exists in the binder
-                                if (binder.containsKey(cardName)) {
-                                    // Increase the quantity of the card in the main collection
-                                    collection.get(cardName).increaseQuantity(1);
-                                    if (binder.get(cardName).getQuantity() > 1) {
-                                        binder.get(cardName).setQuantity(binder.get(cardName).getQuantity() - 1);
-                                    } else {
-                                        // Remove card entirely if only one was present
-                                        binder.remove(cardName);
-                                    }
-                                    refreshPanel(panel, displayBinderContent(binder));
-                                    view.showMessage("Successfully transferred Card into Collection");
-                                    taskDone = true;
-                                } else {
-                                    // Card not found in binder, ask for valid input
-                                    view.showWarning(
-                                            "No Card with given name exists in Binder, please re-input Card name");
-                                }
                             }
+                                // Check if card exists in the binder
+                            if (binder.containsKey(cardName) && !taskDone) {
+                                // Increase the quantity of the card in the main collection
+                                collection.get(cardName).increaseQuantity(1);
+                                if (binder.get(cardName).getQuantity() > 1) {
+                                    binder.get(cardName).setQuantity(binder.get(cardName).getQuantity() - 1);
+                                } else {
+                                    // Remove card entirely if only one was present
+                                    binder.remove(cardName);
+                                }
+                                refreshPanel(panel, displayBinderContent(binder));
+                                view.showMessage("Successfully transferred Card into Collection");
+                                taskDone = true;
+                            } else {
+                                // Card not found in binder, ask for valid input
+                                view.showWarning(
+                                        "No Card with given name exists in Binder, please re-input Card name");
+                            }
+
 
                         } while (!binder.containsKey(cardName) && !taskDone);
                     }
