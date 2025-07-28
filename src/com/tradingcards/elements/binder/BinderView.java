@@ -1,12 +1,23 @@
 package com.tradingcards.elements.binder;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import com.tradingcards.elements.binder.types.CollectorBinder;
 import com.tradingcards.elements.binder.types.LuxuryBinder;
@@ -27,6 +38,9 @@ public class BinderView {
      */
     private Scanner scanner = new Scanner(System.in);
 
+    private final JButton buttonConfirm = new JButton("Confirm Trade");
+    private final JButton buttonDecline = new JButton("Decline Trade");
+
     /**
      * Prompts the user to input a name for a binder and returns it.
      *
@@ -40,16 +54,15 @@ public class BinderView {
         return JOptionPane.showInputDialog(null, message + " (Enter -999 to cancel):");
     }
 
-
-    public void showWarning(String warning){
+    public void showWarning(String warning) {
         JOptionPane.showMessageDialog(null, warning, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 
-    public void showMessage(String message){
+    public void showMessage(String message) {
         JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public JPanel basicPanel(String message){
+    public JPanel basicPanel(String message) {
         JPanel messagePanel = new JPanel();
         JLabel text = new JLabel(message);
         messagePanel.add(text);
@@ -57,12 +70,67 @@ public class BinderView {
         return messagePanel;
     }
 
+    public JButton getButtonConfirm() {
+        return buttonConfirm;
+    }
+
+    public JButton getButtonDecline() {
+        return buttonDecline;
+    }
 
     public String setCardName() {
         return JOptionPane.showInputDialog(null, "Give Card Name (Enter -999 to cancel):");
     }
 
-    public JPanel showMainCardDisplay(HashMap<String, CardModel> collection, String outgoingCard, String incomingCard, double difference) {
+    public Double setBinderPrice() {
+        String input = JOptionPane.showInputDialog(null,
+                "Give New Card Price (Optional, and not must be lower than original )");
+
+        if (input == null || input.trim().isEmpty()) {
+            return null; // User cancelled or entered nothing
+        }
+
+        try {
+            return Double.parseDouble(input);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Invalid input. Please enter a valid number.");
+            return null;
+        }
+    }
+
+    public JPanel showTradeConfirmation() {
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        JPanel panel1 = new JPanel();
+        JPanel panel2 = new JPanel();
+        JPanel panel3 = new JPanel();
+        JPanel panel4 = new JPanel();
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainPanel.add(panel1, gbc);
+
+        gbc.gridx = 1;
+        buttonConfirm.setBackground(Color.GREEN);
+        panel2.add(buttonConfirm);
+        mainPanel.add(panel2, gbc);
+
+        gbc.gridx = 2;
+        buttonDecline.setBackground(Color.RED);
+        panel3.add(buttonDecline);
+        mainPanel.add(panel3, gbc);
+
+        gbc.gridx = 3;
+        mainPanel.add(panel4, gbc);
+
+        return mainPanel;
+    }
+
+    public JPanel showMainCardDisplay(HashMap<String, CardModel> collection, String outgoingCard, String incomingCard,
+            double difference) {
         CardView cardView = new CardView();
 
         JPanel tradeDisplay = new JPanel(new BorderLayout());
@@ -70,8 +138,8 @@ public class BinderView {
         JPanel centerPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JPanel card1Panel = cardView.displayCard(collection, outgoingCard);
-        JPanel card2Panel = cardView.displayCard(collection, incomingCard);
+        JPanel card1Panel = cardView.displayCardWithZero(collection, outgoingCard);
+        JPanel card2Panel = cardView.displayCardWithZero(collection, incomingCard);
         JLabel differenceLabel = new JLabel("Difference: " + difference, SwingConstants.CENTER);
         differenceLabel.setFont(new Font("Inter", Font.BOLD, 16));
 
@@ -218,10 +286,10 @@ public class BinderView {
 
         JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
 
-//
-//        System.out.println("------------------------------------");
-//        System.out.println("Current Binders:");
-//        System.out.println("");
+        //
+        // System.out.println("------------------------------------");
+        // System.out.println("Current Binders:");
+        // System.out.println("");
 
         for (String binderNames : binderKeys) {
 
@@ -265,8 +333,6 @@ public class BinderView {
                     wrapper.setPreferredSize(new Dimension(200, 200));
                     wrapper.add(tempButton);
                     displayPanel.add(wrapper);
-
-                    System.out.println("Card Name: " + binder.get(name).getName());
                 }
             }
         }

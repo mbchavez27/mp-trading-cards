@@ -12,6 +12,10 @@ public class CollectorBinder extends BinderModel {
     @Override
     public boolean insertInBinder(CardModel card, String name) {
         boolean isRareOrLegendary = card.getRarity().equals("Rare") || card.getRarity().equals("Legendary");
+
+        if (card.getVariant() == null)
+            return false;
+
         boolean isSpecialVariant = !card.getVariant().equals("Normal");
 
         if (isRareOrLegendary && isSpecialVariant) {
@@ -23,6 +27,6 @@ public class CollectorBinder extends BinderModel {
 
     @Override
     public double getSellingPrice() {
-        return -1;
+        return cardsInBinder.values().stream().mapToDouble(CardModel::getValue).sum();
     }
 }

@@ -20,6 +20,15 @@ public class RaresBinder extends BinderModel {
 
     @Override
     public double getSellingPrice() {
-        return 1;
+        double total = 0.0;
+
+        for (CardModel card : cardsInBinder.values()) {
+            if (card.getQuantity() > 0) {
+                double cardTotal = card.getValue() * card.getQuantity();
+                total += cardTotal;
+            }
+        }
+
+        return total;
     }
 }

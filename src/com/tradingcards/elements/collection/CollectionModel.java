@@ -5,6 +5,7 @@ import java.util.HashMap;
 import com.tradingcards.elements.binder.BinderModel;
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.deck.DeckModel;
+import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
  * The {@code CollectionModel} class manages a user's trading card collection,
@@ -95,9 +96,9 @@ public class CollectionModel {
     public void removeBinderCollection(String name) {
         BinderModel removed = binderCollection.remove(name);
         if (removed != null) {
-            System.out.println(name + " removed successfully...");
+            DialogUtil.showInfo(null, "Binder removed successfully", "Success");
         } else {
-            System.out.println(name + " not found. Removal unsuccessful...");
+            DialogUtil.showInfo(null, "Binder removed failed", "Failed");
         }
     }
 

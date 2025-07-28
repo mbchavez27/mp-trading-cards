@@ -148,7 +148,8 @@ public class MainMenuController {
         // Action for Adding Cards
         mainMenuView.setAddCardAction(e -> {
             // opens form for adding card
-            cardController.addCard();
+            boolean[] temp = new boolean[1];
+            cardController.addCard(temp);
 
             if (!sharedCollection.getCardCollection().isEmpty()) {
                 // enables Manage Card button in mainMenuPanel

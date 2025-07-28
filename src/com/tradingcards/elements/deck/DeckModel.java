@@ -83,9 +83,18 @@ public class DeckModel {
 
     public double getSellingPrice() {
         if (deckType.equals("Normal")) {
-            return 1;
-        } else {
             return -1;
+        } else {
+            double total = 0.0;
+
+            for (CardModel card : cardsInDeck.values()) {
+                if (card.getQuantity() > 0) {
+                    double cardTotal = card.getValue() * card.getQuantity();
+                    total += cardTotal;
+                }
+            }
+
+            return total;
         }
     }
 
