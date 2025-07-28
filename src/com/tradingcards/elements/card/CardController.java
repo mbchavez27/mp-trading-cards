@@ -61,7 +61,7 @@ public class CardController {
      *
      * @return the name of the card added (or attempted to add)
      */
-    public String addCard() {
+    public String addCard(boolean[] isValid) {
         CardModel card = view.showAddCardForm();
 
         if (card == null) {
@@ -74,12 +74,15 @@ public class CardController {
         if (sharedCollection.getCardCollection().containsKey(name)) {
             if (card.hasCopy(sharedCollection, name, card)) {
                 if (view.allowIncreaseCardCount(name)) {
+                    isValid[0] = true;
                     sharedCollection.getCardCollection().get(name).increaseQuantity(1);
                 }
             } else {
-                DialogUtil.showError(null, "Card of the same name already exists", "Duplicate Card");
+                DialogUtil.showError(null, "Card of the same name with different details already exists", "Duplicate Card");
+                isValid[0] = false;
             }
         } else {
+            isValid[0] = true;
             sharedCollection.setCardCollection(card, name);
         }
         return name;

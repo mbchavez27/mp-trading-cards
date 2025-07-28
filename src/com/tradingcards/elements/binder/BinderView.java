@@ -333,8 +333,6 @@ public class BinderView {
                     wrapper.setPreferredSize(new Dimension(200, 200));
                     wrapper.add(tempButton);
                     displayPanel.add(wrapper);
-
-                    System.out.println("Card Name: " + binder.get(name).getName());
                 }
             }
         }
