@@ -265,25 +265,22 @@ public class DeckController {
      * Allows the user to select a card to view in detail by name or number.
      * Cancels operation if user inputs "-999".
      */
-    public void displaySingleDeck() {
+    public void displaySingleDeck(JPanel panel) {
         // Get the map of all decks
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         HashMap<String, CardModel> selectedDeck;
 
         // Display all available decks to the user
-        displayDecks();
+        refreshPanel(panel, displayDecks());
+
         boolean cancelled = false;
 
         // Proceed only if there is at least one deck
         if (!deckCollection.isEmpty()) {
 
-            // Prompt user to choose a deck or cancel
-            view.displayMessageNewLine("Indicate Deck to view");
-            view.displayMessageNewLine("Enter \"-999\" to cancel");
-
             // Get the deck name input from the user
             String deckName = view.setDeckName();
-            if (deckName.equals(EXIT_CODE))
+            if (deckName.equals(EXIT_CODE) || deckName == null)
                 cancelled = true;
 
             // If not cancelled, proceed
@@ -292,6 +289,7 @@ public class DeckController {
                 if (deckCollection.containsKey(deckName)) {
                     selectedDeck = deckCollection.get(deckName).getDeck();
                     if (!selectedDeck.isEmpty()) {
+                        // refreshPanel(panel, );
                         view.displayDeckContent(selectedDeck);
                         chooseCardFromDeck(selectedDeck);
                     } else {
@@ -310,11 +308,11 @@ public class DeckController {
      *
      * @param deck the deck to be displayed
      */
-    public void displayDeckContent(HashMap<String, CardModel> deck) {
+    public JPanel displayDeckContent(HashMap<String, CardModel> deck) {
         if (!deck.isEmpty()) {
-            view.displayDeckContent(deck);
+            return (view.displayDeckContent(deck));
         } else {
-            view.displayMessageNewLine("No Cards in Deck");
+            return (new JPanel());
         }
     }
 

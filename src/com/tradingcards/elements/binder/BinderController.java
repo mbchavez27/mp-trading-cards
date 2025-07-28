@@ -136,7 +136,7 @@ public class BinderController {
 
             // Get the name of the binder to display
             String binderName = view.setBinderName();
-            if (binderName.equals(EXIT_CODE))
+            if (binderName.equals(EXIT_CODE) || binderName == null)
                 cancelled = true;
 
             // Proceed only if not cancelled

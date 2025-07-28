@@ -49,11 +49,18 @@ public class DeckMenuController {
         });
 
         view.setAddCardToDeckBtn(e -> {
-            deckController.addCard();
+            displayPanel.setLayout(new BorderLayout());
+
+            view.setDataInPanel(displayPanel);
+            deckController.addCard(displayPanel);
         });
 
         view.setRemoveCardFromDeckBtn(e -> {
-            deckController.removeCard();
+            displayPanel.setLayout(new BorderLayout());
+
+            view.setDataInPanel(displayPanel);
+
+            deckController.removeCard(displayPanel);
         });
 
         view.setSellDeckBtn(e -> {
@@ -62,7 +69,11 @@ public class DeckMenuController {
         });
 
         view.setViewDeckBtn(e -> {
+            displayPanel.setLayout(new BorderLayout());
 
+            view.setDataInPanel(displayPanel);
+
+            deckController.displaySingleDeck(displayPanel);
         });
 
     }

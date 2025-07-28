@@ -181,13 +181,11 @@ public class DeckView {
      *
      * @param deck the map of card names to card objects in the deck
      */
-    public void displayDeckContent(HashMap<String, CardModel> deck) {
+    public JPanel displayDeckContent(HashMap<String, CardModel> deck) {
         ArrayList<String> cardByKey = new ArrayList<>(deck.keySet());
         Collections.sort(cardByKey);
-        int counter = 0;
-        System.out.println("------------------------------------");
-        System.out.println("Deck Contents:");
-        System.out.println("");
+
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
 
         for (String name : cardByKey) {
             counter += 1;
