@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import com.tradingcards.elements.card.cardUtils.ImageUtils;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
@@ -626,20 +627,35 @@ public class CardView {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);
 
-        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 5, 5));
 
         for (String name : cardByKey) {
-            if (mode == 0) {
-                JPanel wrapper = new JPanel();
+            JPanel tempPanel = new JPanel(new BorderLayout());
+            tempPanel.setBorder(new EmptyBorder(5,5,5,5));
 
-                JButton tempButton = new JButton(
-                        collection.get(name).getName() + " quantity: " + collection.get(name).getQuantity());
-                tempButton.setPreferredSize(new Dimension(190, 190));
-                wrapper.setPreferredSize(new Dimension(200, 200));
-                wrapper.add(tempButton);
+            JLabel image;
 
-                displayPanel.add(wrapper);
+            String imagePath = collection.get(name).getImagePath();
+            ImageIcon cardPhoto;
+
+            if (imagePath != null) {
+                cardPhoto = new ImageIcon(imagePath);
+            } else {
+                cardPhoto = new ImageIcon(getClass().getResource("/images/default.png"));
             }
+
+            image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 120, 120));
+            image.setHorizontalAlignment(SwingConstants.CENTER);
+            tempPanel.add(image, BorderLayout.CENTER);
+
+            JLabel tempLabel = new JLabel("<html>Card Name: " + collection.get(name).getName() + "<br>Quantity: " + collection.get(name).getQuantity() + "</html>");
+
+            tempPanel.add(tempLabel, BorderLayout.SOUTH);
+            tempPanel.setPreferredSize(new Dimension(190, 190));
+
+            displayPanel.setBackground(Color.white);
+            displayPanel.add(tempPanel);
+
         }
         JPanel wrapperPanel = new JPanel(new BorderLayout());
         wrapperPanel.add(displayPanel, BorderLayout.NORTH);
@@ -657,19 +673,35 @@ public class CardView {
         ArrayList<String> cardByKey = new ArrayList<>(collection.keySet());
         Collections.sort(cardByKey);
 
-        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 5, 5));
 
         for (String name : cardByKey) {
             if (collection.get(name).getQuantity() > 0) {
-                JPanel wrapper = new JPanel();
+                JPanel tempPanel = new JPanel(new BorderLayout());
+                tempPanel.setBorder(new EmptyBorder(5,5,5,5));
 
-                JButton tempButton = new JButton(
-                        collection.get(name).getName() + " quantity: " + collection.get(name).getQuantity());
-                tempButton.setPreferredSize(new Dimension(190, 190));
-                wrapper.setPreferredSize(new Dimension(200, 200));
-                wrapper.add(tempButton);
+                JLabel image;
 
-                displayPanel.add(wrapper);
+                String imagePath = collection.get(name).getImagePath();
+                ImageIcon cardPhoto;
+
+                if (imagePath != null) {
+                    cardPhoto = new ImageIcon(imagePath);
+                } else {
+                    cardPhoto = new ImageIcon(getClass().getResource("/images/default.png"));
+                }
+
+                image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 120, 120));
+                image.setHorizontalAlignment(SwingConstants.CENTER);
+                tempPanel.add(image, BorderLayout.CENTER);
+
+                JLabel tempLabel = new JLabel("<html>Card Name: " + collection.get(name).getName() + "<br>Quantity: " + collection.get(name).getQuantity() + "</html>");
+
+                tempPanel.add(tempLabel, BorderLayout.SOUTH);
+                tempPanel.setPreferredSize(new Dimension(190, 190));
+
+                displayPanel.setBackground(Color.white);
+                displayPanel.add(tempPanel);
             }
         }
 
