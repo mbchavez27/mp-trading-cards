@@ -429,6 +429,7 @@ public class BinderController {
 
             // this prevents binder capacity overflow
             if (binder.get(outgoingCard).getQuantity() > 1) {
+                System.out.println("TRYING DUPLICATION");
                 binder.get(outgoingCard)
                         .setQuantity(binder.get(outgoingCard).getQuantity() - 1);
             } else {
@@ -445,13 +446,6 @@ public class BinderController {
                     // Remove from collection
                     cardInCollectionIncoming.setQuantity(cardInCollectionIncoming.getQuantity() - 1);
 
-                    // removes the outgoing card
-                    if (binder.get(outgoingCard).getQuantity() > 1) {
-                        binder.get(outgoingCard)
-                                .setQuantity(binder.get(outgoingCard).getQuantity() - 1);
-                    } else {
-                        binder.remove(outgoingCard);
-                    }
 
                     view.showMessage("Trade successful! " + outgoingCard + " removed, " + incomingCard + " added.");
                     taskDone[0] = true;
