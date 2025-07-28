@@ -108,7 +108,7 @@ public class DeckController {
      * collection.
      * Cancels operation if user inputs "-999".
      */
-    public void removeCard() {
+    public void removeCard(JPanel panel) {
         // Get references to main collections
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
@@ -176,7 +176,7 @@ public class DeckController {
      * Validates input and checks for quantity and deck size limits.
      * Cancels operation if user inputs "-999".
      */
-    public void addCard() {
+    public void addCard(JPanel panel) {
         // Get references to the card collection and deck collection
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
@@ -289,8 +289,9 @@ public class DeckController {
                 if (deckCollection.containsKey(deckName)) {
                     selectedDeck = deckCollection.get(deckName).getDeck();
                     if (!selectedDeck.isEmpty()) {
-                        // refreshPanel(panel, );
-                        view.displayDeckContent(selectedDeck);
+
+                        refreshPanel(panel, displayDeckContent(selectedDeck));
+                        ;
                         chooseCardFromDeck(selectedDeck);
                     } else {
                         view.displayMessageNewLine("No Cards in Deck");
