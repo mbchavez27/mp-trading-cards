@@ -190,31 +190,30 @@ public class DeckController {
 
         // Proceed only if the collection is not empty
         if (!collection.isEmpty()) {
-
-            displayDecks();
+            //displays decks
+            refreshPanel(panel, displayDecks());
 
             // Prompt user for deck name or cancel
-            view.displayMessageNewLine("Enter \"-999\" to cancel");
             String deckName = view.setDeckName();
-            if (deckName.equals(EXIT_CODE))
+
+            if (deckName == null || deckName.equals(EXIT_CODE))
                 cancelled = true;
 
             // Check if user canceled
             if (!cancelled) {
                 if (deckCollection.isEmpty()) {
-                    view.displayMessageNewLine("No cards in collection yet");
-                    view.displayMessageNewLine("Input cards in collection first");
+                    DialogUtil.showWarning(null, "No cards in collection yet, input cards in collection first", "Warning");
                 } else {
                     // Proceed if the specified deck exists
                     if (deckCollection.containsKey(deckName)) {
                         deck = deckCollection.get(deckName);
-                        cardView.displayCollection(collection);
-
+                        refreshPanel(panel, cardView.displayCollection(collection));
                         do {
                             cardToRemove = cardView.setCardName();
-
+                            if (cardToRemove == null || cardToRemove.equals(EXIT_CODE))
+                                taskDone = true;
                             // Check if card exists in collection
-                            if (collection.containsKey(cardToRemove)) {
+                            if (collection.containsKey(cardToRemove) && !taskDone) {
                                 cardInCollection = collection.get(cardToRemove);
 
                                 // Check if card has copies left in collection
@@ -227,36 +226,35 @@ public class DeckController {
                                             cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
 
                                             // Confirm success
-                                            view.displayMessageNewLine("Successfully transferred card into Deck");
+                                            DialogUtil.showMessage(null,"Successfully transferred card into Deck", "Successful Operation", 1);
                                             taskDone = true;
                                         } else {
                                             // Card is already in the deck
-                                            view.displayMessageNewLine("Deck already contains specified card");
+                                            DialogUtil.showWarning(null, "Deck already contains specified card", "Warning");
                                         }
                                     } else {
                                         // Deck has reached max size
-                                        view.displayMessageNewLine("Deck is already full");
+                                        DialogUtil.showWarning(null, "Deck is already full", "Warning");
                                     }
                                 } else {
                                     // No more copies of this card left in collection
-                                    view.displayMessageNewLine(
-                                            "Collection currently has zero copies of specified card");
+                                    DialogUtil.showWarning(null,
+                                            "Collection currently has zero copies of specified card", "Warning");
                                 }
                             } else {
                                 // Invalid card name entered
-                                view.displayMessageNewLine("No Card with given name exists in Collection");
-                                view.displayMessageNewLine("Please re-input Card name");
+                                DialogUtil.showWarning(null, "No Card with given name exists in Collection, please re-input Card name", "Warning");
                             }
                         } while (!collection.containsKey(cardToRemove) && !taskDone);
                     } else {
                         // Deck name not found
-                        view.displayMessageNewLine("No Deck with given name exists");
+                        DialogUtil.showWarning(null, "No Deck with given name exists", "Warning");
                     }
                 }
             }
         } else {
             // No cards available to add to deck
-            view.displayMessageNewLine("\nCard collection is empty\n");
+            DialogUtil.showWarning(null, "Card collection is empty", "Warning");
         }
     }
 

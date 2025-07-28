@@ -263,8 +263,10 @@ public class BinderController {
         boolean cancelled = false;
 
         if (!collection.isEmpty()) {
+            //displays binders
             refreshPanel(panel, displayBinders());
 
+            // Prompt user for binder name or cancel
             String binderName = view.setBinderName();
 
             if (binderName == null || binderName.equals(EXIT_CODE))
@@ -285,7 +287,7 @@ public class BinderController {
                             if (collection.containsKey(cardName) && !taskDone) {
                                 // checks if the collection has a positive number of card copies
                                 cardInCollection = collection.get(cardName);
-                                System.out.println(cardInCollection.getQuantity());
+
                                 if (cardInCollection.getQuantity() > 0) {
 
                                     // checks if binder can accommodate new card;

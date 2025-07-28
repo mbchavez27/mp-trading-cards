@@ -211,7 +211,7 @@ public class DeckView {
             image.setHorizontalAlignment(SwingConstants.CENTER);
             tempPanel.add(image, BorderLayout.CENTER);
 
-            JLabel tempLabel = new JLabel("<html>Card Name: " + deck.get(name).getName() + "<br>Quantity: " + deck.get(name).getQuantity() + "</html>");
+            JLabel tempLabel = new JLabel("<html>Card Name: " + deck.get(name).getName() + "</html>");
 
             tempPanel.add(tempLabel, BorderLayout.SOUTH);
             tempPanel.setPreferredSize(new Dimension(190, 190));
