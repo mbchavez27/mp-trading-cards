@@ -1,6 +1,7 @@
 package com.tradingcards.elements.deck;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,6 +22,13 @@ public class DeckView {
      * Scanner object for reading user input from the console.
      */
     private Scanner scanner = new Scanner(System.in);
+
+    public JPanel basicPanel(String message) {
+        JPanel messagePanel = new JPanel();
+        JLabel text = new JLabel(message);
+        messagePanel.add(text);
+        return messagePanel;
+    };
 
     /**
      * Prompts the user to input the name of the deck.
@@ -149,7 +157,6 @@ public class DeckView {
 
         JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
 
-
         for (String deckNames : deckKeys) {
 
             JPanel wrapper = new JPanel();
@@ -174,13 +181,11 @@ public class DeckView {
      *
      * @param deck the map of card names to card objects in the deck
      */
-    public void displayDeckContent(HashMap<String, CardModel> deck) {
+    public JPanel displayDeckContent(HashMap<String, CardModel> deck) {
         ArrayList<String> cardByKey = new ArrayList<>(deck.keySet());
         Collections.sort(cardByKey);
-        int counter = 0;
-        System.out.println("------------------------------------");
-        System.out.println("Deck Contents:");
-        System.out.println("");
+
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
 
         for (String name : cardByKey) {
             counter += 1;

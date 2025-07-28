@@ -66,13 +66,13 @@ public class DeckController {
      * All cards in the deck are returned to the card collection.
      * Cancels operation if user inputs "-999".
      */
-    public void removeDeck() {
+    public void removeDeck(JPanel panel) {
         // Display the list of decks to the user
-        displayDecks();
+        refreshPanel(panel, displayDecks());
         boolean cancelled = false;
-        view.displayMessageNewLine("Enter \"-999\" to cancel");
+
         String name = view.setDeckName();
-        if (name.equals(EXIT_CODE))
+        if (name.equals(EXIT_CODE) || name == null)
             cancelled = true;
 
         // Proceed only if not cancelled
@@ -95,9 +95,10 @@ public class DeckController {
 
                 // Remove the deck from the shared collection
                 sharedCollection.removeDeckCollection(name);
-                view.displayMessageNewLine("Deck \"" + name + "\" removed and cards returned.");
+                DialogUtil.showInfo(panel, "Deck \"" + name + "\" removed and cards returned", "Deck Removed");
+                refreshPanel(panel, displayDecks());
             } else {
-                view.displayMessageNewLine("Deck \"" + name + "\" not found.");
+                DialogUtil.showInfo(panel, "Deck \"" + name + "\" not found", "Deck Not Found");
             }
         }
     }
@@ -264,25 +265,22 @@ public class DeckController {
      * Allows the user to select a card to view in detail by name or number.
      * Cancels operation if user inputs "-999".
      */
-    public void displaySingleDeck() {
+    public void displaySingleDeck(JPanel panel) {
         // Get the map of all decks
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
         HashMap<String, CardModel> selectedDeck;
 
         // Display all available decks to the user
-        displayDecks();
+        refreshPanel(panel, displayDecks());
+
         boolean cancelled = false;
 
         // Proceed only if there is at least one deck
         if (!deckCollection.isEmpty()) {
 
-            // Prompt user to choose a deck or cancel
-            view.displayMessageNewLine("Indicate Deck to view");
-            view.displayMessageNewLine("Enter \"-999\" to cancel");
-
             // Get the deck name input from the user
             String deckName = view.setDeckName();
-            if (deckName.equals(EXIT_CODE))
+            if (deckName.equals(EXIT_CODE) || deckName == null)
                 cancelled = true;
 
             // If not cancelled, proceed
@@ -291,6 +289,7 @@ public class DeckController {
                 if (deckCollection.containsKey(deckName)) {
                     selectedDeck = deckCollection.get(deckName).getDeck();
                     if (!selectedDeck.isEmpty()) {
+                        // refreshPanel(panel, );
                         view.displayDeckContent(selectedDeck);
                         chooseCardFromDeck(selectedDeck);
                     } else {
@@ -309,11 +308,29 @@ public class DeckController {
      *
      * @param deck the deck to be displayed
      */
-    public void displayDeckContent(HashMap<String, CardModel> deck) {
+    public JPanel displayDeckContent(HashMap<String, CardModel> deck) {
         if (!deck.isEmpty()) {
-            view.displayDeckContent(deck);
+            return (view.displayDeckContent(deck));
         } else {
-            view.displayMessageNewLine("No Cards in Deck");
+            return (new JPanel());
+        }
+    }
+
+    public void sellDeck(String name) {
+        if (name == null || name.equals("-999")) {
+            DialogUtil.showError(null, "Sell Deck Cancelled", "Cancelled");
+        } else {
+            DeckModel deck = sharedCollection.getDeckCollection().get(name);
+
+            if (deck.getSellingPrice() == -1) {
+                DialogUtil.showError(null, "Deck is not sellable", "Cancelled");
+            } else {
+                sharedCollection.setMoney(sharedCollection.getMoney() + deck.getSellingPrice());
+                DialogUtil.showInfo(null, "Binder sold, you now have cash total of " + sharedCollection.getMoney(),
+                        "Success");
+                sharedCollection.removeDeckCollection(name);
+                ;
+            }
         }
     }
 
@@ -375,10 +392,17 @@ public class DeckController {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
 
         if (!deckCollection.isEmpty()) {
-            return(view.displayDecks(deckCollection));
+            return (view.displayDecks(deckCollection));
         } else {
-            DialogUtil.showWarning(null, "No Decks yet...",  "Decks Warning");
+            DialogUtil.showWarning(null, "No Decks yet...", "Decks Warning");
         }
-        return null;
+        return view.basicPanel("Currently no decks");
+    }
+
+    private void refreshPanel(JPanel uiPanel, JPanel element) {
+        uiPanel.removeAll();
+        uiPanel.add(element);
+        uiPanel.revalidate();
+        uiPanel.repaint();
     }
 }
