@@ -1,5 +1,9 @@
 package com.tradingcards.elements.menus.deckMenu;
 
+import java.awt.BorderLayout;
+
+import javax.swing.JPanel;
+
 import com.tradingcards.MainFrame;
 import com.tradingcards.elements.deck.DeckController;
 import com.tradingcards.elements.deck.DeckView;
@@ -28,6 +32,7 @@ public class DeckMenuController {
 
     public void start() {
         view.setDataInPanel(deckController.displayDecks());
+        JPanel displayPanel = new JPanel();
 
         view.setBackBtn(e -> {
             mainMenuView.updateMoneyLabel();
@@ -36,7 +41,11 @@ public class DeckMenuController {
         });
 
         view.setDeleteDeckBtn(e -> {
-            deckController.removeDeck();
+            displayPanel.setLayout(new BorderLayout());
+
+            view.setDataInPanel(displayPanel);
+
+            deckController.removeDeck(displayPanel);
         });
 
         view.setAddCardToDeckBtn(e -> {

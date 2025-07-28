@@ -66,9 +66,9 @@ public class DeckController {
      * All cards in the deck are returned to the card collection.
      * Cancels operation if user inputs "-999".
      */
-    public void removeDeck() {
+    public void removeDeck(JPanel panel) {
         // Display the list of decks to the user
-        displayDecks();
+        refreshPanel(panel, displayDecks());
         boolean cancelled = false;
 
         String name = view.setDeckName();
@@ -95,9 +95,10 @@ public class DeckController {
 
                 // Remove the deck from the shared collection
                 sharedCollection.removeDeckCollection(name);
-                view.displayMessageNewLine("Deck \"" + name + "\" removed and cards returned.");
+                DialogUtil.showInfo(panel, "Deck \"" + name + "\" removed and cards returned", "Deck Removed");
+                refreshPanel(panel, displayDecks());
             } else {
-                view.displayMessageNewLine("Deck \"" + name + "\" not found.");
+                DialogUtil.showInfo(panel, "Deck \"" + name + "\" not found", "Deck Not Found");
             }
         }
     }
@@ -397,6 +398,13 @@ public class DeckController {
         } else {
             DialogUtil.showWarning(null, "No Decks yet...", "Decks Warning");
         }
-        return null;
+        return view.basicPanel("Currently no decks");
+    }
+
+    private void refreshPanel(JPanel uiPanel, JPanel element) {
+        uiPanel.removeAll();
+        uiPanel.add(element);
+        uiPanel.revalidate();
+        uiPanel.repaint();
     }
 }

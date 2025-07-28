@@ -1,6 +1,7 @@
 package com.tradingcards.elements.deck;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,6 +22,13 @@ public class DeckView {
      * Scanner object for reading user input from the console.
      */
     private Scanner scanner = new Scanner(System.in);
+
+    public JPanel basicPanel(String message) {
+        JPanel messagePanel = new JPanel();
+        JLabel text = new JLabel(message);
+        messagePanel.add(text);
+        return messagePanel;
+    };
 
     /**
      * Prompts the user to input the name of the deck.
@@ -148,7 +156,6 @@ public class DeckView {
         Collections.sort(deckKeys);
 
         JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
-
 
         for (String deckNames : deckKeys) {
 
