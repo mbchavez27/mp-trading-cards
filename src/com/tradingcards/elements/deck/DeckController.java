@@ -1,16 +1,15 @@
 package com.tradingcards.elements.deck;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
+import javax.swing.JPanel;
 
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
-
-import javax.swing.*;
 
 /**
  * Controller class responsible for managing operations related to decks. This
@@ -141,10 +140,10 @@ public class DeckController {
 
                         // Repeat until a valid card is removed
                         do {
-                            DialogUtil.showMessage(null, "Indicate card to be deleted", "Information",1 );
+                            DialogUtil.showMessage(null, "Indicate card to be deleted", "Information", 1);
                             cardToRemove = cardView.setCardName();
 
-                            if (cardToRemove == null || cardToRemove.equals(EXIT_CODE)){
+                            if (cardToRemove == null || cardToRemove.equals(EXIT_CODE)) {
                                 taskDone = true;
                             }
 
@@ -156,11 +155,13 @@ public class DeckController {
                                 // Remove card from deck
                                 deck.remove(cardToRemove);
                                 refreshPanel(panel, displayDeckContent(deck));
-                                DialogUtil.showMessage(null,"Sucessfully transferred Card into Collection", "Information", 1);
+                                DialogUtil.showMessage(null, "Sucessfully transferred Card into Collection",
+                                        "Information", 1);
                                 taskDone = true;
                             } else {
                                 // Invalid input; prompt again
-                                DialogUtil.showWarning(null, "No Card with given name exists in Deck, please re-input Card name", "Warning");
+                                DialogUtil.showWarning(null,
+                                        "No Card with given name exists in Deck, please re-input Card name", "Warning");
                             }
 
                         } while (!deck.containsKey(cardToRemove) && !taskDone);
@@ -196,7 +197,7 @@ public class DeckController {
 
         // Proceed only if the collection is not empty
         if (!collection.isEmpty()) {
-            //displays decks
+            // displays decks
             refreshPanel(panel, displayDecks());
 
             // Prompt user for deck name or cancel
@@ -208,7 +209,8 @@ public class DeckController {
             // Check if user canceled
             if (!cancelled) {
                 if (deckCollection.isEmpty()) {
-                    DialogUtil.showWarning(null, "No cards in collection yet, input cards in collection first", "Warning");
+                    DialogUtil.showWarning(null, "No cards in collection yet, input cards in collection first",
+                            "Warning");
                 } else {
                     // Proceed if the specified deck exists
                     if (deckCollection.containsKey(deckName)) {
@@ -232,11 +234,13 @@ public class DeckController {
                                             cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
 
                                             // Confirm success
-                                            DialogUtil.showMessage(null,"Successfully transferred card into Deck", "Successful Operation", 1);
+                                            DialogUtil.showMessage(null, "Successfully transferred card into Deck",
+                                                    "Successful Operation", 1);
                                             taskDone = true;
                                         } else {
                                             // Card is already in the deck
-                                            DialogUtil.showWarning(null, "Deck already contains specified card", "Warning");
+                                            DialogUtil.showWarning(null, "Deck already contains specified card",
+                                                    "Warning");
                                         }
                                     } else {
                                         // Deck has reached max size
@@ -249,7 +253,9 @@ public class DeckController {
                                 }
                             } else {
                                 // Invalid card name entered
-                                DialogUtil.showWarning(null, "No Card with given name exists in Collection, please re-input Card name", "Warning");
+                                DialogUtil.showWarning(null,
+                                        "No Card with given name exists in Collection, please re-input Card name",
+                                        "Warning");
                             }
                         } while (!collection.containsKey(cardToRemove) && !taskDone);
                     } else {
@@ -298,10 +304,10 @@ public class DeckController {
 
                         chooseCardFromDeck(panel, selectedDeck);
                     } else {
-                        DialogUtil.showWarning(null,"No Cards in Deck", "Warning");
+                        DialogUtil.showWarning(null, "No Cards in Deck", "Warning");
                     }
                 } else {
-                    DialogUtil.showWarning(null,"No Deck with given name exists", "Warning");
+                    DialogUtil.showWarning(null, "No Deck with given name exists", "Warning");
                 }
             }
         }
@@ -334,7 +340,6 @@ public class DeckController {
                 DialogUtil.showInfo(null, "Binder sold, you now have cash total of " + sharedCollection.getMoney(),
                         "Success");
                 sharedCollection.removeDeckCollection(name);
-                ;
             }
         }
     }
@@ -346,13 +351,14 @@ public class DeckController {
      */
     public void chooseCardFromDeck(JPanel panel, HashMap<String, CardModel> deck) {
         CardView cardView = new CardView(); // Used to display card details
-        //String toView = view.viewCardChoice(); // Ask user if they want to view a card
+        // String toView = view.viewCardChoice(); // Ask user if they want to view a
+        // card
         int selectionOption;
         String cardName;
         int cardNumber;
 
         // Proceed only if user inputs "Y" or "y"
-//        toView.equalsIgnoreCase("Y")
+        // toView.equalsIgnoreCase("Y")
         if (view.showYesNoOptions("Would you like to view a card?", "View Card option") == 0) {
             // Ask if user wants to select by name or number
             selectionOption = view.cardSelectionOption();
@@ -383,7 +389,7 @@ public class DeckController {
                     DialogUtil.showWarning(null, "Invalid input, card with number does not exist", "Warning");
                 }
             } else {
-                DialogUtil.showWarning(null,"Invalid input, exiting deck view", "Warning");
+                DialogUtil.showWarning(null, "Invalid input, exiting deck view", "Warning");
             }
         } else {
             DialogUtil.showInfo(null, "Exiting Deck View", "Information");

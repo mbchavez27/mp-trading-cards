@@ -88,10 +88,8 @@ public class DeckModel {
             double total = 0.0;
 
             for (CardModel card : cardsInDeck.values()) {
-                if (card.getQuantity() > 0) {
-                    double cardTotal = card.getValue() * card.getQuantity();
-                    total += cardTotal;
-                }
+                double cardTotal = card.getValue() * 1;
+                total += cardTotal;
             }
 
             return total;
