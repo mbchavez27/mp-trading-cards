@@ -40,7 +40,7 @@ public class DeckModel {
     /**
      * Sets the type of the deck.
      *
-     * @param deckName the name to assign to the deck
+     * @param deckType the name to assign to the deck
      */
     public void setType(String deckType) {
         this.deckType = deckType;
