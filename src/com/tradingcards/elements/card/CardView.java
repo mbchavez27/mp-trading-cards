@@ -468,7 +468,6 @@ public class CardView {
         return null;
     }
 
-
     public JPanel displayCardForBinderAndDeck(HashMap<String, CardModel> collection, String cardName) {
         displayMessageNewLine("");
 
@@ -611,7 +610,7 @@ public class CardView {
 
         for (String name : cardByKey) {
             JPanel tempPanel = new JPanel(new BorderLayout());
-            tempPanel.setBorder(new EmptyBorder(5,5,5,5));
+            tempPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
             JLabel image;
 
@@ -628,7 +627,8 @@ public class CardView {
             image.setHorizontalAlignment(SwingConstants.CENTER);
             tempPanel.add(image, BorderLayout.CENTER);
 
-            JLabel tempLabel = new JLabel("<html>Card Name: " + collection.get(name).getName() + "<br>Quantity: " + collection.get(name).getQuantity() + "</html>");
+            JLabel tempLabel = new JLabel("<html>Card Name: " + collection.get(name).getName() + "<br>Quantity: "
+                    + collection.get(name).getQuantity() + "</html>");
 
             tempPanel.add(tempLabel, BorderLayout.SOUTH);
             tempPanel.setPreferredSize(new Dimension(190, 190));
@@ -658,7 +658,7 @@ public class CardView {
         for (String name : cardByKey) {
             if (collection.get(name).getQuantity() > 0) {
                 JPanel tempPanel = new JPanel(new BorderLayout());
-                tempPanel.setBorder(new EmptyBorder(5,5,5,5));
+                tempPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
                 JLabel image;
 
@@ -675,7 +675,9 @@ public class CardView {
                 image.setHorizontalAlignment(SwingConstants.CENTER);
                 tempPanel.add(image, BorderLayout.CENTER);
 
-                JLabel tempLabel = new JLabel("<html>Card Name: " + collection.get(name).getName() + "<br>Quantity: " + collection.get(name).getQuantity() + "</html>");
+                JLabel tempLabel = new JLabel("<html>Card Name: " + collection.get(name).getName() + "<br>Value: "
+                        + collection.get(name).getValue() + "<br>Quantity: " + collection.get(name).getQuantity()
+                        + "</html>");
 
                 tempPanel.add(tempLabel, BorderLayout.SOUTH);
                 tempPanel.setPreferredSize(new Dimension(190, 190));

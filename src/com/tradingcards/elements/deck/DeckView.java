@@ -1,13 +1,20 @@
 package com.tradingcards.elements.deck;
 
-import java.awt.*;
-import java.awt.event.KeyListener;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.tradingcards.elements.card.CardModel;
@@ -92,7 +99,7 @@ public class DeckView {
         return newDeck;
     }
 
-    public int showYesNoOptions(String message, String title){
+    public int showYesNoOptions(String message, String title) {
         return JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
     }
 
@@ -147,7 +154,7 @@ public class DeckView {
      * @return the user's input, expected to be "name" or "number"
      */
     public int cardSelectionOption() {
-        String[] choices = {"Name", "Number"};
+        String[] choices = { "Name", "Number" };
 
         return JOptionPane.showOptionDialog(
                 null,
@@ -207,7 +214,7 @@ public class DeckView {
         for (String name : cardByKey) {
             counter += 1;
             JPanel tempPanel = new JPanel(new BorderLayout());
-            tempPanel.setBorder(new EmptyBorder(5,5,5,5));
+            tempPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
             JLabel image;
 
@@ -224,7 +231,9 @@ public class DeckView {
             image.setHorizontalAlignment(SwingConstants.CENTER);
             tempPanel.add(image, BorderLayout.CENTER);
 
-            JLabel tempLabel = new JLabel("<html>Card Name: " + deck.get(name).getName() + "<br>Card Number: " + counter + "</html>");
+            JLabel tempLabel = new JLabel("<html>Card Name: " + deck.get(name).getName() + "<br>Value: "
+                    + deck.get(name).getValue() + "<br>Quantity: " + deck.get(name).getQuantity()
+                    + "</html>");
 
             tempPanel.add(tempLabel, BorderLayout.SOUTH);
             tempPanel.setPreferredSize(new Dimension(190, 190));
