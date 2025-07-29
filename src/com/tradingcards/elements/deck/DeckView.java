@@ -222,8 +222,7 @@ public class DeckView {
             tempPanel.add(image, BorderLayout.CENTER);
 
             JLabel tempLabel = new JLabel("<html>Card Name: " + deck.get(name).getName() + "<br>Value: "
-                    + deck.get(name).getValue() + "<br>Quantity: " + deck.get(name).getQuantity()
-                    + "</html>");
+                    + deck.get(name).getValue() + "<br>Card Number: " + counter + "</html>");
 
             tempPanel.add(tempLabel, BorderLayout.SOUTH);
             tempPanel.setPreferredSize(new Dimension(190, 190));
