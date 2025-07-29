@@ -309,7 +309,6 @@ public class BinderView {
                     JLabel image;
 
                     String imagePath = binder.get(name).getImagePath();
-                    System.out.print(imagePath);
                     ImageIcon cardPhoto;
 
                     if (imagePath != null) {
