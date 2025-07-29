@@ -92,6 +92,10 @@ public class DeckView {
         return newDeck;
     }
 
+    public int showYesNoOptions(String message, String title){
+        return JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
+    }
+
     /**
      * Prompts the user to input the name of a card in the deck.
      *
@@ -142,10 +146,19 @@ public class DeckView {
      *
      * @return the user's input, expected to be "name" or "number"
      */
-    public String cardSelectionOption() {
-        System.out.println("Indicate card selection mode");
-        System.out.print("Input [name/number]: ");
-        return scanner.nextLine();
+    public int cardSelectionOption() {
+        String[] choices = {"Name", "Number"};
+
+        return JOptionPane.showOptionDialog(
+                null,
+                "Indicate card selection mode",
+                "Selection Mode Query",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                choices,
+                0);
+
     }
 
     /**

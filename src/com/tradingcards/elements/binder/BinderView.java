@@ -138,8 +138,8 @@ public class BinderView {
         JPanel centerPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        JPanel card1Panel = cardView.displayCardForBinder(collection, outgoingCard);
-        JPanel card2Panel = cardView.displayCardForBinder(collection, incomingCard);
+        JPanel card1Panel = cardView.displayCardForBinderAndDeck(collection, outgoingCard);
+        JPanel card2Panel = cardView.displayCardForBinderAndDeck(collection, incomingCard);
         JLabel differenceLabel = new JLabel("Difference: " + difference, SwingConstants.CENTER);
         differenceLabel.setFont(new Font("Inter", Font.BOLD, 16));
 

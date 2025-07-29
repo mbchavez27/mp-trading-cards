@@ -1,5 +1,6 @@
 package com.tradingcards.elements.deck;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -295,7 +296,7 @@ public class DeckController {
 
                         refreshPanel(panel, displayDeckContent(selectedDeck));
 
-                        chooseCardFromDeck(selectedDeck);
+                        chooseCardFromDeck(panel, selectedDeck);
                     } else {
                         view.displayMessageNewLine("No Cards in Deck");
                     }
@@ -343,31 +344,32 @@ public class DeckController {
      *
      * @param deck the deck containing the cards to choose from
      */
-    public void chooseCardFromDeck(HashMap<String, CardModel> deck) {
+    public void chooseCardFromDeck(JPanel panel, HashMap<String, CardModel> deck) {
         CardView cardView = new CardView(); // Used to display card details
-        String toView = view.viewCardChoice(); // Ask user if they want to view a card
-        String selectionOption;
+        //String toView = view.viewCardChoice(); // Ask user if they want to view a card
+        int selectionOption;
         String cardName;
         int cardNumber;
 
         // Proceed only if user inputs "Y" or "y"
-        if (toView.equalsIgnoreCase("Y")) {
+//        toView.equalsIgnoreCase("Y")
+        if (view.showYesNoOptions("Would you like to view a card?", "View Card option") == 0) {
             // Ask if user wants to select by name or number
             selectionOption = view.cardSelectionOption();
 
             // If user chooses to select by card name
-            if (selectionOption.equals("name")) {
+            if (selectionOption == 0) {
                 cardName = view.setCardName();
 
                 // Check if the specified card exists in the deck
                 if (deck.containsKey(cardName)) {
-                    cardView.displayCard(deck, cardName, 0);
+                    refreshPanel(panel, cardView.displayCardForBinderAndDeck(deck, cardName));
                 } else {
                     view.displayMessageNewLine("Card does not exist in Deck");
                 }
 
                 // If user chooses to select by card number
-            } else if (selectionOption.equals("number")) {
+            } else if (selectionOption == 1) {
                 cardNumber = view.setCardNumber();
 
                 if (cardNumber <= deck.size()) {
@@ -376,15 +378,15 @@ public class DeckController {
 
                     CardModel cardModel = deck.get(cardByKey.get((cardNumber - 1)));
 
-                    cardView.displayCard(deck, cardModel.getName(), 0);
+                    refreshPanel(panel, cardView.displayCardForBinderAndDeck(deck, cardModel.getName()));
                 } else {
-                    view.displayMessageNewLine("Invalid input, card with number does not exist");
+                    DialogUtil.showWarning(null, "Invalid input, card with number does not exist", "Warning");
                 }
             } else {
-                view.displayMessageNewLine("Invalid input, exiting deck view");
+                DialogUtil.showWarning(null,"Invalid input, exiting deck view", "Warning");
             }
         } else {
-            view.displayMessageNewLine("Exiting Deck View");
+            DialogUtil.showInfo(null, "Exiting Deck View", "Information");
         }
     }
 

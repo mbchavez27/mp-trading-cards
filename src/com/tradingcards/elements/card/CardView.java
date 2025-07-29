@@ -469,7 +469,7 @@ public class CardView {
     }
 
 
-    public JPanel displayCardForBinder(HashMap<String, CardModel> collection, String cardName) {
+    public JPanel displayCardForBinderAndDeck(HashMap<String, CardModel> collection, String cardName) {
         displayMessageNewLine("");
 
         JPanel displayPanel = new JPanel(new BorderLayout());
@@ -594,26 +594,6 @@ public class CardView {
 
             return displayPanel;
         }
-    }
-
-    /**
-     * Displays card details (used for decks), omitting quantity.
-     *
-     * @param collection the collection containing the card
-     * @param cardName   the name of the card to display
-     * @param mode       an unused parameter (used to overload method signature)
-     */
-    public void displayCard(HashMap<String, CardModel> collection, String cardName, int mode) {
-        displayMessageNewLine("");
-        displayMessageNewLine("------------------------------------");
-        displayMessageNewLine("Card Details:");
-        displayMessageNewLine("Card Name: " + collection.get(cardName).getName());
-        displayMessageNewLine("Card Rarity: " + collection.get(cardName).getRarity());
-        if (collection.get(cardName).getVariant() != null) {
-            displayMessageNewLine("Card Variant: " + collection.get(cardName).getVariant());
-        }
-        displayMessageNewLine("Card Value: " + collection.get(cardName).getValue());
-        displayMessageNewLine("------------------------------------");
     }
 
     /**
