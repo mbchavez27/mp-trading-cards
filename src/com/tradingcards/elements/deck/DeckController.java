@@ -298,10 +298,10 @@ public class DeckController {
 
                         chooseCardFromDeck(panel, selectedDeck);
                     } else {
-                        view.displayMessageNewLine("No Cards in Deck");
+                        DialogUtil.showWarning(null,"No Cards in Deck", "Warning");
                     }
                 } else {
-                    view.displayMessageNewLine("No Deck with given name exists");
+                    DialogUtil.showWarning(null,"No Deck with given name exists", "Warning");
                 }
             }
         }
@@ -365,7 +365,7 @@ public class DeckController {
                 if (deck.containsKey(cardName)) {
                     refreshPanel(panel, cardView.displayCardForBinderAndDeck(deck, cardName));
                 } else {
-                    view.displayMessageNewLine("Card does not exist in Deck");
+                    DialogUtil.showWarning(null, "Card does not exist in Deck", "Warning");
                 }
 
                 // If user chooses to select by card number

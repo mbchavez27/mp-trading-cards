@@ -139,16 +139,6 @@ public class DeckView {
     }
 
     /**
-     * Asks the user whether they want to view a card in the deck.
-     *
-     * @return the user's response, expected to be "Y" or "N"
-     */
-    public String viewCardChoice() {
-        System.out.print("Would you like to view a Card in the deck? [Y/N]");
-        return scanner.nextLine();
-    }
-
-    /**
      * Asks the user how they want to select a card from the deck.
      *
      * @return the user's input, expected to be "name" or "number"
@@ -246,14 +236,5 @@ public class DeckView {
         wrapperPanel.setBackground(Color.WHITE);
 
         return wrapperPanel;
-    }
-
-    /**
-     * Displays a message to the user followed by a newline.
-     *
-     * @param message the message to display
-     */
-    public void displayMessageNewLine(String message) {
-        System.out.println(message);
     }
 }
