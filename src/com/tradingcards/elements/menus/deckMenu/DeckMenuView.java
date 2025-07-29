@@ -1,12 +1,21 @@
 package com.tradingcards.elements.menus.deckMenu;
 
-import com.tradingcards.elements.card.cardUtils.ImageUtils;
-
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
-public class DeckMenuView extends JPanel{
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import com.tradingcards.elements.card.cardUtils.ImageUtils;
+
+public class DeckMenuView extends JPanel {
 
     private final JPanel optionPanel = new JPanel();
     private final JPanel dataPanel = new JPanel(new BorderLayout());
@@ -19,7 +28,7 @@ public class DeckMenuView extends JPanel{
     private final JButton sellDeckBtn = new JButton("Sell Deck");
     private final JButton backBtn = new JButton("Back");
 
-    public DeckMenuView(){
+    public DeckMenuView() {
         setLayout(new BorderLayout());
 
         scrollingPanel.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -27,24 +36,26 @@ public class DeckMenuView extends JPanel{
 
         dataPanel.setLayout(new BorderLayout());
         dataPanel.add(scrollingPanel);
-        //adds DataPanel to center of window
+        // adds DataPanel to center of window
         add(dataPanel, BorderLayout.CENTER);
 
         optionPanel.setLayout(new BoxLayout(optionPanel, BoxLayout.Y_AXIS));
 
-        //adds OptionPanel to the LHS of window
+        // adds OptionPanel to the LHS of window
         add(optionPanel, BorderLayout.WEST);
         optionPanel.setBackground(Color.darkGray);
 
         deleteDeckBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, deleteDeckBtn.getPreferredSize().height));
         addCardToDeckBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, addCardToDeckBtn.getPreferredSize().height));
-        removeCardFromDeckBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, removeCardFromDeckBtn.getPreferredSize().height));
+        removeCardFromDeckBtn
+                .setMaximumSize(new Dimension(Integer.MAX_VALUE, removeCardFromDeckBtn.getPreferredSize().height));
         viewDeckBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, viewDeckBtn.getPreferredSize().height));
         sellDeckBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, sellDeckBtn.getPreferredSize().height));
         backBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, backBtn.getPreferredSize().height));
 
         optionPanel.add(Box.createVerticalStrut(10));
-        optionPanel.add(new JLabel(ImageUtils.scaleIcon(new ImageIcon(getClass().getResource("/images/cards.png")), 190,125)));
+        optionPanel.add(
+                new JLabel(ImageUtils.scaleIcon(new ImageIcon(getClass().getResource("/images/cards.png")), 190, 125)));
         optionPanel.add(Box.createVerticalStrut(15));
         optionPanel.add(deleteDeckBtn);
         optionPanel.add(Box.createVerticalStrut(10));
@@ -65,27 +76,47 @@ public class DeckMenuView extends JPanel{
         scrollingPanel.repaint();
     }
 
+    // Action Listeners
     public void setDeleteDeckBtn(ActionListener listener) {
+        for (ActionListener al : deleteDeckBtn.getActionListeners()) {
+            deleteDeckBtn.removeActionListener(al);
+        }
         deleteDeckBtn.addActionListener(listener);
     }
 
-    public void setAddCardToDeckBtn(ActionListener listener){
+    public void setAddCardToDeckBtn(ActionListener listener) {
+        for (ActionListener al : addCardToDeckBtn.getActionListeners()) {
+            addCardToDeckBtn.removeActionListener(al);
+        }
         addCardToDeckBtn.addActionListener(listener);
     }
 
-    public void setRemoveCardFromDeckBtn(ActionListener listener){
+    public void setRemoveCardFromDeckBtn(ActionListener listener) {
+        for (ActionListener al : removeCardFromDeckBtn.getActionListeners()) {
+            removeCardFromDeckBtn.removeActionListener(al);
+        }
         removeCardFromDeckBtn.addActionListener(listener);
     }
 
-    public void setViewDeckBtn(ActionListener listener){
+    public void setViewDeckBtn(ActionListener listener) {
+        for (ActionListener al : viewDeckBtn.getActionListeners()) {
+            viewDeckBtn.removeActionListener(al);
+        }
         viewDeckBtn.addActionListener(listener);
     }
-    public void setSellDeckBtn(ActionListener listener){
+
+    public void setSellDeckBtn(ActionListener listener) {
+        for (ActionListener al : sellDeckBtn.getActionListeners()) {
+            sellDeckBtn.removeActionListener(al);
+        }
         sellDeckBtn.addActionListener(listener);
     }
-    public void setBackBtn(ActionListener listener){
+
+    public void setBackBtn(ActionListener listener) {
+        for (ActionListener al : backBtn.getActionListeners()) {
+            backBtn.removeActionListener(al);
+        }
         backBtn.addActionListener(listener);
     }
-
 
 }
