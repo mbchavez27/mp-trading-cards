@@ -1,13 +1,19 @@
 package com.tradingcards.elements.menus.cardMenu;
 
-import com.tradingcards.elements.card.cardUtils.ImageUtils;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import com.tradingcards.elements.card.cardUtils.ImageUtils;
 
 /**
  * GUI View for managing cards, similar in style to MainMenuView.
@@ -50,7 +56,8 @@ public class CardMenuView extends JPanel {
         backBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, backBtn.getPreferredSize().height));
 
         optionPanel.add(Box.createVerticalStrut(10));
-        optionPanel.add(new JLabel(ImageUtils.scaleIcon(new ImageIcon(getClass().getResource("/images/cards.png")), 160,105)));
+        optionPanel.add(
+                new JLabel(ImageUtils.scaleIcon(new ImageIcon(getClass().getResource("/images/cards.png")), 160, 105)));
         optionPanel.add(Box.createVerticalStrut(15));
         optionPanel.add(displayCardBtn);
         optionPanel.add(Box.createVerticalStrut(10));
@@ -71,22 +78,37 @@ public class CardMenuView extends JPanel {
 
     // Action Listeners
     public void setDisplayCardAction(ActionListener listener) {
+        for (ActionListener al : displayCardBtn.getActionListeners()) {
+            displayCardBtn.removeActionListener(al);
+        }
         displayCardBtn.addActionListener(listener);
     }
 
     public void setDisplayCollectionAction(ActionListener listener) {
+        for (ActionListener al : displayCollectionBtn.getActionListeners()) {
+            displayCollectionBtn.removeActionListener(al);
+        }
         displayCollectionBtn.addActionListener(listener);
     }
 
     public void setModifyQuantityAction(ActionListener listener) {
+        for (ActionListener al : modifyQuantityBtn.getActionListeners()) {
+            modifyQuantityBtn.removeActionListener(al);
+        }
         modifyQuantityBtn.addActionListener(listener);
     }
 
     public void setBackAction(ActionListener listener) {
+        for (ActionListener al : backBtn.getActionListeners()) {
+            backBtn.removeActionListener(al);
+        }
         backBtn.addActionListener(listener);
     }
 
     public void setSellCardAction(ActionListener listener) {
+        for (ActionListener al : sellCardBtn.getActionListeners()) {
+            sellCardBtn.removeActionListener(al);
+        }
         sellCardBtn.addActionListener(listener);
     }
 }
