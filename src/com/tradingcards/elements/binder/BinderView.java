@@ -253,25 +253,6 @@ public class BinderView {
         return newBinder;
     }
 
-    /**
-     * Displays a message followed by a newline.
-     *
-     * @param message the message to display
-     */
-    public void displayMessageNewLine(String message) {
-        System.out.println(message);
-    }
-
-    /**
-     * Displays a prompt message and retrieves user input.
-     *
-     * @param message the message to prompt the user
-     * @return the user's input as a string
-     */
-    public String getBinderChoice(String message) {
-        System.out.print(message);
-        return scanner.nextLine();
-    }
 
     /**
      * Displays the list of all binder names in the binder collection.
