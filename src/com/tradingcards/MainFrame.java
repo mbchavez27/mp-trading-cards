@@ -9,7 +9,7 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
         setTitle("Trading Card Inventory System");
-        setSize(800, 850);
+        setSize(1450, 850);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setResizable(false);
