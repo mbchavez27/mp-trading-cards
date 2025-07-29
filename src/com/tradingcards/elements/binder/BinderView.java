@@ -13,11 +13,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import com.tradingcards.elements.binder.types.CollectorBinder;
 import com.tradingcards.elements.binder.types.LuxuryBinder;
@@ -26,6 +23,7 @@ import com.tradingcards.elements.binder.types.PauperBinder;
 import com.tradingcards.elements.binder.types.RaresBinder;
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.card.CardView;
+import com.tradingcards.elements.card.cardUtils.ImageUtils;
 
 /**
  * The {@code BinderView} class handles user interaction related to binders,
@@ -319,20 +317,43 @@ public class BinderView {
         ArrayList<String> cardByKey = new ArrayList<>(binder.keySet());
         Collections.sort(cardByKey);
 
-        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 5, 5));
         boolean hasCards = false;
 
         for (String name : cardByKey) {
             if (binder.get(name).getQuantity() >= 1) {
+
                 hasCards = true;
 
                 for (int i = 1; i <= binder.get(name).getQuantity(); i++) {
-                    JPanel wrapper = new JPanel();
-                    JButton tempButton = new JButton(binder.get(name).getName());
-                    tempButton.setPreferredSize(new Dimension(190, 190));
-                    wrapper.setPreferredSize(new Dimension(200, 200));
-                    wrapper.add(tempButton);
-                    displayPanel.add(wrapper);
+                    JPanel tempPanel = new JPanel(new BorderLayout());
+                    tempPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+
+                    JLabel image;
+
+                    String imagePath = binder.get(name).getImagePath();
+                    ImageIcon cardPhoto;
+
+                    if (imagePath != null) {
+                        cardPhoto = new ImageIcon(imagePath);
+                    } else {
+                        cardPhoto = new ImageIcon(getClass().getResource("/images/default.png"));
+                    }
+
+                    image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 120, 120));
+                    image.setHorizontalAlignment(SwingConstants.CENTER);
+
+                    tempPanel.add(image, BorderLayout.CENTER);
+
+                    JLabel tempLabel = new JLabel("<html>Card Name: " + binder.get(name).getName() + "<br>Value: "
+                            + binder.get(name).getValue() + "</html>");
+                    tempPanel.add(tempLabel, BorderLayout.SOUTH);
+                    tempPanel.setPreferredSize(new Dimension(190, 190));
+
+                    displayPanel.setBackground(Color.white);
+                    displayPanel.add(tempPanel);
+
                 }
             }
         }

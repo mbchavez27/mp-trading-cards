@@ -97,10 +97,10 @@ public class BinderController {
 
                 // Remove the binder from the shared collection
                 sharedCollection.removeBinderCollection(name);
-                DialogUtil.showInfo(panel, "Binder \"" + name + "\" removed and cards returned", "Deck Removed");
+                DialogUtil.showInfo(panel, "Binder \"" + name + "\" removed and cards returned", "Binder Removed");
                 refreshPanel(panel, displayBinders());
             } else {
-                DialogUtil.showInfo(panel, "Deck \"" + name + "\" not found", "Deck Not Found");
+                DialogUtil.showInfo(panel, "Binder \"" + name + "\" not found", "Binder Not Found");
             }
         } else {
             view.showWarning("Operation cancelled");
