@@ -13,7 +13,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.tradingcards.elements.binder.types.CollectorBinder;
@@ -51,7 +56,6 @@ public class BinderView {
     public String setBinderName(String message) {
         return JOptionPane.showInputDialog(null, message + " (Enter -999 to cancel):");
     }
-
 
     public JPanel basicPanel(String message) {
         JPanel messagePanel = new JPanel();
@@ -246,7 +250,6 @@ public class BinderView {
         return newBinder;
     }
 
-
     /**
      * Displays the list of all binder names in the binder collection.
      *
@@ -302,7 +305,6 @@ public class BinderView {
                 for (int i = 1; i <= binder.get(name).getQuantity(); i++) {
                     JPanel tempPanel = new JPanel(new BorderLayout());
                     tempPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 
                     JLabel image;
 

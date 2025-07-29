@@ -37,10 +37,10 @@ public class LuxuryBinder extends BinderModel {
 
         if (newPrice == null || newPrice < total) {
             DialogUtil.showError(null, "New price is lower than current price", "Error");
-            return total;
+            return total * 1.10;
         } else {
             DialogUtil.showInfo(null, "New price is now " + newPrice, "Success");
-            return newPrice;
+            return newPrice * 1.10;
         }
     }
 }

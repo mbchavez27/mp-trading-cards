@@ -29,6 +29,6 @@ public class RaresBinder extends BinderModel {
             }
         }
 
-        return total;
+        return total * 1.10;
     }
 }
