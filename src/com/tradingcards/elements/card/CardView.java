@@ -447,7 +447,7 @@ public class CardView {
 
             } else if (collection.get(cardName).getQuantity() == 0) {
                 JLabel cardNameDisplay = new JLabel(
-                        "Card " + collection.get(cardName).getName() + " has no current copies in collection");
+                        "Card " + cardName + " has no current copies in collection");
                 cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 18));
                 informationPanel.add(cardNameDisplay);
 
@@ -457,7 +457,7 @@ public class CardView {
 
             }
         } else {
-            JLabel cardNameDisplay = new JLabel("Card " + collection.get(cardName).getName() + " does not exist");
+            JLabel cardNameDisplay = new JLabel("Card " + cardName + " does not exist");
             cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 18));
             informationPanel.add(cardNameDisplay);
 

@@ -182,8 +182,6 @@ public class CardController {
             if (!cancelled)
                 return (view.displayCard(collection, cardName));
         } else {
-            // TODO, must return a Jpanel
-            //view.displayMessageNewLine("No Cards yet...");
             return null;
         }
         return null;
