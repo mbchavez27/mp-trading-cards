@@ -1,5 +1,7 @@
 package com.tradingcards.elements.menus.binderMenu;
 
+import com.tradingcards.elements.card.cardUtils.ImageUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -43,7 +45,9 @@ public class BinderMenuView extends JPanel{
         sellBinderBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, viewBinderBtn.getPreferredSize().height));
         backBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, backBtn.getPreferredSize().height));
 
-        optionPanel.add(Box.createVerticalStrut(100));
+        optionPanel.add(Box.createVerticalStrut(10));
+        optionPanel.add(new JLabel(ImageUtils.scaleIcon(new ImageIcon(getClass().getResource("/images/cards.png")), 198,130)));
+        optionPanel.add(Box.createVerticalStrut(15));
         optionPanel.add(deleteBinderBtn);
         optionPanel.add(Box.createVerticalStrut(10));
         optionPanel.add(addCardToBinderBtn);

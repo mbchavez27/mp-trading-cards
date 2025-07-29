@@ -1,5 +1,7 @@
 package com.tradingcards.elements.menus.deckMenu;
 
+import com.tradingcards.elements.card.cardUtils.ImageUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -41,7 +43,9 @@ public class DeckMenuView extends JPanel{
         sellDeckBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, sellDeckBtn.getPreferredSize().height));
         backBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, backBtn.getPreferredSize().height));
 
-        optionPanel.add(Box.createVerticalStrut(100));
+        optionPanel.add(Box.createVerticalStrut(10));
+        optionPanel.add(new JLabel(ImageUtils.scaleIcon(new ImageIcon(getClass().getResource("/images/cards.png")), 190,125)));
+        optionPanel.add(Box.createVerticalStrut(15));
         optionPanel.add(deleteDeckBtn);
         optionPanel.add(Box.createVerticalStrut(10));
         optionPanel.add(addCardToDeckBtn);
