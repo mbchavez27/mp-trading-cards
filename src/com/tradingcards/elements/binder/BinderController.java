@@ -103,7 +103,7 @@ public class BinderController {
                 DialogUtil.showInfo(panel, "Binder \"" + name + "\" not found", "Binder Not Found");
             }
         } else {
-            view.showWarning("Operation cancelled");
+            DialogUtil.showWarning(null,"Operation cancelled", "Warning");
         }
     }
 
@@ -199,12 +199,12 @@ public class BinderController {
 
                     // Check if the binder is empty
                     if (binder.isEmpty()) {
-                        view.showWarning("Binder is currently empty, add cards to the Binder first");
+                        DialogUtil.showWarning(null, "Binder is currently empty, add cards to the Binder first", "Warning");
                     } else {
                         // Show binder contents before removing a card
                         refreshPanel(panel, displayBinderContent(binder));
                         do {
-                            view.showMessage("Indicate card to be deleted");
+                            DialogUtil.showMessage(null,"Indicate card to be deleted", "Information", 1);
                             cardName = cardView.setCardName();
 
                             if (cardName == null || cardName.equals(EXIT_CODE)) {
@@ -221,25 +221,25 @@ public class BinderController {
                                     binder.remove(cardName);
                                 }
                                 refreshPanel(panel, displayBinderContent(binder));
-                                view.showMessage("Successfully transferred Card into Collection");
+                                DialogUtil.showMessage(null,"Successfully transferred Card into Collection", "Information", 1);
                                 taskDone = true;
                             } else {
                                 // Card not found in binder, ask for valid input
-                                view.showWarning(
-                                        "No Card with given name exists in Binder, please re-input Card name");
+                                DialogUtil.showWarning(null,
+                                        "No Card with given name exists in Binder, please re-input Card name", "Warning");
                             }
 
 
                         } while (!binder.containsKey(cardName) && !taskDone);
                     }
                 } else {
-                    view.showWarning("No Binder with given name exists");
+                    DialogUtil.showWarning(null,"No Binder with given name exists", "Warning");
                 }
             } else {
-                view.showWarning("Operation Cancelled");
+                DialogUtil.showWarning(null,"Operation Cancelled", "Warning");
             }
         } else {
-            view.showWarning("No binders in collection");
+            DialogUtil.showWarning(null, "No binders in collection", "Warning");
         }
     }
 
@@ -273,7 +273,7 @@ public class BinderController {
 
             if (!cancelled) {
                 if (binderCollection.isEmpty()) {
-                    view.showWarning("No Binders in collection yet, make binders first");
+                    DialogUtil.showWarning(null,"No Binders in collection yet, make binders first", "Warning");
                 } else {
                     if (binderCollection.containsKey(binderName)) {
                         binder = binderCollection.get(binderName);
@@ -298,7 +298,7 @@ public class BinderController {
                                             cardInBinder = binder.getBinder().get(cardName);
                                             cardInBinder.setQuantity(cardInBinder.getQuantity() + 1);
                                             cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
-                                            view.showMessage("Successfully transferred card into binder");
+                                            DialogUtil.showMessage(null, "Successfully transferred card into binder", "Information", 1);
                                         } else {
                                             // create a new card object to store details
                                             cardCopy = createCardCopy(cardInCollection);
@@ -306,32 +306,32 @@ public class BinderController {
                                             // checks if the card is compatible with the binder
                                             if (binder.insertInBinder(cardCopy, cardName)) {
                                                 cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
-                                                view.showMessage("Successfully transferred card into binder");
+                                                DialogUtil.showMessage(null,"Successfully transferred card into binder", "Information", 1);
                                             } else {
-                                                view.showWarning("Incompatible binder and card types");
+                                                DialogUtil.showWarning(null,"Incompatible binder and card types", "Warning");
                                             }
                                         }
                                         taskDone = true;
                                     } else {
-                                        view.showWarning("Binder is already full");
+                                        DialogUtil.showWarning(null,"Binder is already full", "Warning");
                                         taskDone = true;
                                     }
                                 } else {
-                                    view.showMessage("Collection currently has zero copies of specified card");
+                                    DialogUtil.showWarning(null,"Collection currently has zero copies of specified card", "Warning");
                                 }
                             } else {
-                                view.showMessage(
-                                        "No Card with given name exists in Collection, please re-input Card name");
+                                DialogUtil.showWarning(null,
+                                        "No Card with given name exists in Collection, please re-input Card name", "Warning");
                             }
 
                         } while (!collection.containsKey(cardName) && !taskDone);
                     } else {
-                        view.showWarning("No Binder with given name exists");
+                        DialogUtil.showWarning(null,"No Binder with given name exists", "Warning");
                     }
                 }
             }
         } else {
-            view.showWarning("Card collection is empty");
+            DialogUtil.showWarning(null,"Card collection is empty", "Warning");
         }
 
     }
@@ -354,8 +354,8 @@ public class BinderController {
 
         // Check if incoming card already exists in the binder
         if (binder.containsKey(incomingCard)) {
-            view.showWarning(
-                    "Trade failed: Incoming card already exists in the binder.");
+            DialogUtil.showWarning(null,
+                    "Trade failed: Incoming card already exists in the binder.", "Warning");
 
             collection.get(incomingCard).setQuantity(collection.get(incomingCard).getQuantity() - 1);
             taskDone[0] = true;
@@ -379,9 +379,9 @@ public class BinderController {
                     // Remove from collection
                     cardInCollectionIncoming.setQuantity(cardInCollectionIncoming.getQuantity() - 1);
 
-                    view.showMessage(
+                    DialogUtil.showMessage(null,
                             "Trade successful! " + outgoingCard + " removed, "
-                                    + incomingCard + " added.");
+                                    + incomingCard + " added.", "Information", 1);
                     taskDone[0] = true;
                 } else {
 
@@ -394,14 +394,14 @@ public class BinderController {
                     // remove the incoming card to undo operation
                     collection.remove(incomingCard);
 
-                    view.showWarning("Type/Variant mismatch");
+                    DialogUtil.showWarning(null,"Type/Variant mismatch", "Warning");
                     taskDone[0] = true;
                 }
 
             } else {
                 // remove the incoming card to undo operation
                 collection.remove(incomingCard);
-                view.showWarning("Trade failed: Binder is full.");
+                DialogUtil.showWarning(null,"Trade failed: Binder is full.", "Warning");
                 taskDone[0] = true; // mark task as done to exit loop
             }
         }
@@ -418,8 +418,8 @@ public class BinderController {
         CardModel cardCopyOutgoing;
 
         if (binder.containsKey(incomingCard)) {
-            view.showMessage(
-                    "Trade failed: Incoming card already exists in the binder.");
+            DialogUtil.showWarning(null,
+                    "Trade failed: Incoming card already exists in the binder.", "Warning");
 
             // subtract one copy of the card since a duplicate copy has already been added
             collection.get(incomingCard).setQuantity(collection.get(incomingCard).getQuantity() - 1);
@@ -446,8 +446,7 @@ public class BinderController {
                     // Remove from collection
                     cardInCollectionIncoming.setQuantity(cardInCollectionIncoming.getQuantity() - 1);
 
-
-                    view.showMessage("Trade successful! " + outgoingCard + " removed, " + incomingCard + " added.");
+                    DialogUtil.showMessage(null, "Trade successful! " + outgoingCard + " removed, " + incomingCard + " added.", "Information", 1);
                     taskDone[0] = true;
                 } else {
 
@@ -461,14 +460,14 @@ public class BinderController {
                     // remove the incoming card to undo operation
                     collection.remove(incomingCard);
 
-                    view.showWarning("Type/Variant mismatch");
+                    DialogUtil.showWarning(null,"Type/Variant mismatch", "Warning");
                     taskDone[0] = true;
                 }
 
             } else {
                 // remove the incoming card to undo operation
                 collection.remove(incomingCard);
-                view.showMessage("Trade failed: Binder is full.");
+                DialogUtil.showWarning(null,"Trade failed: Binder is full.", "Warning");
                 taskDone[0] = true; // mark task as done to exit loop
             }
         }
@@ -554,7 +553,7 @@ public class BinderController {
                                         view.getButtonDecline().addActionListener(e -> {
                                             refreshPanel(tradingPanel, new JPanel());
                                             collection.remove(incomingCardName[0]);
-                                            view.showMessage("Trade declined");
+                                            DialogUtil.showMessage(null,"Trade declined", "Information", 1);
                                         });
                                     } else {
                                         // difference of cards is less than 1
@@ -562,31 +561,31 @@ public class BinderController {
                                                 binderName[0], taskDone);
                                     }
                                 } else {
-                                    view.showWarning("Please re-input card with novel details");
+                                    DialogUtil.showWarning(null,"Please re-input card with novel details", "Warning");
                                 }
 
                             } else {
-                                view.showWarning("No Card with given name exists in Binder, please re-input Card name");
+                                DialogUtil.showWarning(null,"No Card with given name exists in Binder, please re-input Card name", "Warning");
                             }
 
                         } else {
                             tradingPanel.removeAll();
-                            view.showWarning("Operation Cancelled");
+                            DialogUtil.showWarning(null, "Operation Cancelled", "Warning");
                         }
 
                     } while (!binder.containsKey(outGoingCardName[0]) && !taskDone[0] && !cancelled);
 
                 } else {
-                    view.showWarning("No Cards in Binder");
+                    DialogUtil.showWarning(null,"No Cards in Binder", "Warning");
                     tradingPanel.removeAll();
                 }
 
             } else {
                 tradingPanel.removeAll();
-                view.showWarning("Binder does not exist");
+                DialogUtil.showWarning(null,"Binder does not exist", "Warning");
             }
         } else {
-            view.showWarning("Cancelled trade");
+            DialogUtil.showWarning(null,"Cancelled trade", "Warning");
             tradingPanel.removeAll();
         }
         tradingPanel.revalidate();

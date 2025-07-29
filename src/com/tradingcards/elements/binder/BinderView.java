@@ -52,13 +52,6 @@ public class BinderView {
         return JOptionPane.showInputDialog(null, message + " (Enter -999 to cancel):");
     }
 
-    public void showWarning(String warning) {
-        JOptionPane.showMessageDialog(null, warning, "Warning", JOptionPane.WARNING_MESSAGE);
-    }
-
-    public void showMessage(String message) {
-        JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.INFORMATION_MESSAGE);
-    }
 
     public JPanel basicPanel(String message) {
         JPanel messagePanel = new JPanel();
