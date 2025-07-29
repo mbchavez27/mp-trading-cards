@@ -8,8 +8,10 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 import com.tradingcards.elements.card.CardModel;
+import com.tradingcards.elements.card.cardUtils.ImageUtils;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
@@ -90,6 +92,10 @@ public class DeckView {
         return newDeck;
     }
 
+    public int showYesNoOptions(String message, String title){
+        return JOptionPane.showConfirmDialog(null, message, title, JOptionPane.YES_NO_OPTION);
+    }
+
     /**
      * Prompts the user to input the name of a card in the deck.
      *
@@ -140,10 +146,19 @@ public class DeckView {
      *
      * @return the user's input, expected to be "name" or "number"
      */
-    public String cardSelectionOption() {
-        System.out.println("Indicate card selection mode");
-        System.out.print("Input [name/number]: ");
-        return scanner.nextLine();
+    public int cardSelectionOption() {
+        String[] choices = {"Name", "Number"};
+
+        return JOptionPane.showOptionDialog(
+                null,
+                "Indicate card selection mode",
+                "Selection Mode Query",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE,
+                null,
+                choices,
+                0);
+
     }
 
     /**
@@ -185,14 +200,43 @@ public class DeckView {
         ArrayList<String> cardByKey = new ArrayList<>(deck.keySet());
         Collections.sort(cardByKey);
 
-        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 0, 5));
+        JPanel displayPanel = new JPanel(new GridLayout(0, 3, 5, 5));
+
+        int counter = 0;
 
         for (String name : cardByKey) {
             counter += 1;
-            System.out.println("Card Name: " + deck.get(name).getName() + "\n");
-            System.out.println("Card Number: " + counter);
+            JPanel tempPanel = new JPanel(new BorderLayout());
+            tempPanel.setBorder(new EmptyBorder(5,5,5,5));
+
+            JLabel image;
+
+            String imagePath = deck.get(name).getImagePath();
+            ImageIcon cardPhoto;
+
+            if (imagePath != null) {
+                cardPhoto = new ImageIcon(imagePath);
+            } else {
+                cardPhoto = new ImageIcon(getClass().getResource("/images/default.png"));
+            }
+
+            image = new JLabel(ImageUtils.scaleIcon(cardPhoto, 120, 120));
+            image.setHorizontalAlignment(SwingConstants.CENTER);
+            tempPanel.add(image, BorderLayout.CENTER);
+
+            JLabel tempLabel = new JLabel("<html>Card Name: " + deck.get(name).getName() + "<br>Card Number: " + counter + "</html>");
+
+            tempPanel.add(tempLabel, BorderLayout.SOUTH);
+            tempPanel.setPreferredSize(new Dimension(190, 190));
+
+            displayPanel.setBackground(Color.white);
+            displayPanel.add(tempPanel);
         }
-        System.out.println("");
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.add(displayPanel, BorderLayout.NORTH);
+        wrapperPanel.setBackground(Color.WHITE);
+
+        return wrapperPanel;
     }
 
     /**
