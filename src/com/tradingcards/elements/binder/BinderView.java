@@ -319,7 +319,8 @@ public class BinderView {
 
             JPanel wrapper = new JPanel();
 
-            JButton tempButton = new JButton(binderNames);
+            JButton tempButton = new JButton("<html>" + "Name: " + binderNames + "<br>Type: "
+                    + binderCollection.get(binderNames).getType() + "</html>");
             tempButton.setPreferredSize(new Dimension(190, 190));
             wrapper.setPreferredSize(new Dimension(200, 200));
             wrapper.add(tempButton);
