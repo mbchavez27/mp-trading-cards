@@ -27,6 +27,11 @@ public class LuxuryBinder extends BinderModel {
     public double getSellingPrice() {
         double total = 0.0;
 
+        if (cardsInBinder.isEmpty()) {
+            DialogUtil.showError(null, "Cannot sell an empty binder", "Error");
+            return 0.0;
+        }
+
         for (CardModel card : cardsInBinder.values()) {
             if (card.getQuantity() > 0) {
                 double cardTotal = card.getValue() * card.getQuantity();

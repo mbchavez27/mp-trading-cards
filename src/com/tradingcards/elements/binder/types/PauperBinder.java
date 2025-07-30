@@ -2,6 +2,7 @@ package com.tradingcards.elements.binder.types;
 
 import com.tradingcards.elements.binder.BinderModel;
 import com.tradingcards.elements.card.CardModel;
+import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 public class PauperBinder extends BinderModel {
 
@@ -21,6 +22,11 @@ public class PauperBinder extends BinderModel {
     @Override
     public double getSellingPrice() {
         double total = 0.0;
+
+        if (cardsInBinder.isEmpty()) {
+            DialogUtil.showError(null, "Cannot sell an empty binder", "Error");
+            return 0.0;
+        }
 
         for (CardModel card : cardsInBinder.values()) {
             if (card.getQuantity() > 0) {
