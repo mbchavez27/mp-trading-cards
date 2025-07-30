@@ -15,6 +15,7 @@ public class NonCuratedBinder extends BinderModel {
         return true;
     }
 
+    @Override
     public double getSellingPrice() {
         return -1;
     }
