@@ -1,6 +1,7 @@
 package com.tradingcards.elements.binder;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
@@ -550,6 +551,12 @@ public class BinderController {
                                     // executeTrade(incomingCardName, outGoingCardName, binder)
                                     if (difference >= 1) {
                                         // confirmation panel gui
+
+                                        //removes action listeners
+                                        for (ActionListener al : view.getButtonConfirm().getActionListeners()) {
+                                            view.getButtonConfirm().removeActionListener(al);
+                                        }
+
                                         tradingPanel.add(view.showTradeConfirmation(), BorderLayout.SOUTH);
 
                                         // user presses accept
