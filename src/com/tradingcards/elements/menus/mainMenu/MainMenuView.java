@@ -23,16 +23,34 @@ import com.tradingcards.elements.collection.CollectionModel;
  */
 public class MainMenuView extends JPanel {
 
+    /** Button for adding a new card to the collection. */
     private final JButton addCardBtn = new JButton("Add Card");
+
+    /** Button for creating a new binder. */
     private final JButton newBinderBtn = new JButton("Create Binder");
+
+    /** Button for creating a new deck. */
     private final JButton newDeckBtn = new JButton("Create Deck");
+
+    /** Button for managing existing cards. Disabled by default. */
     private final JButton manageCardsBtn = new JButton("Manage Cards");
+
+    /** Button for managing existing binders. Disabled by default. */
     private final JButton manageBindersBtn = new JButton("Manage Binders");
+
+    /** Button for managing existing decks. Disabled by default. */
     private final JButton manageDecksBtn = new JButton("Manage Decks");
-    private final JButton placeHolderBtn = new JButton(""); // Invisible placeholder to balance grid
+
+    /** Invisible placeholder button to maintain grid layout symmetry. */
+    private final JButton placeHolderBtn = new JButton("");
+
+    /** Button to close or exit the application. */
     private final JButton closeApplicationBtn = new JButton("Exit");
 
+    /** Label that displays the user's current cash balance. */
     private final JLabel moneyLabel;
+
+    /** Shared collection model that holds the cards, binders, decks, and money. */
     private final CollectionModel sharedCollection;
 
     /**
