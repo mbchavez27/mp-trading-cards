@@ -46,8 +46,6 @@ public class BinderView {
 
     /**
      * Prompts the user to enter a binder name with a custom message.
-     *
-     * @param message the custom prompt message
      * @return the entered binder name, or {@code null} if cancelled
      */
     public String setBinderName() {
