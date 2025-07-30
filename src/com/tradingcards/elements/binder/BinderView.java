@@ -45,18 +45,30 @@ public class BinderView {
     private final JButton buttonDecline = new JButton("Decline Trade");
 
     /**
-     * Prompts the user to input a name for a binder and returns it.
+     * Prompts the user to enter a binder name with a custom message.
      *
-     * @return the name entered by the user
+     * @param message the custom prompt message
+     * @return the entered binder name, or {@code null} if cancelled
      */
     public String setBinderName() {
         return JOptionPane.showInputDialog(null, "Give Binder Name (Enter -999 to cancel):");
     }
 
+    /**
+     * Prompts the user to enter a card name.
+     *
+     * @return the entered card name, or {@code null} if cancelled
+     */
     public String setBinderName(String message) {
         return JOptionPane.showInputDialog(null, message + " (Enter -999 to cancel):");
     }
 
+    /**
+     * Returns a simple panel containing a text message.
+     *
+     * @param message the message to display
+     * @return a {@code JPanel} with the message
+     */
     public JPanel basicPanel(String message) {
         JPanel messagePanel = new JPanel();
         JLabel text = new JLabel(message);
@@ -65,18 +77,39 @@ public class BinderView {
         return messagePanel;
     }
 
+    /**
+     * Returns the Confirm Trade button for external use.
+     *
+     * @return the confirm button
+     */
     public JButton getButtonConfirm() {
         return buttonConfirm;
     }
 
+    /**
+     * Returns the Decline Trade button for external use.
+     *
+     * @return the decline button
+     */
     public JButton getButtonDecline() {
         return buttonDecline;
     }
 
+    /**
+     * Prompts the user to enter a card name.
+     *
+     * @return the entered card name, or {@code null} if cancelled
+     */
     public String setCardName() {
         return JOptionPane.showInputDialog(null, "Give Card Name (Enter -999 to cancel):");
     }
 
+    /**
+     * Prompts the user to set a custom binder price.
+     *
+     * @return the price as a {@code Double}, or {@code null} if input is invalid or
+     *         cancelled
+     */
     public Double setBinderPrice() {
         String input = JOptionPane.showInputDialog(null,
                 "Give New Card Price (Optional, and not must be lower than original )");
@@ -93,6 +126,12 @@ public class BinderView {
         }
     }
 
+    /**
+     * Creates and returns a panel that shows Confirm and Decline buttons for trade
+     * approval.
+     *
+     * @return a panel containing trade confirmation buttons
+     */
     public JPanel showTradeConfirmation() {
         JPanel mainPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -124,6 +163,16 @@ public class BinderView {
         return mainPanel;
     }
 
+    /**
+     * Displays a side-by-side panel of two cards involved in a trade, along with
+     * the value difference.
+     *
+     * @param collection   the card collection map
+     * @param outgoingCard the name of the card to be traded out
+     * @param incomingCard the name of the card to be added
+     * @param difference   the value difference between the cards
+     * @return a panel showing the two cards and the difference
+     */
     public JPanel showMainCardDisplay(HashMap<String, CardModel> collection, String outgoingCard, String incomingCard,
             double difference) {
         CardView cardView = new CardView();

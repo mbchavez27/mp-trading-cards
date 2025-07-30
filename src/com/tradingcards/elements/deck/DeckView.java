@@ -83,6 +83,19 @@ public class DeckView {
         return selectedType;
     }
 
+    /**
+     * Displays the deck creation form to the user and returns a {@link DeckModel}
+     * containing the deck's name and type as entered by the user.
+     *
+     * <p>
+     * If the user cancels the form by entering a sentinel value (e.g., "-999")
+     * or null at any step, the method returns {@code null} to indicate that deck
+     * creation was aborted.
+     * </p>
+     *
+     * @return a {@code DeckModel} with user-inputted name and type, or {@code null}
+     *         if the operation was cancelled
+     */
     public DeckModel showDeckForm() {
         DeckModel newDeck = new DeckModel();
         String name = setDeckName();

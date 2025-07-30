@@ -344,6 +344,13 @@ public class BinderController {
 
     }
 
+    /**
+     * Refreshes the given UI panel by removing all existing components and adding
+     * the specified element.
+     *
+     * @param uiPanel the main panel to refresh
+     * @param element the new component to display within the panel
+     */
     private void refreshPanel(JPanel uiPanel, JPanel element) {
         uiPanel.removeAll();
         uiPanel.add(element);
@@ -351,6 +358,17 @@ public class BinderController {
         uiPanel.repaint();
     }
 
+    /**
+     * Executes a card trade when the value difference between the incoming and
+     * outgoing card is less than 1.
+     * This trade proceeds automatically without user confirmation.
+     *
+     * @param incomingCard the name of the card being added to the binder
+     * @param outgoingCard the name of the card being removed from the binder
+     * @param binderName   the name of the binder where the trade occurs
+     * @param taskDone     a flag array to indicate whether the trade process was
+     *                     completed
+     */
     private void executeTradeLesserThanOne(String incomingCard, String outgoingCard, String binderName,
             boolean[] taskDone) {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
@@ -416,6 +434,17 @@ public class BinderController {
         }
     }
 
+    /**
+     * Executes a card trade when the value difference between the incoming and
+     * outgoing card is 1 or greater.
+     * This trade requires user confirmation before proceeding.
+     *
+     * @param incomingCard the name of the card being added to the binder
+     * @param outgoingCard the name of the card being removed from the binder
+     * @param binderName   the name of the binder where the trade occurs
+     * @param taskDone     a flag array to indicate whether the trade process was
+     *                     completed
+     */
     private void executeTradeGreaterThanOne(String incomingCard, String outgoingCard, String binderName,
             boolean[] taskDone) {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
@@ -484,6 +513,29 @@ public class BinderController {
         }
     }
 
+    /**
+     * Initiates the card trading process between a user's collection and a selected
+     * binder.
+     * 
+     * <p>
+     * This method allows the user to:
+     * <ul>
+     * <li>Select a binder to trade from</li>
+     * <li>Choose an outgoing card from the binder</li>
+     * <li>Add a new incoming card to their collection</li>
+     * <li>View the trade value difference and confirm or decline the trade</li>
+     * </ul>
+     * </p>
+     *
+     * <p>
+     * The UI is updated dynamically based on user actions, and appropriate messages
+     * are shown for success,
+     * cancellation, or errors.
+     * </p>
+     *
+     * @param tradingPanel the main panel where the trade UI is displayed and
+     *                     updated
+     */
     public void tradeCard(JPanel tradingPanel) {
         CardView cardView = new CardView();
 
@@ -552,7 +604,7 @@ public class BinderController {
                                     if (difference >= 1) {
                                         // confirmation panel gui
 
-                                        //removes action listeners
+                                        // removes action listeners
                                         for (ActionListener al : view.getButtonConfirm().getActionListeners()) {
                                             view.getButtonConfirm().removeActionListener(al);
                                         }
@@ -611,6 +663,15 @@ public class BinderController {
         tradingPanel.repaint();
     }
 
+    /**
+     * Sells the specified binder if it is eligible for selling. If successful, the
+     * binder's
+     * selling price is added to the user's total money and the binder is removed
+     * from the collection.
+     *
+     * @param name the name of the binder to be sold. If {@code null} or equals
+     *             "-999", the sale is cancelled.
+     */
     public void sellBinder(String name) {
         if (name == null || name.equals("-999")) {
             DialogUtil.showError(null, "Sell Binder Cancelled", "Cancelled");

@@ -6,7 +6,7 @@ import com.tradingcards.elements.card.CardModel;
 
 /**
  * Model class representing a Deck of cards.
- * A deck has a name and contains a collection of unique cards.
+ * A deck has a name, a type, and contains a collection of unique cards.
  */
 public class DeckModel {
 
@@ -40,7 +40,7 @@ public class DeckModel {
     /**
      * Sets the type of the deck.
      *
-     * @param deckType the name to assign to the deck
+     * @param deckType the type to assign to the deck
      */
     public void setType(String deckType) {
         this.deckType = deckType;
@@ -81,6 +81,12 @@ public class DeckModel {
         }
     }
 
+    /**
+     * Calculates and returns the selling price of the deck.
+     * For "Normal" decks, returns -1. For other types, sums the value of all cards.
+     *
+     * @return the total selling price of the deck, or -1 if deck type is "Normal"
+     */
     public double getSellingPrice() {
         if (deckType.equals("Normal")) {
             return -1;

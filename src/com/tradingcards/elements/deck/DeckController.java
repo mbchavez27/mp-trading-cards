@@ -12,9 +12,9 @@ import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
- * Controller class responsible for managing operations related to decks. This
- * includes adding new decks, removing existing ones, and manipulating cards
- * within decks by interacting with the shared collection and view.
+ * Controller class responsible for managing operations related to decks.
+ * This includes adding, removing, and manipulating cards within decks
+ * by interacting with the shared collection and view.
  */
 public class DeckController {
 
@@ -65,6 +65,8 @@ public class DeckController {
      * Removes a specified deck from the shared collection.
      * All cards in the deck are returned to the card collection.
      * Cancels operation if user inputs "-999".
+     *
+     * @param panel the JPanel to update with deck changes
      */
     public void removeDeck(JPanel panel) {
         // Display the list of decks to the user
@@ -105,8 +107,9 @@ public class DeckController {
 
     /**
      * Removes a specific card from a selected deck and returns it to the card
-     * collection.
-     * Cancels operation if user inputs "-999".
+     * collection. Cancels operation if user inputs "-999".
+     *
+     * @param panel the JPanel to update with deck changes
      */
     public void removeCard(JPanel panel) {
         // Get references to main collections
@@ -182,6 +185,8 @@ public class DeckController {
      * Adds a card from the collection to a specified deck.
      * Validates input and checks for quantity and deck size limits.
      * Cancels operation if user inputs "-999".
+     *
+     * @param panel the JPanel to update with deck changes
      */
     public void addCard(JPanel panel) {
         // Get references to the card collection and deck collection
@@ -274,6 +279,8 @@ public class DeckController {
      * Displays the contents of a specified deck.
      * Allows the user to select a card to view in detail by name or number.
      * Cancels operation if user inputs "-999".
+     *
+     * @param panel the JPanel to update with deck details
      */
     public void displaySingleDeck(JPanel panel) {
         // Get the map of all decks
@@ -318,6 +325,8 @@ public class DeckController {
      * If the deck is empty, a message is shown.
      *
      * @param deck the deck to be displayed
+     * @return a JPanel displaying the deck's contents or an empty panel if deck is
+     *         empty
      */
     public JPanel displayDeckContent(HashMap<String, CardModel> deck) {
         if (!deck.isEmpty()) {
@@ -327,6 +336,13 @@ public class DeckController {
         }
     }
 
+    /**
+     * Sells the specified deck and adds its selling price to the user's money.
+     * Removes the deck from the collection if sellable.
+     * Cancels operation if name is null or equals "-999".
+     *
+     * @param name the name of the deck to sell
+     */
     public void sellDeck(String name) {
         if (name == null || name.equals("-999")) {
             DialogUtil.showError(null, "Sell Deck Cancelled", "Cancelled");
@@ -347,7 +363,8 @@ public class DeckController {
     /**
      * Allows the user to view a card in the deck by name or number.
      *
-     * @param deck the deck containing the cards to choose from
+     * @param panel the JPanel to update with card details
+     * @param deck  the deck containing the cards to choose from
      */
     public void chooseCardFromDeck(JPanel panel, HashMap<String, CardModel> deck) {
         CardView cardView = new CardView(); // Used to display card details
@@ -399,6 +416,8 @@ public class DeckController {
     /**
      * Displays all available decks in the shared collection.
      * If there are no decks, an appropriate message is shown.
+     *
+     * @return a JPanel displaying all decks or a panel with a warning message
      */
     public JPanel displayDecks() {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
@@ -411,6 +430,12 @@ public class DeckController {
         return view.basicPanel("Currently no decks");
     }
 
+    /**
+     * Refreshes the given UI panel with the specified element.
+     *
+     * @param uiPanel the panel to refresh
+     * @param element the new element to display
+     */
     private void refreshPanel(JPanel uiPanel, JPanel element) {
         uiPanel.removeAll();
         uiPanel.add(element);
