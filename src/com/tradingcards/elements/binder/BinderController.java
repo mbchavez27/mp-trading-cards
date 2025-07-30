@@ -427,7 +427,6 @@ public class BinderController {
             taskDone[0] = true;
         } else {
             // Remove outgoing card from binder
-            //ERROR HERE
             cardCopyOutgoing = createCardCopy(binder.get(outgoingCard));
 
             // this prevents binder capacity overflow
