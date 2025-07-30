@@ -27,6 +27,6 @@ public class CollectorBinder extends BinderModel {
 
     @Override
     public double getSellingPrice() {
-        return cardsInBinder.values().stream().mapToDouble(CardModel::getValue).sum();
+        return -1;
     }
 }
