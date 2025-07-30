@@ -7,7 +7,7 @@ import com.tradingcards.elements.collection.CollectionModel;
 
 /**
  * Represents a model for a trading card, encapsulating properties such as name,
- * rarity, variant, value, and quantity. This class provides methods to get and
+ * rarity, variant, value, quantity, and image path. Provides methods to get and
  * set these properties and to calculate the final value of a card based on its
  * variant.
  */
@@ -39,7 +39,7 @@ public class CardModel {
     private int cardQuantity;
 
     /**
-     * The image of this card in the collection.
+     * The image path of this card in the collection.
      */
     private String cardImagePath;
 
@@ -62,18 +62,18 @@ public class CardModel {
     }
 
     /**
-     * Sets the image of the card.
+     * Sets the image path of the card.
      *
-     * @param cardImagePath the image to set for the card
+     * @param cardImagePath the image path to set for the card
      */
     public void setImagePath(String cardImagePath) {
         this.cardImagePath = cardImagePath;
     }
 
     /**
-     * Returns the image of the card.
+     * Returns the image path of the card.
      *
-     * @return the card's image
+     * @return the card's image path
      */
     public String getImagePath() {
         return this.cardImagePath;
