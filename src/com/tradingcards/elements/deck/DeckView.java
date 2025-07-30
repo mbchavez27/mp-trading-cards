@@ -186,7 +186,8 @@ public class DeckView {
 
             JPanel wrapper = new JPanel();
 
-            JButton tempButton = new JButton(deckNames);
+            JButton tempButton = new JButton("<html>" + "Name: " + deckNames + "<br>Type: "
+                    + deckCollection.get(deckNames).getType() + "</html>");
             tempButton.setPreferredSize(new Dimension(190, 190));
             wrapper.setPreferredSize(new Dimension(200, 200));
             wrapper.add(tempButton);
