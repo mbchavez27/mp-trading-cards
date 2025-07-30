@@ -55,7 +55,7 @@ public class DeckController {
                 sharedCollection.setDeckCollection(deck, deck.getName());
                 DialogUtil.showInfo(
                         null,
-                        "New " + deck.getType() + "successfully added to collection!",
+                        "New " + deck.getType() + " successfully added to collection!",
                         "New deck");
             }
         }
