@@ -1,7 +1,6 @@
 package com.tradingcards.elements.menus.deckMenu;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JPanel;
 
 import com.tradingcards.MainFrame;
@@ -10,17 +9,38 @@ import com.tradingcards.elements.deck.DeckView;
 import com.tradingcards.elements.menus.mainMenu.MainMenuView;
 
 /**
- * Menu class responsible for handling user interactions related to deck
- * operations.
+ * Controller class responsible for managing interactions within the deck menu
+ * UI.
+ * It handles user actions such as adding/removing cards from decks, deleting or
+ * viewing decks, and selling decks. The class coordinates between the DeckView,
+ * DeckController, and the main application frame.
  */
 public class DeckMenuController {
 
+    /** Handles core logic and operations related to decks. */
     private final DeckController deckController;
+
+    /** The view responsible for displaying deck-related user interface elements. */
     private final DeckView deckView;
+
+    /** The view component of the deck menu interface. */
     private final DeckMenuView view;
+
+    /** Reference to the main application frame for switching views. */
     private final MainFrame mainFrame;
+
+    /** The main menu view to return to after deck operations. */
     private final MainMenuView mainMenuView;
 
+    /**
+     * Constructs a DeckMenuController to manage user interactions in the deck menu.
+     *
+     * @param view           the DeckMenuView UI component
+     * @param deckController the controller managing deck logic
+     * @param deckView       the view for individual deck input/output
+     * @param mainMenuView   the main menu UI view
+     * @param mainFrame      the main frame for swapping application views
+     */
     public DeckMenuController(DeckMenuView view, DeckController deckController, DeckView deckView,
             MainMenuView mainMenuView, MainFrame mainFrame) {
         this.deckController = deckController;
@@ -30,6 +50,10 @@ public class DeckMenuController {
         this.mainFrame = mainFrame;
     }
 
+    /**
+     * Initializes the deck menu interface, sets up button listeners, and updates
+     * the panel with initial deck data.
+     */
     public void start() {
         view.setDataInPanel(deckController.displayDecks());
         JPanel displayPanel = new JPanel();
@@ -42,24 +66,19 @@ public class DeckMenuController {
 
         view.setDeleteDeckBtn(e -> {
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
-
             deckController.removeDeck(displayPanel);
         });
 
         view.setAddCardToDeckBtn(e -> {
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
             deckController.addCard(displayPanel);
         });
 
         view.setRemoveCardFromDeckBtn(e -> {
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
-
             deckController.removeCard(displayPanel);
         });
 
@@ -70,76 +89,17 @@ public class DeckMenuController {
 
         view.setViewDeckBtn(e -> {
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
-
             deckController.displaySingleDeck(displayPanel);
         });
-
     }
 
+    /**
+     * Returns the current deck menu view instance.
+     *
+     * @return the {@link DeckMenuView} being managed by this controller
+     */
     public DeckMenuView getView() {
         return view;
     }
-
-    // /** Controller used to manage deck logic and operations. */
-    // private DeckController deckController;
-    //
-    // /** Static Scanner instance used for capturing user input. */
-    // public static final Scanner GETACTION = new Scanner(System.in);
-    //
-    // /**
-    // * Constructs a DeckMenu with the specified DeckController.
-    // *
-    // * @param controller the DeckController used to perform deck-related
-    // operations
-    // */
-    // public DeckMenuController(DeckController controller) {
-    // this.deckController = controller;
-    // }
-    //
-    // /**
-    // * Runs the deck management menu loop.
-    // * Prompts the user for input and performs the corresponding deck actions.
-    // * Loops until the user chooses to exit by entering 0.
-    // */
-    // public void runMenu() {
-    // int action;
-    //
-    // do {
-    // manageDecks();
-    // System.out.print("Action: ");
-    // action = GETACTION.nextInt();
-    // GETACTION.nextLine(); // Clears input buffer
-    // switch (action) {
-    // case 1:
-    // deckController.removeDeck();
-    // break;
-    // case 2:
-    // deckController.addCard();
-    // break;
-    // case 3:
-    // deckController.removeCard();
-    // break;
-    // case 4:
-    // deckController.displaySingleDeck();
-    // break;
-    // }
-    // } while (action != 0);
-    // }
-    //
-    // /**
-    // * Displays the deck management submenu options to the user.
-    // */
-    // private void manageDecks() {
-    // System.out.println("-------------------------------");
-    // System.out.println("Manage Decks:");
-    // System.out.println("-------------------------------");
-    // System.out.println("[1] Delete Deck");
-    // System.out.println("[2] Add Card to Deck");
-    // System.out.println("[3] Remove Card from Deck");
-    // System.out.println("[4] View Deck");
-    // System.out.println("[0] Exit Menu");
-    // }
-
 }

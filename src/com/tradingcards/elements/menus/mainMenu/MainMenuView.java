@@ -15,6 +15,12 @@ import javax.swing.SwingConstants;
 
 import com.tradingcards.elements.collection.CollectionModel;
 
+/**
+ * View component for the Main Menu screen of the Trading Card Inventory System.
+ * Displays options to create or manage cards, binders, decks, and exit the
+ * application.
+ * Also shows the user's current available money.
+ */
 public class MainMenuView extends JPanel {
 
     private final JButton addCardBtn = new JButton("Add Card");
@@ -23,16 +29,23 @@ public class MainMenuView extends JPanel {
     private final JButton manageCardsBtn = new JButton("Manage Cards");
     private final JButton manageBindersBtn = new JButton("Manage Binders");
     private final JButton manageDecksBtn = new JButton("Manage Decks");
-    private final JButton placeHolderBtn = new JButton("");
+    private final JButton placeHolderBtn = new JButton(""); // Invisible placeholder to balance grid
     private final JButton closeApplicationBtn = new JButton("Exit");
 
     private final JLabel moneyLabel;
     private final CollectionModel sharedCollection;
 
+    /**
+     * Constructs the MainMenuView and initializes layout and buttons.
+     *
+     * @param sharedCollection The shared collection model containing cards,
+     *                         binders, decks, and money.
+     */
     public MainMenuView(CollectionModel sharedCollection) {
         this.sharedCollection = sharedCollection;
         setLayout(new BorderLayout());
 
+        // Top label panel
         JPanel northPanel = new JPanel();
         northPanel.setLayout(new BoxLayout(northPanel, BoxLayout.Y_AXIS));
 
@@ -48,17 +61,19 @@ public class MainMenuView extends JPanel {
 
         northPanel.add(titleLabel);
         northPanel.add(moneyLabel);
-
         add(northPanel, BorderLayout.NORTH);
 
+        // Button grid panel
         JPanel buttonPanel = new JPanel(new GridLayout(3, 3, 10, 10));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 50, 20, 50));
 
+        // Disable manage buttons by default
         manageCardsBtn.setEnabled(false);
         manageBindersBtn.setEnabled(false);
         manageDecksBtn.setEnabled(false);
-        placeHolderBtn.setVisible(false);
+        placeHolderBtn.setVisible(false); // Invisible but balances grid layout
 
+        // Improve accessibility
         addCardBtn.setFocusable(false);
         newBinderBtn.setFocusable(false);
         newDeckBtn.setFocusable(false);
@@ -67,6 +82,7 @@ public class MainMenuView extends JPanel {
         manageDecksBtn.setFocusable(false);
         closeApplicationBtn.setFocusable(false);
 
+        // Add all buttons to grid
         buttonPanel.add(addCardBtn);
         buttonPanel.add(newBinderBtn);
         buttonPanel.add(newDeckBtn);
@@ -79,48 +95,88 @@ public class MainMenuView extends JPanel {
         add(buttonPanel, BorderLayout.CENTER);
     }
 
-    // Action setters
+    // -------------------------------
+    // Action listener setters
+    // -------------------------------
+
+    /**
+     * Sets the action listener for the "Add Card" button.
+     */
     public void setAddCardAction(ActionListener listener) {
         addCardBtn.addActionListener(listener);
     }
 
+    /**
+     * Sets the action listener for the "Create Binder" button.
+     */
     public void setNewBinderAction(ActionListener listener) {
         newBinderBtn.addActionListener(listener);
     }
 
+    /**
+     * Sets the action listener for the "Create Deck" button.
+     */
     public void setNewDeckAction(ActionListener listener) {
         newDeckBtn.addActionListener(listener);
     }
 
+    /**
+     * Sets the action listener for the "Manage Cards" button.
+     */
     public void setManageCardsAction(ActionListener listener) {
         manageCardsBtn.addActionListener(listener);
     }
 
+    /**
+     * Sets the action listener for the "Manage Binders" button.
+     */
     public void setManageBindersAction(ActionListener listener) {
         manageBindersBtn.addActionListener(listener);
     }
 
+    /**
+     * Sets the action listener for the "Manage Decks" button.
+     */
     public void setManageDecksAction(ActionListener listener) {
         manageDecksBtn.addActionListener(listener);
     }
 
+    /**
+     * Sets the action listener for the "Exit" button.
+     */
     public void setCloseApplicationButton(ActionListener listener) {
         closeApplicationBtn.addActionListener(listener);
     }
 
-    // Visibility control
+    // -------------------------------
+    // UI state updates
+    // -------------------------------
+
+    /**
+     * Enables the "Manage Cards" button.
+     */
     public void showManageCardBtn() {
         manageCardsBtn.setEnabled(true);
     }
 
+    /**
+     * Enables the "Manage Binders" button.
+     */
     public void showManageBinderBtn() {
         manageBindersBtn.setEnabled(true);
     }
 
+    /**
+     * Enables the "Manage Decks" button.
+     */
     public void showManageDeckBtn() {
         manageDecksBtn.setEnabled(true);
     }
 
+    /**
+     * Updates the status (enabled/disabled) of the "Manage" buttons based on the
+     * current collection.
+     */
     public void updateButtonStatus() {
         if (sharedCollection.getBinderCollection().isEmpty())
             manageBindersBtn.setEnabled(false);
@@ -132,6 +188,9 @@ public class MainMenuView extends JPanel {
             manageDecksBtn.setEnabled(false);
     }
 
+    /**
+     * Updates the cash label to reflect the user's current amount of money.
+     */
     public void updateMoneyLabel() {
         moneyLabel.setText("Cash: " + sharedCollection.getMoney());
     }
