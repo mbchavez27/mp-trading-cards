@@ -1,6 +1,12 @@
 com.tradingcards
 com.tradingcards.elements.binder
+com.tradingcards.elements.binder.types
 com.tradingcards.elements.card
+com.tradingcards.elements.card.cardUtils
 com.tradingcards.elements.collection
 com.tradingcards.elements.deck
-com.tradingcards.elements.menus
+com.tradingcards.elements.menus.binderMenu
+com.tradingcards.elements.menus.cardMenu
+com.tradingcards.elements.menus.deckMenu
+com.tradingcards.elements.menus.mainMenu
+com.tradingcards.elements.menus.menuUtils

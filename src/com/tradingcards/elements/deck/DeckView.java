@@ -83,6 +83,19 @@ public class DeckView {
         return selectedType;
     }
 
+    /**
+     * Displays the deck creation form to the user and returns a {@link DeckModel}
+     * containing the deck's name and type as entered by the user.
+     *
+     * <p>
+     * If the user cancels the form by entering a sentinel value (e.g., "-999")
+     * or null at any step, the method returns {@code null} to indicate that deck
+     * creation was aborted.
+     * </p>
+     *
+     * @return a {@code DeckModel} with user-inputted name and type, or {@code null}
+     *         if the operation was cancelled
+     */
     public DeckModel showDeckForm() {
         DeckModel newDeck = new DeckModel();
         String name = setDeckName();
@@ -139,16 +152,6 @@ public class DeckView {
     }
 
     /**
-     * Asks the user whether they want to view a card in the deck.
-     *
-     * @return the user's response, expected to be "Y" or "N"
-     */
-    public String viewCardChoice() {
-        System.out.print("Would you like to view a Card in the deck? [Y/N]");
-        return scanner.nextLine();
-    }
-
-    /**
      * Asks the user how they want to select a card from the deck.
      *
      * @return the user's input, expected to be "name" or "number"
@@ -183,7 +186,8 @@ public class DeckView {
 
             JPanel wrapper = new JPanel();
 
-            JButton tempButton = new JButton(deckNames);
+            JButton tempButton = new JButton("<html>" + "Name: " + deckNames + "<br>Type: "
+                    + deckCollection.get(deckNames).getType() + "</html>");
             tempButton.setPreferredSize(new Dimension(190, 190));
             wrapper.setPreferredSize(new Dimension(200, 200));
             wrapper.add(tempButton);
@@ -232,8 +236,7 @@ public class DeckView {
             tempPanel.add(image, BorderLayout.CENTER);
 
             JLabel tempLabel = new JLabel("<html>Card Name: " + deck.get(name).getName() + "<br>Value: "
-                    + deck.get(name).getValue() + "<br>Quantity: " + deck.get(name).getQuantity()
-                    + "</html>");
+                    + deck.get(name).getValue() + "<br>Card Number: " + counter + "</html>");
 
             tempPanel.add(tempLabel, BorderLayout.SOUTH);
             tempPanel.setPreferredSize(new Dimension(190, 190));
@@ -246,14 +249,5 @@ public class DeckView {
         wrapperPanel.setBackground(Color.WHITE);
 
         return wrapperPanel;
-    }
-
-    /**
-     * Displays a message to the user followed by a newline.
-     *
-     * @param message the message to display
-     */
-    public void displayMessageNewLine(String message) {
-        System.out.println(message);
     }
 }

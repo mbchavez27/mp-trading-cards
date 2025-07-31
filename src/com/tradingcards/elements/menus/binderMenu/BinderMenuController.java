@@ -10,18 +10,38 @@ import com.tradingcards.elements.binder.BinderView;
 import com.tradingcards.elements.menus.mainMenu.MainMenuView;
 
 /**
- * Menu class responsible for displaying options and handling user interactions
- * for binder-related operations.
+ * Controller class responsible for managing the interactions and actions
+ * related to the binder menu. It acts as a bridge between the view
+ * and the binder logic, coordinating binder-related operations such as
+ * viewing, adding, removing, trading, and selling binders/cards.
  */
 public class BinderMenuController {
 
-    /** Controller for handling binder logic. */
+    /** Controller responsible for binder-related logic. */
     private final BinderController binderController;
+
+    /** View component for displaying individual binders. */
     private final BinderView binderView;
+
+    /** View component for the binder menu interface. */
     private final BinderMenuView view;
+
+    /** Main application frame that handles panel switching. */
     private final MainFrame mainFrame;
+
+    /** View component for the main menu. */
     private final MainMenuView mainMenuView;
 
+    /**
+     * Constructs a new {@code BinderMenuController} with the provided
+     * view, controller, and main application components.
+     *
+     * @param view             the binder menu view
+     * @param binderController the binder logic controller
+     * @param binderView       the binder view
+     * @param mainMenuView     the main menu view
+     * @param mainFrame        the main application frame
+     */
     public BinderMenuController(BinderMenuView view, BinderController binderController, BinderView binderView,
             MainMenuView mainMenuView, MainFrame mainFrame) {
         this.binderController = binderController;
@@ -31,124 +51,69 @@ public class BinderMenuController {
         this.mainFrame = mainFrame;
     }
 
+    /**
+     * Starts the binder menu controller by setting up the UI interactions
+     * and action listeners for all available binder operations.
+     */
     public void start() {
         view.setDataInPanel(binderController.displayBinders());
         JPanel displayPanel = new JPanel();
 
+        // Back to main menu
         view.setBackAction(e -> {
             mainMenuView.updateMoneyLabel();
             mainMenuView.updateButtonStatus();
             mainFrame.showPanel("mainMenu");
         });
 
+        // Delete a binder
         view.setDeleteBinderAction(e -> {
-            // JPanel removeBinderPanel = new JPanel();
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
-
             binderController.removeBinder(displayPanel);
         });
 
+        // Add a card to a binder
         view.setAddCardToBinderAction(e -> {
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
             binderController.addCard(displayPanel);
         });
 
+        // Remove a card from a binder
         view.setRemoveCardFromBinderAction(e -> {
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
-
             binderController.removeCard(displayPanel);
         });
 
+        // Trade a card
         view.setTradeCardAction(e -> {
-            // JPanel tradingPanel = new JPanel();
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
-
             binderController.tradeCard(displayPanel);
-            // binderController.tradeCard();
         });
 
+        // Sell a binder
         view.setSellBinderBtn(e -> {
             String name = binderView.setBinderName();
             binderController.sellBinder(name);
         });
 
+        // View a specific binder
         view.setViewBinderAction(e -> {
             displayPanel.setLayout(new BorderLayout());
-
             view.setDataInPanel(displayPanel);
-
             binderController.displaySingleBinder(displayPanel);
         });
-
     }
 
+    /**
+     * Returns the view associated with this controller.
+     *
+     * @return the binder menu view
+     */
     public BinderMenuView getView() {
         return view;
     }
-
-    // /**
-    // * Constructs a BinderMenu with the given BinderController.
-    // *
-    // * @param controller the BinderController used to perform binder operations
-    // */
-    // public BinderMenuController(BinderController controller) {
-    // this.binderController = controller;
-    // }
-    //
-    // /**
-    // * Runs the binder menu loop, prompting the user for actions and executing
-    // * corresponding binder operations until the user exits.
-    // */
-    // public void runMenu() {
-    // int action;
-    //
-    // do {
-    // manageBinders();
-    // System.out.print("Action: ");
-    // action = GETACTION.nextInt();
-    // GETACTION.nextLine(); // Clears input buffer
-    //
-    // switch (action) {
-    // case 1:
-    // binderController.removeBinder();
-    // break;
-    // case 2:
-    // binderController.addCard();
-    // break;
-    // case 3:
-    // binderController.removeCard();
-    // break;
-    // case 4:
-    // binderController.tradeCard();
-    // break;
-    // case 5:
-    // binderController.displaySingleBinder();
-    // break;
-    // }
-    //
-    // } while (action != 0);
-    // }
-    //
-    // /**
-    // * Displays the binder management submenu options to the user.
-    // */
-    // private void manageBinders() {
-    // System.out.println("-------------------------------");
-    // System.out.println("Manage Binders:");
-    // System.out.println("-------------------------------");
-    // System.out.println("[1] Delete Binder");
-    // System.out.println("[2] Add Card to Binder");
-    // System.out.println("[3] Remove Card from Binder");
-    // System.out.println("[4] Trade Card");
-    // System.out.println("[5] View Binder");
-    // System.out.println("[0] Exit Menu");
-    // }
 }

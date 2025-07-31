@@ -1,21 +1,20 @@
 package com.tradingcards.elements.deck;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
+import javax.swing.JPanel;
 
 import com.tradingcards.elements.card.CardModel;
 import com.tradingcards.elements.card.CardView;
 import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
-import javax.swing.*;
-
 /**
- * Controller class responsible for managing operations related to decks. This
- * includes adding new decks, removing existing ones, and manipulating cards
- * within decks by interacting with the shared collection and view.
+ * Controller class responsible for managing operations related to decks.
+ * This includes adding, removing, and manipulating cards within decks
+ * by interacting with the shared collection and view.
  */
 public class DeckController {
 
@@ -56,7 +55,7 @@ public class DeckController {
                 sharedCollection.setDeckCollection(deck, deck.getName());
                 DialogUtil.showInfo(
                         null,
-                        "New " + deck.getType() + " deck successfully added to collection!",
+                        "New " + deck.getType() + " successfully added to collection!",
                         "New deck");
             }
         }
@@ -66,6 +65,8 @@ public class DeckController {
      * Removes a specified deck from the shared collection.
      * All cards in the deck are returned to the card collection.
      * Cancels operation if user inputs "-999".
+     *
+     * @param panel the JPanel to update with deck changes
      */
     public void removeDeck(JPanel panel) {
         // Display the list of decks to the user
@@ -106,8 +107,9 @@ public class DeckController {
 
     /**
      * Removes a specific card from a selected deck and returns it to the card
-     * collection.
-     * Cancels operation if user inputs "-999".
+     * collection. Cancels operation if user inputs "-999".
+     *
+     * @param panel the JPanel to update with deck changes
      */
     public void removeCard(JPanel panel) {
         // Get references to main collections
@@ -141,10 +143,10 @@ public class DeckController {
 
                         // Repeat until a valid card is removed
                         do {
-                            DialogUtil.showMessage(null, "Indicate card to be deleted", "Information",1 );
+                            DialogUtil.showMessage(null, "Indicate card to be deleted", "Information", 1);
                             cardToRemove = cardView.setCardName();
 
-                            if (cardToRemove == null || cardToRemove.equals(EXIT_CODE)){
+                            if (cardToRemove == null || cardToRemove.equals(EXIT_CODE)) {
                                 taskDone = true;
                             }
 
@@ -156,11 +158,13 @@ public class DeckController {
                                 // Remove card from deck
                                 deck.remove(cardToRemove);
                                 refreshPanel(panel, displayDeckContent(deck));
-                                DialogUtil.showMessage(null,"Sucessfully transferred Card into Collection", "Information", 1);
+                                DialogUtil.showMessage(null, "Sucessfully transferred Card into Collection",
+                                        "Information", 1);
                                 taskDone = true;
                             } else {
                                 // Invalid input; prompt again
-                                DialogUtil.showWarning(null, "No Card with given name exists in Deck, please re-input Card name", "Warning");
+                                DialogUtil.showWarning(null,
+                                        "No Card with given name exists in Deck, please re-input Card name", "Warning");
                             }
 
                         } while (!deck.containsKey(cardToRemove) && !taskDone);
@@ -181,6 +185,8 @@ public class DeckController {
      * Adds a card from the collection to a specified deck.
      * Validates input and checks for quantity and deck size limits.
      * Cancels operation if user inputs "-999".
+     *
+     * @param panel the JPanel to update with deck changes
      */
     public void addCard(JPanel panel) {
         // Get references to the card collection and deck collection
@@ -196,7 +202,7 @@ public class DeckController {
 
         // Proceed only if the collection is not empty
         if (!collection.isEmpty()) {
-            //displays decks
+            // displays decks
             refreshPanel(panel, displayDecks());
 
             // Prompt user for deck name or cancel
@@ -208,7 +214,8 @@ public class DeckController {
             // Check if user canceled
             if (!cancelled) {
                 if (deckCollection.isEmpty()) {
-                    DialogUtil.showWarning(null, "No cards in collection yet, input cards in collection first", "Warning");
+                    DialogUtil.showWarning(null, "No cards in collection yet, input cards in collection first",
+                            "Warning");
                 } else {
                     // Proceed if the specified deck exists
                     if (deckCollection.containsKey(deckName)) {
@@ -232,11 +239,13 @@ public class DeckController {
                                             cardInCollection.setQuantity(cardInCollection.getQuantity() - 1);
 
                                             // Confirm success
-                                            DialogUtil.showMessage(null,"Successfully transferred card into Deck", "Successful Operation", 1);
+                                            DialogUtil.showMessage(null, "Successfully transferred card into Deck",
+                                                    "Successful Operation", 1);
                                             taskDone = true;
                                         } else {
                                             // Card is already in the deck
-                                            DialogUtil.showWarning(null, "Deck already contains specified card", "Warning");
+                                            DialogUtil.showWarning(null, "Deck already contains specified card",
+                                                    "Warning");
                                         }
                                     } else {
                                         // Deck has reached max size
@@ -249,7 +258,9 @@ public class DeckController {
                                 }
                             } else {
                                 // Invalid card name entered
-                                DialogUtil.showWarning(null, "No Card with given name exists in Collection, please re-input Card name", "Warning");
+                                DialogUtil.showWarning(null,
+                                        "No Card with given name exists in Collection, please re-input Card name",
+                                        "Warning");
                             }
                         } while (!collection.containsKey(cardToRemove) && !taskDone);
                     } else {
@@ -268,6 +279,8 @@ public class DeckController {
      * Displays the contents of a specified deck.
      * Allows the user to select a card to view in detail by name or number.
      * Cancels operation if user inputs "-999".
+     *
+     * @param panel the JPanel to update with deck details
      */
     public void displaySingleDeck(JPanel panel) {
         // Get the map of all decks
@@ -298,10 +311,10 @@ public class DeckController {
 
                         chooseCardFromDeck(panel, selectedDeck);
                     } else {
-                        view.displayMessageNewLine("No Cards in Deck");
+                        DialogUtil.showWarning(null, "No Cards in Deck", "Warning");
                     }
                 } else {
-                    view.displayMessageNewLine("No Deck with given name exists");
+                    DialogUtil.showWarning(null, "No Deck with given name exists", "Warning");
                 }
             }
         }
@@ -312,6 +325,8 @@ public class DeckController {
      * If the deck is empty, a message is shown.
      *
      * @param deck the deck to be displayed
+     * @return a JPanel displaying the deck's contents or an empty panel if deck is
+     *         empty
      */
     public JPanel displayDeckContent(HashMap<String, CardModel> deck) {
         if (!deck.isEmpty()) {
@@ -321,6 +336,13 @@ public class DeckController {
         }
     }
 
+    /**
+     * Sells the specified deck and adds its selling price to the user's money.
+     * Removes the deck from the collection if sellable.
+     * Cancels operation if name is null or equals "-999".
+     *
+     * @param name the name of the deck to sell
+     */
     public void sellDeck(String name) {
         if (name == null || name.equals("-999")) {
             DialogUtil.showError(null, "Sell Deck Cancelled", "Cancelled");
@@ -334,7 +356,6 @@ public class DeckController {
                 DialogUtil.showInfo(null, "Binder sold, you now have cash total of " + sharedCollection.getMoney(),
                         "Success");
                 sharedCollection.removeDeckCollection(name);
-                ;
             }
         }
     }
@@ -342,17 +363,19 @@ public class DeckController {
     /**
      * Allows the user to view a card in the deck by name or number.
      *
-     * @param deck the deck containing the cards to choose from
+     * @param panel the JPanel to update with card details
+     * @param deck  the deck containing the cards to choose from
      */
     public void chooseCardFromDeck(JPanel panel, HashMap<String, CardModel> deck) {
         CardView cardView = new CardView(); // Used to display card details
-        //String toView = view.viewCardChoice(); // Ask user if they want to view a card
+        // String toView = view.viewCardChoice(); // Ask user if they want to view a
+        // card
         int selectionOption;
         String cardName;
         int cardNumber;
 
         // Proceed only if user inputs "Y" or "y"
-//        toView.equalsIgnoreCase("Y")
+        // toView.equalsIgnoreCase("Y")
         if (view.showYesNoOptions("Would you like to view a card?", "View Card option") == 0) {
             // Ask if user wants to select by name or number
             selectionOption = view.cardSelectionOption();
@@ -365,7 +388,7 @@ public class DeckController {
                 if (deck.containsKey(cardName)) {
                     refreshPanel(panel, cardView.displayCardForBinderAndDeck(deck, cardName));
                 } else {
-                    view.displayMessageNewLine("Card does not exist in Deck");
+                    DialogUtil.showWarning(null, "Card does not exist in Deck", "Warning");
                 }
 
                 // If user chooses to select by card number
@@ -383,7 +406,7 @@ public class DeckController {
                     DialogUtil.showWarning(null, "Invalid input, card with number does not exist", "Warning");
                 }
             } else {
-                DialogUtil.showWarning(null,"Invalid input, exiting deck view", "Warning");
+                DialogUtil.showWarning(null, "Invalid input, exiting deck view", "Warning");
             }
         } else {
             DialogUtil.showInfo(null, "Exiting Deck View", "Information");
@@ -393,6 +416,8 @@ public class DeckController {
     /**
      * Displays all available decks in the shared collection.
      * If there are no decks, an appropriate message is shown.
+     *
+     * @return a JPanel displaying all decks or a panel with a warning message
      */
     public JPanel displayDecks() {
         HashMap<String, DeckModel> deckCollection = sharedCollection.getDeckCollection();
@@ -405,6 +430,12 @@ public class DeckController {
         return view.basicPanel("Currently no decks");
     }
 
+    /**
+     * Refreshes the given UI panel with the specified element.
+     *
+     * @param uiPanel the panel to refresh
+     * @param element the new element to display
+     */
     private void refreshPanel(JPanel uiPanel, JPanel element) {
         uiPanel.removeAll();
         uiPanel.add(element);

@@ -220,73 +220,6 @@ public class CardView {
     }
 
     /**
-     * Prompts the user to select the rarity of the card from a list of options.
-     * Loops until the user enters a valid option (1-4).
-     *
-     * @return the selected rarity as a string (e.g., "Common", "Uncommon",
-     *         "Rare", "Legendary")
-     */
-    public String setCardRarity() {
-        String[] options = { "Common", "Uncommon", "Rare", "Legendary" };
-        Object input = JOptionPane.showInputDialog(
-                null,
-                "Select Card Rarity:",
-                "Card Rarity",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
-        return input == null ? "-999" : input.toString();
-    }
-
-    /**
-     * Prompts the user to select the variant of the card from a list of
-     * options. Loops until the user enters a valid option (1-4).
-     *
-     * @return the selected variant as a string (e.g., "Normal", "Extended-art",
-     *         "Full-art", "Alt-art")
-     */
-    public String setCardVariant() {
-        String[] options = { "Normal", "Extended-art", "Full-art", "Alt-art" };
-        Object input = JOptionPane.showInputDialog(
-                null,
-                "Select Card Variant:",
-                "Card Variant",
-                JOptionPane.QUESTION_MESSAGE,
-                null,
-                options,
-                options[0]);
-        return input == null ? "-999" : input.toString();
-
-    }
-
-    /**
-     * Prompts the user to input the base value of the card.
-     *
-     * @return the base value entered by the user as a {@code double}
-     */
-    public double setCardValue() {
-        String input = "";
-        double value = -1;
-
-        // Keep looping until valid input is given or user cancels
-        while (!input.equals("-999")) {
-            input = JOptionPane.showInputDialog(null, "Give Card Value (Enter -999 to cancel):");
-            if (input == null || input.equals("-999"))
-                return -999;
-
-            try {
-                value = Double.parseDouble(input);
-                return value;
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(null, "Please enter a valid number.");
-            }
-        }
-
-        return -999;
-    }
-
-    /**
      * Prompts the user to input the quantity of the card.
      *
      * @return the quantity entered by the user as an {@code int}
@@ -321,8 +254,6 @@ public class CardView {
      * @param cardName   the name of the card to display
      */
     public JPanel displayCard(HashMap<String, CardModel> collection, String cardName) {
-        displayMessageNewLine("");
-
         JPanel displayPanel = new JPanel(new BorderLayout());
         JPanel imagePanel = new JPanel(new BorderLayout());
 
@@ -447,7 +378,7 @@ public class CardView {
 
             } else if (collection.get(cardName).getQuantity() == 0) {
                 JLabel cardNameDisplay = new JLabel(
-                        "Card " + collection.get(cardName).getName() + " has no current copies in collection");
+                        "Card " + cardName + " has no current copies in collection");
                 cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 18));
                 informationPanel.add(cardNameDisplay);
 
@@ -457,7 +388,7 @@ public class CardView {
 
             }
         } else {
-            JLabel cardNameDisplay = new JLabel("Card " + collection.get(cardName).getName() + " does not exist");
+            JLabel cardNameDisplay = new JLabel("Card " + cardName + " does not exist");
             cardNameDisplay.setFont(new Font("Inter", Font.BOLD, 18));
             informationPanel.add(cardNameDisplay);
 
@@ -469,7 +400,6 @@ public class CardView {
     }
 
     public JPanel displayCardForBinderAndDeck(HashMap<String, CardModel> collection, String cardName) {
-        displayMessageNewLine("");
 
         JPanel displayPanel = new JPanel(new BorderLayout());
         JPanel imagePanel = new JPanel(new BorderLayout());
@@ -709,13 +639,5 @@ public class CardView {
         return result == JOptionPane.YES_OPTION;
     }
 
-    /**
-     * Displays a message on a new line.
-     *
-     * @param message the message to be printed
-     */
-    public void displayMessageNewLine(String message) {
-        System.out.println(message);
-    }
 
 }

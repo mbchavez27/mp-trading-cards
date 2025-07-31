@@ -94,12 +94,7 @@ public class CollectionModel {
      * @param name the name of the binder to be removed
      */
     public void removeBinderCollection(String name) {
-        BinderModel removed = binderCollection.remove(name);
-        if (removed != null) {
-            DialogUtil.showInfo(null, "Binder removed successfully", "Success");
-        } else {
-            DialogUtil.showInfo(null, "Binder removed failed", "Failed");
-        }
+        binderCollection.remove(name);
     }
 
     /**
@@ -130,12 +125,7 @@ public class CollectionModel {
      * @param name the name (key) of the deck to be removed
      */
     public void removeDeckCollection(String name) {
-        DeckModel removed = deckCollection.remove(name);
-        if (removed != null) {
-            System.out.println(name + " removed successfully...");
-        } else {
-            System.out.println(name + " not found. Removal unsuccessful...");
-        }
+        deckCollection.remove(name);
     }
 
     /**

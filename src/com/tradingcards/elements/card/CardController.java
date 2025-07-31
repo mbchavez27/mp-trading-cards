@@ -8,18 +8,10 @@ import com.tradingcards.elements.collection.CollectionModel;
 import com.tradingcards.elements.menus.menuUtils.DialogUtil;
 
 /**
- * The {@code CardController} class handles logic for managing cards in the
- * user's collection. It communicates with the {@code CardModel} to manipulate
- * data and interacts with the user through the {@code CardView}.
- *
+ * Controller class for managing card-related operations in the user's
+ * collection.
  * <p>
- * Responsibilities include:
- * <ul>
- * <li>Adding cards to the collection based on user input</li>
- * <li>Modifying the quantity of existing cards</li>
- * <li>Displaying individual card details</li>
- * <li>Displaying the full collection</li>
- * </ul>
+ * Provides methods for adding, selling, modifying, and displaying cards.
  */
 public class CardController {
 
@@ -78,7 +70,8 @@ public class CardController {
                     sharedCollection.getCardCollection().get(name).increaseQuantity(1);
                 }
             } else {
-                DialogUtil.showError(null, "Card of the same name with different details already exists", "Duplicate Card");
+                DialogUtil.showError(null, "Card of the same name with different details already exists",
+                        "Duplicate Card");
                 isValid[0] = false;
             }
         } else {
@@ -100,6 +93,7 @@ public class CardController {
      * displayed.
      *
      * @param name the name of the card to sell
+     * @return true if the card was sold, false otherwise
      */
     public boolean sellCard(String name) {
 
@@ -124,6 +118,8 @@ public class CardController {
     /**
      * Modifies the quantity of a specific card in the collection.
      * Prompts the user to choose a card and input a new valid quantity.
+     *
+     * @return the new quantity set, or -1 if cancelled or invalid
      */
     public int modifyCardQuantity() {
         // Get the card collection from the shared collection
@@ -165,6 +161,8 @@ public class CardController {
     /**
      * Prompts the user to select a card and displays its details.
      * If the collection is empty, displays an appropriate message.
+     *
+     * @return a JPanel displaying the card details, or null if cancelled or empty
      */
     public JPanel displayCard() {
         // Get the main card collection
@@ -182,8 +180,6 @@ public class CardController {
             if (!cancelled)
                 return (view.displayCard(collection, cardName));
         } else {
-            // TODO, must return a Jpanel
-            //view.displayMessageNewLine("No Cards yet...");
             return null;
         }
         return null;
@@ -191,6 +187,8 @@ public class CardController {
 
     /**
      * Displays the full card collection including cards with 0 quantity.
+     *
+     * @return a JPanel displaying the collection, or null if empty
      */
     public JPanel displayCollection() {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
@@ -208,15 +206,16 @@ public class CardController {
      *
      * @param mode display mode (0 = include zero-quantity cards, 1 = exclude
      *             zeroes)
+     * @return a JPanel displaying the filtered collection, or null if empty
      */
     public JPanel displayCollection(int mode) {
         HashMap<String, CardModel> collection = sharedCollection.getCardCollection();
 
         if (!collection.isEmpty()) {
-            return(view.displayCollection(collection, mode));
+            return (view.displayCollection(collection, mode));
         } else {
             DialogUtil.showWarning(null, "No Cards yet...", "Collection Warning");
-         }
+        }
         return null;
     }
 }

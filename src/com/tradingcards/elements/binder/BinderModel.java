@@ -91,5 +91,8 @@ public abstract class BinderModel {
      */
     public abstract boolean insertInBinder(CardModel card, String name);
 
+    /**
+     * Determines selling price of binder
+     */
     public abstract double getSellingPrice();
 }
