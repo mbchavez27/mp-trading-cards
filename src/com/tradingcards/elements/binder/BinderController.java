@@ -673,14 +673,15 @@ public class BinderController {
      *             "-999", the sale is cancelled.
      */
     public void sellBinder(String name) {
+        BinderModel binder = sharedCollection.getBinderCollection().get(name);
+        double newSellPrice = binder.getSellingPrice();
         if (name == null || name.equals("-999")) {
             DialogUtil.showError(null, "Sell Binder Cancelled", "Cancelled");
         } else {
-            BinderModel binder = sharedCollection.getBinderCollection().get(name);
-            if (binder.getSellingPrice() == -1) {
+            if (newSellPrice== -1) {
                 DialogUtil.showError(null, "Binder is not sellable", "Cancelled");
             } else {
-                sharedCollection.setMoney(sharedCollection.getMoney() + binder.getSellingPrice());
+                sharedCollection.setMoney(sharedCollection.getMoney() + newSellPrice);
                 DialogUtil.showInfo(null, "Binder sold, you now have cash total of " + sharedCollection.getMoney(),
                         "Success");
                 sharedCollection.removeBinderCollection(name);
