@@ -2,6 +2,7 @@ package com.tradingcards.elements.binder;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import javax.swing.JPanel;
@@ -675,6 +676,8 @@ public class BinderController {
     public void sellBinder(String name) {
         BinderModel binder = sharedCollection.getBinderCollection().get(name);
         double newSellPrice = binder.getSellingPrice();
+        DecimalFormat df = new DecimalFormat("#.##");
+
         if (name == null || name.equals("-999")) {
             DialogUtil.showError(null, "Sell Binder Cancelled", "Cancelled");
         } else {
@@ -682,7 +685,7 @@ public class BinderController {
                 DialogUtil.showError(null, "Binder is not sellable", "Cancelled");
             } else {
                 sharedCollection.setMoney(sharedCollection.getMoney() + newSellPrice);
-                DialogUtil.showInfo(null, "Binder sold, you now have cash total of " + sharedCollection.getMoney(),
+                DialogUtil.showInfo(null, "Binder sold, you now have cash total of " + df.format(sharedCollection.getMoney()),
                         "Success");
                 sharedCollection.removeBinderCollection(name);
             }

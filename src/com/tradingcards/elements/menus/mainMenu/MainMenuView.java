@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -72,7 +73,9 @@ public class MainMenuView extends JPanel {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(20, 0, 5, 0));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        moneyLabel = new JLabel("Cash: " + sharedCollection.getMoney(), SwingConstants.CENTER);
+        DecimalFormat df = new DecimalFormat("#.##");
+
+        moneyLabel = new JLabel("Cash: " + df.format(sharedCollection.getMoney()), SwingConstants.CENTER);
         moneyLabel.setFont(new Font("Inter", Font.PLAIN, 16));
         moneyLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 20, 0));
         moneyLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
